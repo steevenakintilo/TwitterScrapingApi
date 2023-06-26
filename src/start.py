@@ -16,8 +16,11 @@ class Scraper:
     wait_time = 5
     
     options = webdriver.ChromeOptions()
-    #options.add_argument('headless')
+    options.add_argument('headless')
+    options.add_argument("--log-level=3")  # Suppress all logging levels
+    language_code = "en"  # Specify the desired language code (e.g., "en" for English)
     driver = webdriver.Chrome(options=options)  # to open the chromedriver    
+    driver.execute_script(f"document.documentElement.lang = '{language_code}';")
     
     username_xpath = '//*[@id="layers"]/div/div/div/div/div/div/div[2]/div[2]/div/div/div[2]/div[2]/div/div/div/div[5]/label/div/div[2]/div/input'
     
@@ -50,7 +53,7 @@ def login(S,_username,_password):
 
         button = S.driver.find_element(By.XPATH,S.button_xpath)
         button.click()
-        print("button click")
+        #print("button click")
 
 
         #PASSWORD
@@ -60,7 +63,7 @@ def login(S,_username,_password):
         
         password = S.driver.find_element(By.XPATH,S.password_xpath)
         password.send_keys(_password)
-        print("password done")
+        #print("password done")
 
 
         #LOGIN BUTTON
@@ -84,7 +87,7 @@ def check_login_good(S):
         print("Login done")
         return True
     except Exception as e:
-        print(e)
+        
         print("Password wrong change your info on the configuration.yml file")
         return False
     
@@ -138,32 +141,6 @@ def check_connection(S):
         print("No internet connection")
         return False
 
-def testo():
-    print("ijijeijzoeifjzeoifj")
-
-def like_a_tweet(S,url):
-
-    try:
-        S.driver.get(url)
-        element = WebDriverWait(S.driver, 15).until(
-        EC.presence_of_element_located((By.CSS_SELECTOR, '[data-testid="like"]')))
-        
-        like_button = S.driver.find_element(By.CSS_SELECTOR,'[data-testid="like"]')
-        time.sleep(1500)
-        # check the "aria-pressed" attribute
-        
-        liked_or_not = like_button.get_attribute("aria-label")
-
-
-        if liked_or_not.lower() == "like" or liked_or_not.lower() == "aimer":
-            like_button.click()
-            return True
-        if liked_or_not.lower() == "liked" or liked_or_not.lower() == "aimé":
-            return False
-    except:
-        print("Bref like" * 10)
-        return True
-
 def start_api():
     with open("configuration.yml", "r") as file:
         data = yaml.load(file, Loader=yaml.FullLoader)
@@ -172,7 +149,7 @@ def start_api():
     password_info = data["account_password"]
     
     S = Scraper()
-    print("Connection to " , username_info[0] , " account")
+    print("Connection to" , username_info[0] , "account")
     login(S,username_info[0],password_info[0])
     time.sleep(S.wait_time)
     if check_login_good(S) == False:

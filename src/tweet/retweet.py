@@ -25,7 +25,7 @@ def reetweet_a_tweet(S,url):
         print("reetweet done")
     except Exception as e: 
         print("retweet error")
-        print(e)
+        
 
 def unreetweet_a_tweet(S,url):
 
@@ -46,7 +46,7 @@ def unreetweet_a_tweet(S,url):
         print("reetweet done")
     except Exception as e: 
         print("retweet error")
-        print(e)
+        
 
 def quote_a_tweet(S,url,text):
     
@@ -76,4 +76,4 @@ def quote_a_tweet(S,url,text):
         target_element.click()
     except Exception as e: 
         print("quote error")
-        print(e)
+        

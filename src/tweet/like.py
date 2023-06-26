@@ -20,7 +20,7 @@ def like_a_tweet(S,url):
             print("Tweet already liked")
     except Exception as e:
         print("Like error")
-        print(e)
+        
 
 
 def unlike_a_tweet(S,url):
@@ -40,4 +40,4 @@ def unlike_a_tweet(S,url):
             print("Tweet already unliked")
     except Exception as e:
         print("Unlike error")
-        print(e)
+        
