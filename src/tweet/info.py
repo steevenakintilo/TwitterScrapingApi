@@ -4,40 +4,7 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.by import By
 
-def parse_number(num):
-    if "B" in num:
-        if "." in num:
-            num  = num.replace(".","").replace("B","")
-            num  = num + "00000000"
-            
-        else:
-            num = num.replace("B","")
-            num  = num + "000000000"
-            
-    elif "M" in num:
-        if "." in num:
-            num  = num.replace(".","").replace("B","")
-            num  = num + "00000"
-
-        else:
-            num = num.replace("B","")
-            num  = num + "000000"
-    
-    elif "K" in num:
-        if "." in num:
-            num  = num.replace(".","").replace("K","")
-            num = num + "00"
-        else:
-            num = num.replace("K","")
-            num = num + "000"
-    else:
-        if "." in num:
-            num  = num.replace(".","").replace("B","")
-        else:
-            num = num.replace("B","")
-    if "," in num:
-        num = num.replace(",")
-    return num
+from src.util.num import  *
 
 def get_tweet_data(S,url,info):
     try:
