@@ -16,7 +16,7 @@ class Scraper:
     wait_time = 5
     
     options = webdriver.ChromeOptions()
-    options.add_argument('headless')
+    #options.add_argument('headless')
     options.add_argument("--log-level=3")  # Suppress all logging levels
     language_code = "en"  # Specify the desired language code (e.g., "en" for English)
     driver = webdriver.Chrome(options=options)  # to open the chromedriver    
@@ -141,25 +141,51 @@ def check_connection(S):
         print("No internet connection")
         return False
 
+def save_coockie(S):
+    pickle.dump(S.driver.get_cookies(), open("cookies.pkl", "wb"))
+
+def print_file_info(path):
+    f = open(path, 'rb')
+    content = f.read()
+    f.close()
+    return(str(content))
+
 def start_api():
-    with open("configuration.yml", "r") as file:
-        data = yaml.load(file, Loader=yaml.FullLoader)
-    
-    username_info = data["account_username"]
-    password_info = data["account_password"]
-    
-    S = Scraper()
-    print("Connection to" , username_info[0] , "account")
-    login(S,username_info[0],password_info[0])
-    time.sleep(S.wait_time)
-    if check_login_good(S) == False:
-        quit()
-    time.sleep(S.wait_time)
-    accept_coockie(S)
-    time.sleep(S.wait_time)    
-    accept_notification(S)
-    time.sleep(S.wait_time)
-    accept_coockie(S)
-    time.sleep(S.wait_time)
-    print("Connection done well")
-    return S
+
+    ck = print_file_info("cookies.pkl")
+    if len(str(ck)) > 3:
+        S = Scraper()
+        S.driver.get("https://twitter.com/i/flow/login")
+        
+        cookies = pickle.load(open("cookies.pkl","rb"))
+
+        for cookie in cookies:
+            S.driver.add_cookie(cookie)
+        time.sleep(2)
+        print("Already Connected Nice")
+        return (S)
+    else:
+        with open("configuration.yml", "r") as file:
+            data = yaml.load(file, Loader=yaml.FullLoader)
+        
+        username_info = data["account_username"]
+        password_info = data["account_password"]
+        
+        S = Scraper()
+        print("Connection to" , username_info[0] , "account")
+        login(S,username_info[0],password_info[0])
+        time.sleep(S.wait_time)
+        if check_login_good(S) == False:
+            quit()
+        time.sleep(S.wait_time)
+        accept_coockie(S)
+        time.sleep(S.wait_time)    
+        accept_notification(S)
+        time.sleep(S.wait_time)
+        accept_coockie(S)
+        time.sleep(S.wait_time)
+        #save_coockie(S)
+        cookies = S.driver.get_cookies()
+        pickle.dump( S.driver.get_cookies() , open("cookies.pkl","wb"))
+        print("Connection done well")
+        return S

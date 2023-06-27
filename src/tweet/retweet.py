@@ -4,6 +4,7 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.by import By
 
+from src.util.string import *
 import time
 
 def reetweet_a_tweet(S,url):
@@ -48,23 +49,36 @@ def unreetweet_a_tweet(S,url):
         print("retweet error")
         
 
-def quote_a_tweet(S,url,text):
+def quote_a_tweet(S,url,text,media=False,filepath=""):
     
     try:
-        S.driver.get("https://twitter.com/compose/tweet")
-        time.sleep(10)
-        #print("coment part one")
+        S.driver.get(url)
+        element = WebDriverWait(S.driver, 15).until(
+        EC.presence_of_element_located((By.CSS_SELECTOR, '[data-testid="retweet"]')))
+        
+        reetweet_button = S.driver.find_element(By.CSS_SELECTOR, '[data-testid="retweet"]')
+        reetweet_button.click()
+
+        element = WebDriverWait(S.driver, 15).until(
+        EC.presence_of_element_located((By.CSS_SELECTOR, '[href="/compose/tweet"]')))
+        
+        quote_button = S.driver.find_element(By.CSS_SELECTOR, '[href="/compose/tweet"]')
+        quote_button.click()
         
         element = WebDriverWait(S.driver, 15).until(
         EC.presence_of_element_located((By.CSS_SELECTOR, '[data-testid="tweetTextarea_0"]')))
         
         textbox = S.driver.find_element(By.CSS_SELECTOR, '[data-testid="tweetTextarea_0"]')
         textbox.click()
-        time.sleep(S.wait_time)
-        textbox.send_keys(url + " " + text)
+        if contains_emoji(text) == True:
+            text = remove_emojie(text)
         
-        time.sleep(5)
+        textbox.send_keys(text)
         
+        
+        if media == True:
+            file_input = S.driver.find_element(By.XPATH,"//input[@type='file']")
+            file_input.send_keys(filepath)
         element = WebDriverWait(S.driver, 15).until(
         EC.presence_of_element_located((By.CSS_SELECTOR, '[data-testid="tweetButton"]')))
 
@@ -74,6 +88,12 @@ def quote_a_tweet(S,url,text):
         S.driver.execute_script("arguments[0].scrollIntoView();", target_element)
 
         target_element.click()
-    except Exception as e: 
-        print("quote error")
+        time.sleep(2)
+        
+    except Exception as e:
+        if "File not found" in str(e):
+            print("Can't quote tweet file not found")
+        else:
+            print("quote error")
+        print(e)
         
