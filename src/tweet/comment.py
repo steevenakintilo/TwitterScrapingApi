@@ -7,9 +7,12 @@ from selenium.webdriver.common.by import By
 from src.util.string import *
 import time
 
-def comment_a_tweet(S,url,text,media=False,filepath=""):
+def comment_a_tweet(S,url,text="",media=False,filepath=""):
 
     try:
+        if len(text) == 0 or len(text) > 240:
+            print("Text lenght must be between 1 and 240")
+            pass
         S.driver.get(url)
         element = WebDriverWait(S.driver, 15).until(
         EC.presence_of_element_located((By.CSS_SELECTOR, '[data-testid="reply"]')))
@@ -35,8 +38,18 @@ def comment_a_tweet(S,url,text,media=False,filepath=""):
         target_element = wait.until(EC.element_to_be_clickable((By.CSS_SELECTOR, '[data-testid="tweetButton"]')))
         S.driver.execute_script("arguments[0].scrollIntoView();", target_element)
         target_element.click()
+        try:
+            target_element = wait.until(EC.element_to_be_clickable((By.CSS_SELECTOR, '[data-testid="tweetButton"]')))
+            print("Duplicate Tweet try another tweet")
+            return("")
+        except:
+            pass
         time.sleep(1.5)
         print("Comment done")
     except Exception as e:
-        print("Comment error")
-        
+        if "File not found" in str(e):
+            print("Can't comment tweet file not found")
+        elif "Message: invalid argument: 'text' is empty" in str(e):
+            print("Media set to true nbut no media added")
+        else:
+            print("comment error")        
