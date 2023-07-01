@@ -38,12 +38,12 @@ def comment_a_tweet(S,url,text="",media=False,filepath=""):
         target_element = wait.until(EC.element_to_be_clickable((By.CSS_SELECTOR, '[data-testid="tweetButton"]')))
         S.driver.execute_script("arguments[0].scrollIntoView();", target_element)
         target_element.click()
-        try:
-            target_element = wait.until(EC.element_to_be_clickable((By.CSS_SELECTOR, '[data-testid="tweetButton"]')))
-            print("Duplicate Tweet try another tweet")
-            return("")
-        except:
-            pass
+        # try:
+        #     target_element = wait.until(EC.element_to_be_clickable((By.CSS_SELECTOR, '[data-testid="tweetButton"]')))
+        #     print("Duplicate Tweet try another tweet")
+        #     return("")
+        # except:
+        #     pass
         time.sleep(1.5)
         print("Comment done")
     except Exception as e:

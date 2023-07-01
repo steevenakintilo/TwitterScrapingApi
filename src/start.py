@@ -16,7 +16,7 @@ class Scraper:
     wait_time = 5
     
     options = webdriver.ChromeOptions()
-    #options.add_argument('headless')
+    options.add_argument('headless')
     options.add_argument("--log-level=3")  # Suppress all logging levels
     language_code = "en"  # Specify the desired language code (e.g., "en" for English)
     driver = webdriver.Chrome(options=options)  # to open the chromedriver    
@@ -161,10 +161,11 @@ def start_api():
 
         for cookie in cookies:
             S.driver.add_cookie(cookie)
-        time.sleep(2)
+        time.sleep(0.2)
         print("Already Connected Nice")
         return (S)
     else:
+        print("caca")
         with open("configuration.yml", "r") as file:
             data = yaml.load(file, Loader=yaml.FullLoader)
         

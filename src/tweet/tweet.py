@@ -44,12 +44,12 @@ def make_a_tweet(S,text="",media=False,filepath=""):
         S.driver.execute_script("arguments[0].scrollIntoView();", target_element)
 
         target_element.click()
-        try:
-            target_element = wait.until(EC.element_to_be_clickable((By.CSS_SELECTOR, '[data-testid="tweetButton"]')))
-            print("Duplicate Tweet try another tweet")
-            return("")
-        except:
-            pass
+        # try:
+        #     target_element = wait.until(EC.element_to_be_clickable((By.CSS_SELECTOR, '[data-testid="tweetButton"]')))
+        #     print("Duplicate Tweet try another tweet")
+        #     return("")
+        # except:
+        #     pass
         
         time.sleep(1.5)
 

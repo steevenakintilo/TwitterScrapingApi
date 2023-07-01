@@ -1,4 +1,5 @@
 def parse_number(num):
+    num = str(num)
     if "B" in num:
         if "." in num:
             num  = num.replace(".","").replace("B","")

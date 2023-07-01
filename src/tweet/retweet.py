@@ -91,12 +91,13 @@ def quote_a_tweet(S,url,text="",media=False,filepath=""):
         S.driver.execute_script("arguments[0].scrollIntoView();", target_element)
 
         target_element.click()
-        try:
-            target_element = wait.until(EC.element_to_be_clickable((By.CSS_SELECTOR, '[data-testid="tweetButton"]')))
-            print("Duplicate Tweet try another tweet")
-            return("")
-        except:
-            pass
+        # time.sleep(0.5)
+        # try:
+        #     target_element = wait.until(EC.element_to_be_clickable((By.CSS_SELECTOR, '[data-testid="tweetButton"]')))
+        #     print("Duplicate Tweet try another tweet")
+        #     return("")
+        # except:
+        #     pass
         time.sleep(2)
         
     except Exception as e:
