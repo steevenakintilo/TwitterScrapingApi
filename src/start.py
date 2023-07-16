@@ -16,12 +16,14 @@ class Scraper:
     wait_time = 5
     
     options = webdriver.ChromeOptions()
-    options.add_argument('headless')
+    #options.add_argument('headless')
     options.add_argument("--log-level=3")  # Suppress all logging levels
     language_code = "en"  # Specify the desired language code (e.g., "en" for English)
     driver = webdriver.Chrome(options=options)  # to open the chromedriver    
     driver.execute_script(f"document.documentElement.lang = '{language_code}';")
-    
+
+    time.sleep(20)
+     
     username_xpath = '//*[@id="layers"]/div/div/div/div/div/div/div[2]/div[2]/div/div/div[2]/div[2]/div/div/div/div[5]/label/div/div[2]/div/input'
     
     button_xpath = '//*[@id="layers"]/div/div/div/div/div/div/div[2]/div[2]/div/div/div[2]/div[2]/div/div/div/div[6]/div'
