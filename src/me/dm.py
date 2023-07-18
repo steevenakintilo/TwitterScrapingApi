@@ -7,6 +7,10 @@ from selenium.webdriver.common.by import By
 import time
 import traceback
 
+from selenium.webdriver import ActionChains
+
+import pyperclip
+
 def dm_user(S,user,text):
     try:
         S.driver.get("https://twitter.com/"+user)
@@ -25,10 +29,13 @@ def dm_user(S,user,text):
         text_box = S.driver.find_element(By.CSS_SELECTOR,'[data-testid="dmComposerTextInput"]')
         text_box.click()
         time.sleep(0.5)
-        text_box.send_keys(text)
+
+        pyperclip.copy(text)
+        act = ActionChains(S.driver)
+        act.key_down(Keys.CONTROL).send_keys("v").key_up(Keys.CONTROL).perform()
+
         send_dm = S.driver.find_element(By.CSS_SELECTOR,'[data-testid="dmComposerSendButton"]')
         send_dm.click()
         time.sleep(0.5)
     except Exception as e:
-        print(e)
         print("DM error or you don't have twitter blue")

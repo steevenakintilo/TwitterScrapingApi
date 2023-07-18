@@ -7,6 +7,7 @@ from selenium.webdriver.common.by import By
 from src.util.num import  *
 
 import time
+import traceback
 
 def get_tweet_info(S,url):
     tweet_info = {"username":"",
@@ -26,13 +27,33 @@ def get_tweet_info(S,url):
     nb_view = 0
     try:
         S.driver.get(url)
+        user_tweet = url.split("/")[3]
+        
+        element = WebDriverWait(S.driver, 15).until(
+        EC.presence_of_element_located((By.CSS_SELECTOR, '[data-testid="cellInnerDiv"]')))
+        tweet_info = S.driver.find_elements(By.CSS_SELECTOR, '[data-testid="cellInnerDiv"]')
+        pos = 0
+        for i in range(len(tweet_info)):
+            r = tweet_info[i]
+            if url.split("twitter.com")[1] in str(r.get_attribute("outerHTML")):
+                pos = i
+                break
+        
         element = WebDriverWait(S.driver, 15).until(
         EC.presence_of_element_located((By.CSS_SELECTOR, '[data-testid="tweet"]')))        
         
-        tweet_data = str(S.driver.find_element(By.CSS_SELECTOR,'[data-testid="tweet"]').text).split("\n")
-        tweet_text = str(S.driver.find_element(By.CSS_SELECTOR,'[data-testid="tweetText"]').text)
-        #tweet_date = str(S.driver.find_element(By.XPATH,'/html/body/div[1]/div/div/div[2]/main/div/div/div/div/div/section/div/div/div/div/div[1]/div/div/article/div/div/div[3]/div[4]/div/div[1]/div/div[1]/a/time').text)
-        tweet_date = ""
+        ta = S.driver.find_elements(By.CSS_SELECTOR,'[data-testid="tweetText"]')
+        
+        _tweet_data = S.driver.find_elements(By.CSS_SELECTOR,'[data-testid="tweet"]')
+        _tweet_text = S.driver.find_elements(By.CSS_SELECTOR,'[data-testid="tweetText"]')
+        
+        tweet_data = str(_tweet_data[pos].text).split("\n")
+        tweet_text = str(_tweet_text[pos].text)
+        try:
+            tweet_date = str(str(tweet_data).split("Translate Tweet")[1]).split(",")[1] + str(str(tweet_data).split("Translate Tweet")[1]).split(",")[2] 
+        except:
+            tweet_date = str(str(tweet_data).split(tweet_text)[1]).split(",")[1] + str(str(tweet_data).split(tweet_text)[1]).split(",")[2]
+
         if "Likes" in str(tweet_data):
             nb_like = tweet_data[tweet_data.index(" Likes") - 1]
         if "Bookmarks" in str(tweet_data):
@@ -55,6 +76,6 @@ def get_tweet_info(S,url):
         "view":parse_number(nb_view)}
         return (tweet_info)
     except Exception as e:
+        traceback.print_exc()
         print("Tweet info error")
-        print(e)
         return (tweet_info)

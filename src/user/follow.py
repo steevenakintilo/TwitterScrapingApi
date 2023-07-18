@@ -37,3 +37,30 @@ def unfollow_an_account(S,account):
     except Exception as e:
         print("Unfollow account error")
         return (False)
+
+def check_if_user_follow(S,account):
+    try:
+        S.driver.get("https://twitter.com/"+account)
+        try:
+            element = WebDriverWait(S.driver, 5).until(
+            EC.presence_of_element_located((By.CSS_SELECTOR,'[data-testid="userFollowIndicator"]')))
+            return True
+        except:
+            return False
+    except Exception as e:
+            return False
+
+def get_list_of_following(S,account):
+    try:
+        S.driver.get("https://twitter.com/"+account+"/following")
+        for i in range(30):
+            S.driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")
+            time.sleep(0.2)
+        element = WebDriverWait(S.driver, 15).until(
+        EC.presence_of_element_located((By.CSS_SELECTOR, '[data-testid="cellInnerDiv"]')))
+        tweet_info = S.driver.find_elements(By.CSS_SELECTOR, '[data-testid="cellInnerDiv"]')
+        print(len(tweet_info), "kopkpokpokpoko")
+        time.sleep(1000)
+    except Exception as e:
+        print("following error")
+        return (False)

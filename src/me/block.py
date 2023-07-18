@@ -32,9 +32,6 @@ def block_an_user(S,user):
         time.sleep(0.1)
     except Exception as e:
         print("Blocking error")
-        print("toto")
-        traceback.print_exc()
-        time.sleep(100000)
 
 def unblock_an_user(S,user):
     try:
@@ -62,5 +59,3 @@ def unblock_an_user(S,user):
     
     except Exception as e:
         print("Unblocking error")
-        print("toto")
-        traceback.print_exc()
