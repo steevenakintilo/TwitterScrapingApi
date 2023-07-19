@@ -32,4 +32,4 @@ def parse_number(num):
             num = num.replace("B","")
     if "," in num:
         num = num.replace(",","")
-    return num
+    return int(num)
