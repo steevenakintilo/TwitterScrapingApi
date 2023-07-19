@@ -7,51 +7,46 @@ from selenium.webdriver.common.by import By
 from src.util.num import *
 from src.util.list import *
 import time
-from bs4 import BeautifulSoup
 
-def get_user_tweet(S,user):
+import traceback
+
+def get_list_of_tweet_user_url(S,account,nb_of_tweet_to_search):
     try:
-        #S.driver.get("https://twitter.com/"+user)
-        S.driver.get("https://twitter.com/search?q=cambodge&src=typed_query&f=live")
-        tweet_url = []
-        page_source = S.driver.page_source
-
-        # Parse the HTML content using BeautifulSoup
-        soup = BeautifulSoup(page_source, "html.parser")
-        print(soup.text.strip())
-        # Find the desired element using soup.find()
-        elements = soup.find_all('p', attrs={"data-testid": "tweetText"})
-
-        # Print the result
-        #print(element)
-        for element in elements:
-            print(element.text.strip())
-        time.sleep(1000)
-
-        for i in range(1,20):
-            #a = "/html/body/div[1]/div/div/div[2]/main/div/div/div/div/div/div[3]/div/div/section/div/div/div/div/div["+str(i)+"]/div/div/article/div/div/div[2]/div[2]/div[2]/div"
-            #a = "/html/body/div[1]/div/div/div[2]/main/div/div/div/div/div/div[3]/div/div/section/div/div/div/div/div["+str(i)+"]/div/div/article/div/div/div[2]/div[2]/div[2]/div/span[1]"
-            a = "/html/body/div[1]/div/div/div[2]/main/div/div/div/div/div/div[3]/div/div/section/div/div/div/div/div["+str(i)+"]/div/div/article/div/div"
-            element = WebDriverWait(S.driver, 15).until(
-            EC.presence_of_element_located((By.XPATH, a)))
-            elem = S.driver.find_element(By.XPATH, a)
-            #elem = elem.text
-            elem.click()
-            new_url = S.driver.current_url
-            tweet_url.append(new_url)
-            S.driver.back()
-            print(elem)
-            print("test")
-            #a = "/html/body/div[1]/div/div/div[2]/main/div/div/div/div/div/div[3]/div/div/section/div/div/div/div/div[1]/div/div/article/div/div/div[2]/div[2]/div[2]/div"
-            #b = "/html/body/div[1]/div/div/div[2]/main/div/div/div/div/div/div[3]/div/div/section/div/div/div/div/div[9]/div/div/article/div/div/div[2]/div[2]/div[2]/div"
-            #print(elem)
-            #for element in elem:
-            #     element_text = element.text
-            #     print(element_text)
-            #     print(len(elem))
-            #     print("coco")
-        return ("caca")
+        nb = 0
+        S.driver.get("https://twitter.com/"+account+"/with_replies")
+        run  = True
+        list_of_tweet_url = []
+        selenium_data = []
+        p = '"'
+        while run:
+            element = WebDriverWait(S.driver, 300).until(
+            EC.presence_of_element_located((By.CSS_SELECTOR, '[data-testid="tweet"]')))
+            tweets_info = S.driver.find_elements(By.CSS_SELECTOR, '[data-testid="tweet"]')
+            last_tweet = tweets_info[len(tweets_info) - 1]
+            for tweet_info in tweets_info:
+                if tweet_info not in selenium_data:
+                    lower_data = str(tweet_info.get_property('outerHTML')).lower()
+                    
+                    splinter = "href="+p+"/"+account+"/status"
+                    splinter = splinter.replace("\\","/")
+                    
+                    lower_data = lower_data.split(splinter)
+                    lower_data = str(lower_data[1])
+                    lower_data = lower_data.split(" ")
+                    tweet_id = lower_data[0].replace("/","").replace(p,"")
+                    tweet_link = "https://twitter.com/" + account + "/status/" + tweet_id
+                    
+                    print("##### link: " + tweet_link , " nb of tweet found: " , len(list_of_tweet_url) , " #####")
+                    
+                    list_of_tweet_url.append(tweet_link)
+                    selenium_data.append(tweet_info)
+                    if len(list_of_tweet_url) > nb_of_tweet_to_search:
+                        run = False
+            S.driver.execute_script("arguments[0].scrollIntoView();", last_tweet)
+            time.sleep(0.05)
+        return(list_of_tweet_url)
+        print("Listing tweet end")
     except Exception as e:
-        print(e)
-        print("User Tweet error")
-
+        print("Error feetching " + account + " tweet")
+        traceback.print_exc()
+        return([])

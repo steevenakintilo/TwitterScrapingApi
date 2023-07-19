@@ -17,28 +17,52 @@ with open("configuration.yml", "r") as file:
         
 username_info = data["account_username"]
 
-def get_mention(S):
+def get_mentions(S,nb_of_mention):
     try:
+        nb = 0
         S.driver.get("https://twitter.com/notifications/mentions")
-        mention_url = []
-        mention_text = []
-        mention_formated_text = []
-        try:
-            for i in range(1,21):
-                xpath_mention = "/html/body/div[1]/div/div/div[2]/main/div/div/div/div/div/div[3]/section/div/div/div/div/div["+ str(i) + "]"
+        run  = True
+        list_of_mention_url = []
+        list_of_mention_text = []
+        selenium_data = []
+        p = '"'
+        account = ""
+        while run:
+            try:
                 element = WebDriverWait(S.driver, 15).until(
-                EC.presence_of_element_located((By.XPATH, xpath_mention)))
-                mention_text.append(S.driver.find_element(By.XPATH,xpath_mention).text)
-                mention = S.driver.find_element(By.XPATH,xpath_mention)
-                mention.click()
-                new_url = S.driver.current_url
-                mention_url.append(new_url)
-                mention_formated_text.append(mention_text[-1].split(str(username_info[0]))[1])
-                S.driver.back()
-            return (mention_url,mention_formated_text)
-        except Exception as e:
-            return (mention_url,mention_formated_text)
+                EC.presence_of_element_located((By.CSS_SELECTOR, '[data-testid="tweet"]')))
+                tweets_info = S.driver.find_elements(By.CSS_SELECTOR, '[data-testid="tweet"]')
+                tweets_username = S.driver.find_elements(By.CSS_SELECTOR, '[data-testid="User-Name"]')
+                tweets_text = S.driver.find_elements(By.CSS_SELECTOR, '[data-testid="tweetText"]')
+                last_tweet = tweets_info[len(tweets_info) - 1]
+                for tweet_info, tweet_username , tweet_text in zip(tweets_info, tweets_username,tweets_text):
+                    if tweet_info not in selenium_data:
+                        account = str(str(tweet_username.text).split("\n")[1]).replace("@","")
+                        account = str(account).lower()
+                        lower_data = str(tweet_info.get_property('outerHTML')).lower()
+                        
+                        splinter = "href="+p+"/"+account+"/status"
+                        splinter = splinter.replace("\\","/")                    
+                        lower_data = lower_data.split(splinter)
+
+                        lower_data = str(lower_data[1])
+                        lower_data = lower_data.split(" ")
+                        tweet_id = lower_data[0].replace("/","").replace(p,"")
+                        tweet_link = "https://twitter.com/" + account + "/status/" + tweet_id
+                        
+                        list_of_mention_url.append(tweet_link)
+                        list_of_mention_text.append(tweet_text.text)
+                        selenium_data.append(tweet_info)
+                        if len(list_of_mention_url) > nb_of_mention:
+                            run = False
+                            print("Listing mention end")
+                            return(list_of_mention_url,list_of_mention_text)
+                S.driver.execute_script("arguments[0].scrollIntoView();", last_tweet)
+                time.sleep(0.05)
+            except:
+                return (list_of_mention_url,list_of_mention_text)
+        print("Listing mention end")
+        return(list_of_mention_url)
     except Exception as e:
-        print("Mention Error")
+        print("Error feetching mention")
         return([],[])
-    
