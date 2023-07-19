@@ -4,7 +4,7 @@ Since Elon Musk decided to make twitter api almost unusable I've decided to make
 
 Still in making
 
-# what can the api can do for the moment:
+# what can the api do for the moment:
 
 - Login to any of your account
 - Like a tweet
