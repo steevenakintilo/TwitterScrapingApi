@@ -278,3 +278,23 @@ def comment_with_poll(S,url,text="",nb_of_choice=2,choice1_text="1",choice2_text
         
     except Exception as e:
         print("Comment with pool error")
+
+def is_tweet_a_comment(S,url):
+    try:
+        S.driver.get(url)
+        element = WebDriverWait(S.driver, 15).until(
+        EC.presence_of_element_located((By.CSS_SELECTOR, '[data-testid="cellInnerDiv"]')))
+        tweet_info = S.driver.find_elements(By.CSS_SELECTOR, '[data-testid="cellInnerDiv"]')
+        pos = 0
+        for i in range(len(tweet_info)):
+            r = tweet_info[i]
+            if url.split("twitter.com")[1] in str(r.get_attribute("outerHTML")):
+                pos = i
+                break
+        if pos != 0:
+            return False
+        return True
+    
+    except Exception as e:
+        print("Error so the function returned false")
+        return False

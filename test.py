@@ -198,8 +198,68 @@ def main():
     #reetweet_a_tweet(S,"https://twitter.com/ZinoToujours/status/1681000213786361857")
     #make_a_tweet_with_pool(S,"hello my name is bob 👍",4,"1","2","3","4",7,23,59)
     #make_a_tweet_with_pool(S,"hello my name is bob 👍",4,"1","2","3","4",6,23,59)
+
+    #idx = 0
+    #get_mentions(S,50)
+    idx = 0
+    #tweet_list1 =  get_list_of_user_rt_url(S,"alertesinfos",10)
+    #tweet_list2 =  get_list_of_user_tweet_url(S,"mediavenir",10)
+    tweet_list3 =  get_list_of_user_comment_url(S,"twiiiiter7",10)
     
-    get_list_of_following(S,"twiiiiter7")
+    print(tweet_list3)
+    time.sleep(100)
+    for t in tweet_list1:
+        idx+=1
+        print("rt by alertesinfos " , t , " toto " , idx)
+
+    idx = 0
+    time.sleep(3)
+
+    print("##########################################################")
+    for t in tweet_list2:
+        idx+=1
+        print("tweet by mediavenir " , t , " toto " , idx)
+    
+    
+    idx = 0
+    time.sleep(3)
+
+    print("##########################################################")
+    
+    for t in tweet_list3:
+        idx+=1
+        print("comment by twiiiiter7 " , t , " toto " , idx)
+    
+    idx = 0
+    time.sleep(3)
+
+    print("##########################################################")
+    
+    # tweet_list = get_list_of_all_tweet_withouth_rt(S,"mediavenir",33)
+    # #idx = 0
+    # #get_mentions(S,50)
+    # idx = 0
+    # for t in tweet_list:
+    #     idx+=1
+    #     print("tweet by mediavenir " , t , " toto " , idx)
+
+    
+    # time.sleep(3)
+    
+    # print("##########################################################")
+    # tweet_list = get_list_of_all_tweet_withouth_rt(S,"alertesinfos",33)
+    # #idx = 0
+    # #get_mentions(S,50)
+    # idx = 0
+    # for t in tweet_list:
+    #     idx+=1
+    #     print("tweet by alertesinfos " , t , " toto " , idx)
+    # print("##########################################################")
+    # print("ok")
+    # #print(tweet_list)
+    #for t in tweet_list:
+    #    idx+=1
+    #    print("##### link: " + t , " nb of tweet found: " , idx , " #####")
     #for r in l:
     #    print(check_if_tweet_retweet(S,r))
     #    bookmark_a_tweet(S,r)
@@ -209,7 +269,6 @@ def main():
     #print(get_tweet_info(S,"https://twitter.com/PiccoDamayonaiz/status/1674688012448583684"))
     #for r in l:
     #    print(get_tweet_info(S,r))
-    time.sleep(10)
     quit()
     exit()
     l_url = []

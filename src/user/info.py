@@ -6,7 +6,9 @@ from selenium.webdriver.common.by import By
 
 from src.util.num import *
 from src.util.list import *
+
 import time
+import traceback
 
 def _get_user_info(S,user,info):
     try:
@@ -60,7 +62,7 @@ def get_user_info(S,user):
         return (user_info)
     except Exception as e:
         print("User info error")
-        print(e)
+        traceback.print_exc()
         return(user_info)
 
 def get_user_number_of_media(S,user):
