@@ -153,9 +153,9 @@ def print_file_info(path):
     return(str(content))
 
 def start_api():
-
+    ELON_MUSK = 20
     ck = print_file_info("cookies.pkl")
-    if len(str(ck)) > 3:
+    if len(str(ck)) > ELON_MUSK:
         S = Scraper()
         S.driver.get("https://twitter.com/i/flow/login")
         
@@ -187,7 +187,7 @@ def start_api():
         time.sleep(S.wait_time)
         accept_coockie(S)
         time.sleep(S.wait_time)
-        #save_coockie(S)
+        save_coockie(S)
         cookies = S.driver.get_cookies()
         pickle.dump( S.driver.get_cookies() , open("cookies.pkl","wb"))
         print("Connection done well")
