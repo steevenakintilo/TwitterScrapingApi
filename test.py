@@ -202,38 +202,35 @@ def main():
     #idx = 0
     #get_mentions(S,50)
     idx = 0
-    #tweet_list1 =  get_list_of_user_rt_url(S,"alertesinfos",10)
-    #tweet_list2 =  get_list_of_user_tweet_url(S,"mediavenir",10)
-    tweet_list3 =  get_list_of_user_comment_url(S,"twiiiiter7",10)
+
+    search_q = search_tweet(S,"hello","recent",100)
+    for s in search_q:
+        print(s)
+    quit()
+    tweet_list2 =  get_list_of_user_tweet_url(S,"mediavenir",100)
+    print("toto 2")
     
-    print(tweet_list3)
-    time.sleep(100)
-    for t in tweet_list1:
-        idx+=1
-        print("rt by alertesinfos " , t , " toto " , idx)
-
-    idx = 0
-    time.sleep(3)
-
-    print("##########################################################")
+    print(len(tweet_list2))
     for t in tweet_list2:
-        idx+=1
-        print("tweet by mediavenir " , t , " toto " , idx)
+        print(t)
+    quit()
+    print("###########################################")
+    for t in tweet_list1:
+        print("rt rt rt " , t)
+        print(len(tweet_list1))
     
+    quit()
+    print("###########################################")
     
-    idx = 0
-    time.sleep(3)
-
-    print("##########################################################")
+    for t in tweet_list2:
+        print("twt twt twt " , t)
+        print(len(tweet_list2))
+    
+    print("###########################################")
     
     for t in tweet_list3:
-        idx+=1
-        print("comment by twiiiiter7 " , t , " toto " , idx)
-    
-    idx = 0
-    time.sleep(3)
-
-    print("##########################################################")
+        print("cmt cmt cmt " , t)
+        print(len(tweet_list3))
     
     # tweet_list = get_list_of_all_tweet_withouth_rt(S,"mediavenir",33)
     # #idx = 0
