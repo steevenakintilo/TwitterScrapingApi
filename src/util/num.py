@@ -11,7 +11,7 @@ def parse_number(num):
             
     elif "M" in num:
         if "." in num:
-            num  = num.replace(".","").replace("B","")
+            num  = num.replace(".","").replace("M","")
             num  = num + "00000"
 
         else:
@@ -27,9 +27,9 @@ def parse_number(num):
             num = num + "000"
     else:
         if "." in num:
-            num  = num.replace(".","").replace("B","")
-        else:
-            num = num.replace("B","")
+            num  = num.replace(".","")
+    
     if "," in num:
         num = num.replace(",","")
+    
     return int(num)

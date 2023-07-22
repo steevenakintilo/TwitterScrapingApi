@@ -16,7 +16,7 @@ class Scraper:
     wait_time = 5
     
     options = webdriver.ChromeOptions()
-    #options.add_argument('headless')
+    options.add_argument('headless')
     options.add_argument("--log-level=3")  # Suppress all logging levels
     language_code = "en"  # Specify the desired language code (e.g., "en" for English)
     driver = webdriver.Chrome(options=options)  # to open the chromedriver    

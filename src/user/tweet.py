@@ -52,7 +52,7 @@ def get_list_of_user_tweet_url(S,account,nb_of_tweet_to_search):
                         list_of_tweet_url.append(tweet_link)
                         selenium_data.append(tweet_info)
                         S.driver.execute_script("arguments[0].scrollIntoView();", last_tweet)
-                        time.sleep(0.025)
+                        time.sleep(0.05)
                     except:
                         try:
                             lower_data = str(tweet_info.get_property('outerHTML')).lower()
@@ -66,12 +66,12 @@ def get_list_of_user_tweet_url(S,account,nb_of_tweet_to_search):
                                 list_of_tweet_url.append(tweet_link)
                             selenium_data.append(tweet_info)
                             S.driver.execute_script("arguments[0].scrollIntoView();", last_tweet)
-                            time.sleep(0.025)
+                            time.sleep(0.05)
                         except Exception as e:    
                             flop = flop + 1
                             print("flop " , flop)
                             #print("error " , error)
-                            time.sleep(0.025)
+                            time.sleep(0.05)
         return(list_of_tweet_url)
         print("Listing tweet end")
     except Exception as e:
@@ -156,10 +156,10 @@ def get_list_of_user_comment_url(S,account,nb_of_tweet_to_search):
         account = account.replace("@","")
         nb = 0
         nb_of_tweet = int(get_user_info(S,account)["tweet_count"])
-        time.sleep(1000)
         if nb_of_tweet_to_search < 3000 and nb_of_tweet_to_search >= nb_of_tweet:
             nb_of_tweet_to_search = nb_of_tweet_to_search - 1
         S.driver.get("https://twitter.com/"+account+"/with_replies")
+                        
         run  = True
         list_of_tweet_url = []
         list_of_comment_url = []
@@ -171,8 +171,10 @@ def get_list_of_user_comment_url(S,account,nb_of_tweet_to_search):
         while run:
             element = WebDriverWait(S.driver, 15).until(
             EC.presence_of_element_located((By.CSS_SELECTOR, '[data-testid="tweet"]')))
+            
             tweets_info = S.driver.find_elements(By.CSS_SELECTOR, '[data-testid="tweet"]')
             last_tweet = tweets_info[len(tweets_info) - 1]
+            
             for tweet_info in tweets_info:
                 if len(list_of_comment_url) >= nb_of_tweet_to_search:
                     run = False
@@ -181,7 +183,9 @@ def get_list_of_user_comment_url(S,account,nb_of_tweet_to_search):
                 if tweet_info not in selenium_data:
                     try:
                         lower_data = str(tweet_info.get_property('outerHTML')).lower()
-                        
+                        print("acacacacacacacacacacacacaca")
+                        time.sleep(100000)
+        
                         splinter = "href="+p+"/"+account+"/status"
                         splinter = splinter.replace("\\","/")
                         
@@ -193,9 +197,10 @@ def get_list_of_user_comment_url(S,account,nb_of_tweet_to_search):
                         if is_tweet_a_comment(S,tweet_link) == True:
                             list_of_comment_url.append(tweet_link)       
                             list_of_tweet_url.append(tweet_link)
-                        selenium_data.append(tweet_info)
+                        selenium_data.append(tweet_info)    
+                        
                         S.driver.execute_script("arguments[0].scrollIntoView();", last_tweet)
-                        time.sleep(0.025)
+                        time.sleep(2)
                     except:
                         try:
                             lower_data = str(tweet_info.get_property('outerHTML')).lower()
@@ -211,17 +216,17 @@ def get_list_of_user_comment_url(S,account,nb_of_tweet_to_search):
                                     list_of_comment_url.append(tweet_link)
                             selenium_data.append(tweet_info)
                             S.driver.execute_script("arguments[0].scrollIntoView();", last_tweet)
-                            time.sleep(0.025)
+                            time.sleep(2)
                         except Exception as e:    
                             flop = flop + 1
                             print("flop " , flop)
                             #print("error " , error)
-                            time.sleep(0.025)
+                            time.sleep(2)
         print("infity" * 10)
         time.sleep(10000)
         return(list_of_comment_url)
         print("Listing tweet end")
     except Exception as e:
         print("Error feetching " + account + " tweet")
-        traceback.print_exc()
+        #traceback.print_exc()
         return([])

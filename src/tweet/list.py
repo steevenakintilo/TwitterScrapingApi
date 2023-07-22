@@ -15,8 +15,9 @@ def get_list_of_user_who_like_a_tweet(S,url,nb_of_like):
         list_of_user = []
         selenium_data = []
         account = ""
-        if nb_of_like > 5000:
-            nb_of_like = 5000
+        flop = 0
+        if nb_of_like > 2000:
+            nb_of_like = 2000
         while run:
             try:
                 element = WebDriverWait(S.driver, 15).until(
@@ -36,6 +37,7 @@ def get_list_of_user_who_like_a_tweet(S,url,nb_of_like):
                             time.sleep(0.025)
                         except:
                             time.sleep(0.025)
+                            flop = flop + 1
                             pass
                         if len(list_of_user) > nb_of_like:
                             run = False
@@ -60,8 +62,8 @@ def get_list_of_user_who_retweet_a_tweet(S,url,nb_of_rt):
         selenium_data = []
         p = '"'
         account = ""
-        if nb_of_rt > 5000:
-            nb_of_rt = 5000
+        if nb_of_rt > 2000:
+            nb_of_rt = 2000
         while run:
             try:
                 element = WebDriverWait(S.driver, 15).until(

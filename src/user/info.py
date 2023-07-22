@@ -51,8 +51,13 @@ def get_user_info(S,user):
             birthdate = "None"
         tweet_count = parse_number(str(str(S.driver.find_element(By.CSS_SELECTOR, '[data-testid="primaryColumn"]').text.split("\n")[1]).split("\n")[0]).split(" ")[0])
         follower_count = parse_number(get_elem_from_list(S.driver.find_element(By.CSS_SELECTOR, '[data-testid="primaryColumn"]').text.split("\n"),"Followers").split(" ")[0])
-        following_count = parse_number(get_elem_from_list(S.driver.find_element(By.CSS_SELECTOR, '[data-testid="primaryColumn"]').text.split("\n"),"Following").split(" ")[0])
-
+        try:
+            following_count = parse_number(get_elem_from_list_special(S.driver.find_element(By.CSS_SELECTOR, '[data-testid="primaryColumn"]').text.split("\n"),"Following").split(" ")[0])
+        except:
+            following_count = parse_number(get_elem_from_list(S.driver.find_element(By.CSS_SELECTOR, '[data-testid="primaryColumn"]').text.split("\n"),"Following").split(" ")[0])
+        #print(str(S.driver.find_element(By.CSS_SELECTOR, '[data-testid="primaryColumn"]').text.split("\n")))
+        #print(get_elem_from_list_special(S.driver.find_element(By.CSS_SELECTOR, '[data-testid="primaryColumn"]').text.split("\n"),"Following").split(" ")[0])
+        #follower_count = 0
         user_info = {"username":username,
         "bio":bio,
         "birthdate":birthdate,
