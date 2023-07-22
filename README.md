@@ -20,3 +20,4 @@ Still in making
 - Get your last x mentions
 - Get last x tweet of an user
 - Change your bio , name, location and url
+- Getting user Tweet , Retweet and Comment
