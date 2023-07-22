@@ -7,6 +7,7 @@ from selenium.webdriver import ActionChains
 
 import traceback
 import time
+
 def search_tweet(S,query="hello",mode="toto",nb_of_tweet_to_search=100):
     list_of_tweet_url = []
     selenium_data = []
@@ -14,8 +15,6 @@ def search_tweet(S,query="hello",mode="toto",nb_of_tweet_to_search=100):
     
     try:
         nb = 0
-        #if nb_of_tweet_to_search < 3000 and nb_of_tweet_to_search >= nb_of_tweet:
-        #    nb_of_tweet_to_search = nb_of_tweet_to_search - 1
         if mode == "top":
             S.driver.get("https://twitter.com/search?q="+query+"&src=typed_query&f=top")
         elif mode == "recent":
@@ -26,8 +25,6 @@ def search_tweet(S,query="hello",mode="toto",nb_of_tweet_to_search=100):
         run  = True
         p = '"'
         flop = 0
-        #if nb_of_tweet_to_search > 3000:
-        #    nb_of_tweet_to_search = 3000
         while run:
             element = WebDriverWait(S.driver, 15).until(
             EC.presence_of_element_located((By.CSS_SELECTOR, '[data-testid="tweet"]')))
@@ -45,15 +42,13 @@ def search_tweet(S,query="hello",mode="toto",nb_of_tweet_to_search=100):
                             time.sleep(0.1)
                         
                         splinter = "href=" + p + "/"
+                        
                         lower_data = lower_data.split(splinter)
-                        user = lower_data[5]
+                        user = lower_data[4]
                         user = user.split(p)
                         tweet_stuff = user[0]
                         tweet_link = "https://twitter.com/" + tweet_stuff
-                        print(tweet_stuff)
-                        print(tweet_link)
-                        time.sleep(100000)
-                                        
+                        tweet_link = tweet_link.replace("/analytics","")                
                         list_of_tweet_url.append(tweet_link)
                         selenium_data.append(tweet_info)
                         S.driver.execute_script("arguments[0].scrollIntoView();", last_tweet)
