@@ -43,7 +43,7 @@ def get_list_of_user_tweet_url(S,account,nb_of_tweet_to_search):
             for tweet_info in tweets_info:
                 if are_last_x_elements_same(list_len,250) == True:
                     run = False
-                list_len.append(len(tweet_link))
+                list_len.append(len(list_of_tweet_url))
                 
                 if len(list_of_tweet_url) >= nb_of_tweet_to_search:
                     run = False
@@ -101,18 +101,18 @@ def get_list_of_user_tweet_url(S,account,nb_of_tweet_to_search):
         
 
     except Exception as e:
-        if is_account_banned(S,user) == True:
+        if is_account_banned(S,account) == True:
             print("Account is banned error feetching " + account + " tweet")
-        elif is_account_existing(S,user) == True:
+        elif is_account_existing(S,account) == True:
             print("Account don't exist error feetching " + account + " tweet")
-        elif is_account_blocking_you(S,user) == True:
+        elif is_account_blocking_you(S,account) == True:
             print("Account is blocking you error feetching " + account + " tweet")
         else:
             print("Error feetching " + account + " tweet")
         return(list_of_tweet_url)
 
     
-def get_list_of_user_rt_url(S,account,nb_of_tweet_to_search):
+def get_list_of_user_retweet_url(S,account,nb_of_tweet_to_search):
     try:
         account = account.replace("@","")
         nb = 0
@@ -139,8 +139,7 @@ def get_list_of_user_rt_url(S,account,nb_of_tweet_to_search):
             for tweet_info in tweets_info:
                 if are_last_x_elements_same(list_len,250) == True:
                     run = False
-                list_len.append(len(tweet_link))
-                
+                list_len.append(len(list_of_tweet_url))                
                 if len(list_of_rt_url) >= nb_of_tweet_to_search:
                     run = False
                 if len(list_of_tweet_url) >= 3000:
@@ -195,11 +194,11 @@ def get_list_of_user_rt_url(S,account,nb_of_tweet_to_search):
         else:
             return (list_of_rt_url)
     except Exception as e:
-        if is_account_banned(S,user) == True:
+        if is_account_banned(S,account) == True:
             print("Account is banned error feetching " + account + " retweet")
-        elif is_account_existing(S,user) == True:
+        elif is_account_existing(S,account) == True:
             print("Account don't exist error feetching " + account + " retweet")
-        elif is_account_blocking_you(S,user) == True:
+        elif is_account_blocking_you(S,account) == True:
             print("Account is blocking you error feetching " + account + " retweet")
         else:
             print("Error feetching " + account + " retweet")
@@ -235,8 +234,7 @@ def get_list_of_user_comment_url(S,account,nb_of_tweet_to_search):
             for tweet_info in tweets_info:
                 if are_last_x_elements_same(list_len,250) == True:
                     run = False
-                list_len.append(len(tweet_link))
-                
+                list_len.append(len(list_of_tweet_url))                
                 if len(list_of_tweet_url) >= nb_of_tweet_to_search:
                     run = False
                     print("totototototototo")
@@ -291,11 +289,11 @@ def get_list_of_user_comment_url(S,account,nb_of_tweet_to_search):
         else:
             return (list_of_tweet_url)
     except Exception as e:
-        if is_account_banned(S,user) == True:
+        if is_account_banned(S,account) == True:
             print("Account is banned error feetching " + account + " comment")
-        elif is_account_existing(S,user) == True:
+        elif is_account_existing(S,account) == True:
             print("Account don't exist error feetching " + account + " comment")
-        elif is_account_blocking_you(S,user) == True:
+        elif is_account_blocking_you(S,account) == True:
             print("Account is blocking you error feetching " + account + " comment")
         else:
             print("Error feetching " + account + " comment")

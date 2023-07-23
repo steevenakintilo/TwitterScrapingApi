@@ -158,7 +158,6 @@ def get_list_of_quote_of_a_tweet(S,url,nb_of_quote):
                             return(list_of_quote_url)
                         
             except Exception as e:
-                traceback.print_exc()
                 return (list_of_quote_url)
         return(list_of_quote_url)
     except Exception as e:
@@ -221,7 +220,6 @@ def get_list_of_comment_of_a_tweet(S,url,nb_of_comment):
                             return(list_of_comment_url)
                         
             except Exception as e:
-                traceback.print_exc()
                 return (list_of_comment_url)
         return(list_of_comment_url)
     except Exception as e:
@@ -231,5 +229,4 @@ def get_list_of_comment_of_a_tweet(S,url,nb_of_comment):
             print("Tweet don't exist , can't get list of comment of this tweet")
         else:
             print("Error feetching list of comment of this tweet")
-        traceback.print_exc()
         return([])
