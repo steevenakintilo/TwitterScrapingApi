@@ -25,7 +25,4 @@ def are_last_x_elements_same(lst,x):
                 return False
             else:
                 lst_2.append(l)
-    print("oooo")
-    print(lst_2)
-    print("oooo")
     return True
