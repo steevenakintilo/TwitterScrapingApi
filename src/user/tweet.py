@@ -9,6 +9,8 @@ from src.util.list import *
 from src.user.info import get_user_info
 from src.tweet.comment import *
 
+from src.util.list import are_last_x_elements_same
+
 from src.user.type import *
 
 import time
@@ -27,6 +29,8 @@ def get_list_of_user_tweet_url(S,account,nb_of_tweet_to_search):
         list_of_tweet_url = []
         selenium_data = []
         list_of_tweet_url_ = []
+        list_len = []
+
         p = '"'
         flop = 0
         if nb_of_tweet_to_search > 3000:
@@ -37,6 +41,10 @@ def get_list_of_user_tweet_url(S,account,nb_of_tweet_to_search):
             tweets_info = S.driver.find_elements(By.CSS_SELECTOR, '[data-testid="tweet"]')
             last_tweet = tweets_info[len(tweets_info) - 1]
             for tweet_info in tweets_info:
+                if are_last_x_elements_same(list_len,250) == True:
+                    run = False
+                list_len.append(len(tweet_link))
+                
                 if len(list_of_tweet_url) >= nb_of_tweet_to_search:
                     run = False
                 if tweet_info not in selenium_data:
@@ -103,7 +111,7 @@ def get_list_of_user_tweet_url(S,account,nb_of_tweet_to_search):
             print("Error feetching " + account + " tweet")
         return(list_of_tweet_url)
 
-
+    
 def get_list_of_user_rt_url(S,account,nb_of_tweet_to_search):
     try:
         account = account.replace("@","")
@@ -117,6 +125,7 @@ def get_list_of_user_rt_url(S,account,nb_of_tweet_to_search):
         list_of_rt_url = []
         list_of_tweet_url_ = []
         selenium_data = []
+        list_len = []
 
         p = '"'
         flop = 0
@@ -128,6 +137,10 @@ def get_list_of_user_rt_url(S,account,nb_of_tweet_to_search):
             tweets_info = S.driver.find_elements(By.CSS_SELECTOR, '[data-testid="tweet"]')
             last_tweet = tweets_info[len(tweets_info) - 1]
             for tweet_info in tweets_info:
+                if are_last_x_elements_same(list_len,250) == True:
+                    run = False
+                list_len.append(len(tweet_link))
+                
                 if len(list_of_rt_url) >= nb_of_tweet_to_search:
                     run = False
                 if len(list_of_tweet_url) >= 3000:
@@ -209,7 +222,7 @@ def get_list_of_user_comment_url(S,account,nb_of_tweet_to_search):
         selenium_data = []
         list_of_tweet_url_ = []
         final_list_url = []
-
+        list_len = []
         p = '"'
         flop = 0
         if nb_of_tweet_to_search > 3000:
@@ -220,6 +233,10 @@ def get_list_of_user_comment_url(S,account,nb_of_tweet_to_search):
             tweets_info = S.driver.find_elements(By.CSS_SELECTOR, '[data-testid="tweet"]')
             last_tweet = tweets_info[len(tweets_info) - 1]
             for tweet_info in tweets_info:
+                if are_last_x_elements_same(list_len,250) == True:
+                    run = False
+                list_len.append(len(tweet_link))
+                
                 if len(list_of_tweet_url) >= nb_of_tweet_to_search:
                     run = False
                     print("totototototototo")

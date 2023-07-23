@@ -10,6 +10,8 @@ import pyperclip
 from src.util.string import *
 import time
 
+import traceback
+
 def make_a_tweet(S,text="",media=False,filepath=""):
     try:
         if len(text) == 0 or len(text) > 240:
@@ -53,7 +55,6 @@ def make_a_tweet(S,text="",media=False,filepath=""):
         elif "Message: invalid argument: 'text' is empty" in str(e):
             print("Media set to true nbut no media added")
         else:
-            print(e)
             print("tweet error")
 
 
@@ -132,13 +133,18 @@ def make_a_tweet_with_poll(S,text="",nb_of_choice=2,choice1_text="1",choice2_tex
             act = ActionChains(S.driver)
             act.key_down(Keys.CONTROL).send_keys("v").key_up(Keys.CONTROL).perform()
             
-        if nb_of_choice == 3:            
-            choice1 = S.driver.find_element(By.NAME, "Choice1")
+        if nb_of_choice == 3:
+            time.sleep(5)
+            choice1 = S.driver.find_element(By.NAME, "Choice1")            
             S.driver.execute_script("arguments[0].scrollIntoView();", choice1)
             choice1.click()
             pyperclip.copy(choice1_text)
             act = ActionChains(S.driver)
             act.key_down(Keys.CONTROL).send_keys("v").key_up(Keys.CONTROL).perform()
+
+            
+            element = WebDriverWait(S.driver, 15).until(
+            EC.presence_of_element_located((By.NAME, "Choice2")))
 
             choice2 = S.driver.find_element(By.NAME, "Choice2")
             S.driver.execute_script("arguments[0].scrollIntoView();", choice2)
@@ -146,6 +152,10 @@ def make_a_tweet_with_poll(S,text="",nb_of_choice=2,choice1_text="1",choice2_tex
             pyperclip.copy(choice2_text)
             act = ActionChains(S.driver)
             act.key_down(Keys.CONTROL).send_keys("v").key_up(Keys.CONTROL).perform()
+
+            
+            element = WebDriverWait(S.driver, 15).until(
+            EC.presence_of_element_located((By.NAME, "Choice3")))
 
             choice3 = S.driver.find_element(By.NAME, "Choice3")
             S.driver.execute_script("arguments[0].scrollIntoView();", choice3)
@@ -246,9 +256,11 @@ def make_a_tweet_with_poll(S,text="",nb_of_choice=2,choice1_text="1",choice2_tex
 
         target_element.click()
         time.sleep(1.5)
-        
+        print("Tweet with pool done")
+        return True        
     except Exception as e:
-        print("Tweet with pool error")
+        print("tweet with pool error")
+        return False
 
 def delete_a_tweet(S,url):
     try:

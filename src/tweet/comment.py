@@ -75,7 +75,7 @@ def comment_a_tweet(S,url,text="",media=False,filepath=""):
         
         return False
          
-def comment_with_poll(S,url,text="",nb_of_choice=2,choice1_text="1",choice2_text="2",choice3_text="3",choice4_text="4",days=1,hours=0,minutes=0):
+def comment_a_tweet_with_poll(S,url,text="",nb_of_choice=2,choice1_text="1",choice2_text="2",choice3_text="3",choice4_text="4",days=1,hours=0,minutes=0):
     try:
         if len(text) == 0:
             text = "."
