@@ -4,6 +4,8 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.by import By
 
+from src.tweet.info import is_tweet_exist
+
 import time
 
 def like_a_tweet(S,url):
@@ -27,11 +29,17 @@ def like_a_tweet(S,url):
         liked_or_not = like_button[pos].get_attribute("aria-label")
         if "liked" not in liked_or_not.lower():
             like_button[pos].click()
-        else:
-            print("Tweet already liked")
-    except Exception as e:
-        print("Like error")
         
+            return True
+        else:
+            print("Tweet was already like")
+        return False
+    except Exception as e:
+        if is_tweet_exist(S,url) == False:
+            print("Tweet don't exist , like error")
+        else:
+            print("Like error")
+        return False
 
 
 def unlike_a_tweet(S,url):
@@ -56,11 +64,16 @@ def unlike_a_tweet(S,url):
         if "liked" in liked_or_not.lower():
             like_button[pos].click()
         else:
-            print("Tweet already unliked")
-    
+            print("tweet was already unlike")
+            return False
+        
     except Exception as e:
-        print("Unlike error")
-
+        if is_tweet_exist(S,url) == False:
+            print("Tweet don't exist , unlike error")
+        else:
+            print("Unlike error")
+        return False
+    
 def check_if_tweet_liked(S,url):
     try:
         S.driver.get(url)
