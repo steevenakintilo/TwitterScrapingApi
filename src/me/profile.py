@@ -13,6 +13,8 @@ import traceback
 def change_bio(S,text):
     if len(text) > 160:
         text = text[0:159]
+    if len(text) == 0:
+        text = "."
     try:
         S.driver.get("https://twitter.com/settings/profile")
         element = WebDriverWait(S.driver, 15).until(
@@ -26,13 +28,15 @@ def change_bio(S,text):
         save_input.click()
 
     except Exception as e:
-        print("Bio error")
+        print("Error while changing bio")
 
 
 
 def change_name(S,text):
     if len(text) > 50:
         text = text[0:49]
+    if len(text) == 0:
+        text = "."
     try:
         S.driver.get("https://twitter.com/settings/profile")
         element = WebDriverWait(S.driver, 15).until(
@@ -46,13 +50,15 @@ def change_name(S,text):
         save_input.click()
         
     except Exception as e:
-        print("Name error")
+        print("Error while changing name")
 
 
 
 def change_location(S,text):
     if len(text) > 30:
         text = text[0:29]
+    if len(text) == 0:
+        text = "."
     try:
         S.driver.get("https://twitter.com/settings/profile")
         element = WebDriverWait(S.driver, 15).until(
@@ -66,12 +72,15 @@ def change_location(S,text):
         save_input.click()
         
     except Exception as e:
-        print("Location error")
+        print("Error while changing location")
 
 
 def change_url(S,text):
     if len(text) > 100:
         text = text[0:99]
+    if len(text) == 0:
+        text = "."
+    
     try:
         S.driver.get("https://twitter.com/settings/profile")
         element = WebDriverWait(S.driver, 15).until(
@@ -85,7 +94,7 @@ def change_url(S,text):
         save_input.click()
         
     except Exception as e:
-        print("Url error")
+        print("Error while changing url")
 
 
 def change_profile_picture(S,filepath):
@@ -95,17 +104,38 @@ def change_profile_picture(S,filepath):
         EC.presence_of_element_located((By.CSS_SELECTOR,'[data-testid="fileInput"]')))
         name_box = S.driver.find_element(By.CSS_SELECTOR,'[data-testid="fileInput"]')
         S.driver.execute_script("arguments[0].scrollIntoView();", name_box)
-        #name_box.click()
-        time.sleep(50000)
-        #name_box.send_keys(filepath)
-    
-        #time.sleep(0.5)
-        #save_input = S.driver.find_element(By.CSS_SELECTOR,'[data-testid="Profile_Save_Button"]')
-        #save_input.click()
+        file_input = S.driver.find_elements(By.XPATH,"//input[@type='file']")
+        file_input[1].send_keys(filepath)
+        apply_btn = S.driver.find_element(By.CSS_SELECTOR,'[data-testid="applyButton"]')
+        apply_btn.click()
+        save_input = S.driver.find_element(By.CSS_SELECTOR,'[data-testid="Profile_Save_Button"]')
+        save_input.click()
+        time.sleep(0.5)
         
     except Exception as e:
         if "File not found" in str(e):
             print("Can't change profile picture file not found")
         else:
-            print("Profile picture error")
-            print(e)
+            print("Error while changing profile picture")
+
+
+def change_banner(S,filepath):
+    try:
+        S.driver.get("https://twitter.com/settings/profile")
+        element = WebDriverWait(S.driver, 15).until(
+        EC.presence_of_element_located((By.CSS_SELECTOR,'[data-testid="fileInput"]')))
+        name_box = S.driver.find_element(By.CSS_SELECTOR,'[data-testid="fileInput"]')
+        S.driver.execute_script("arguments[0].scrollIntoView();", name_box)
+        file_input = S.driver.find_elements(By.XPATH,"//input[@type='file']")
+        file_input[0].send_keys(filepath)
+        apply_btn = S.driver.find_element(By.CSS_SELECTOR,'[data-testid="applyButton"]')
+        apply_btn.click()
+        save_input = S.driver.find_element(By.CSS_SELECTOR,'[data-testid="Profile_Save_Button"]')
+        save_input.click()
+        time.sleep(0.5)
+        
+    except Exception as e:
+        if "File not found" in str(e):
+            print("Can't change banner file not found")
+        else:
+            print("Error while changing banner")
