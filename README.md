@@ -3,6 +3,7 @@
 Since Elon Musk decided to make twitter api almost unusable I've decided to make my own twitter api using python and selenium
 
 Still in making
+V1 Comming soon ...
 
 # what can the api do for the moment:
 
