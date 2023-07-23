@@ -5,6 +5,7 @@ from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.by import By
 from selenium.webdriver import ActionChains
 
+from src.util.list import are_last_x_elements_same
 import traceback
 import time
 
@@ -12,7 +13,7 @@ def search_tweet(S,query="hello",mode="toto",nb_of_tweet_to_search=100):
     list_of_tweet_url = []
     selenium_data = []
     list_of_tweet_url_ = []
-    
+    list_len = []
     try:
         nb = 0
         if mode == "top":
@@ -33,11 +34,13 @@ def search_tweet(S,query="hello",mode="toto",nb_of_tweet_to_search=100):
             for tweet_info in tweets_info:
                 if len(list_of_tweet_url) >= nb_of_tweet_to_search:
                     run = False
+                list_len.append(len(list_of_tweet_url))
+                if are_last_x_elements_same(list_len,200) == True:
+                    run = False
                 if tweet_info not in selenium_data:
                     try:
                         lower_data = str(tweet_info.get_property('outerHTML')).lower()
                         if "something went wrong. Try reloading" in lower_data:
-                            #tweet_info.click()
                             lower_data.click()
                             time.sleep(0.1)
                         
@@ -48,9 +51,12 @@ def search_tweet(S,query="hello",mode="toto",nb_of_tweet_to_search=100):
                         user = user.split(p)
                         tweet_stuff = user[0]
                         tweet_link = "https://twitter.com/" + tweet_stuff
-                        tweet_link = tweet_link.replace("/analytics","")                
-                        list_of_tweet_url.append(tweet_link)
+                        tweet_link = tweet_link.replace("/analytics","")
+                        if "/status" in tweet_link:
+                            list_of_tweet_url.append(tweet_link)
+                            #print("list len ", len(list_of_tweet_url))
                         selenium_data.append(tweet_info)
+                        
                         S.driver.execute_script("arguments[0].scrollIntoView();", last_tweet)
                         time.sleep(0.030)
                     except:
@@ -66,12 +72,16 @@ def search_tweet(S,query="hello",mode="toto",nb_of_tweet_to_search=100):
                             user = user.split(p)
                             tweet_stuff = user[0]
                             tweet_link = "https://twitter.com/" + tweet_stuff
-                            list_of_tweet_url.append(tweet_link)
-                            selenium_data.append(tweet_info)
+                            if "/status" in tweet_link:
+                                list_of_tweet_url.append(tweet_link)
+                                #print("list len ", len(list_of_tweet_url))
+                            selenium_data.append(tweet_info)                        
+                            
                             S.driver.execute_script("arguments[0].scrollIntoView();", last_tweet)
                             time.sleep(0.030)
                         except Exception as e:    
                             flop = flop + 1
+                            #print("list len ", len(list_of_tweet_url))
                             time.sleep(0.1)
         
 
@@ -87,5 +97,4 @@ def search_tweet(S,query="hello",mode="toto",nb_of_tweet_to_search=100):
         print("Searching tweet end")
     except Exception as e:
         print("Error searching " + query + " tweet")
-        traceback.print_exc()
         return(list_of_tweet_url)
