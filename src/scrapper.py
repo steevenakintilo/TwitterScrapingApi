@@ -13,3 +13,4 @@ from src.me.followers import *
 from src.me.profile import *
 from src.tweet.list import *
 from src.tweet.search import *
+from src.user.type import *

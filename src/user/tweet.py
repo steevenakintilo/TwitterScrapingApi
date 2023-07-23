@@ -9,6 +9,8 @@ from src.util.list import *
 from src.user.info import get_user_info
 from src.tweet.comment import *
 
+from src.user.type import *
+
 import time
 
 import traceback
@@ -57,7 +59,7 @@ def get_list_of_user_tweet_url(S,account,nb_of_tweet_to_search):
                         list_of_tweet_url.append(tweet_link)
                         selenium_data.append(tweet_info)
                         S.driver.execute_script("arguments[0].scrollIntoView();", last_tweet)
-                        time.sleep(0.030)
+                        time.sleep(0.025)
                     except:
                         try:
                             lower_data = str(tweet_info.get_property('outerHTML')).lower()
@@ -71,13 +73,13 @@ def get_list_of_user_tweet_url(S,account,nb_of_tweet_to_search):
                             user = user.split(p)
                             tweet_stuff = user[0]
                             tweet_link = "https://twitter.com/" + tweet_stuff
+                            user_to_check = tweet_stuff.split("/")[0]
                             if user_to_check.lower() == account.lower():
                                 list_of_tweet_url.append(tweet_link)
                             selenium_data.append(tweet_info)
                             S.driver.execute_script("arguments[0].scrollIntoView();", last_tweet)
-                            time.sleep(0.030)
+                            time.sleep(0.025)
                         except Exception as e:    
-                            flop = flop + 1
                             time.sleep(0.1)
         
 
@@ -90,9 +92,15 @@ def get_list_of_user_tweet_url(S,account,nb_of_tweet_to_search):
             return (list_of_tweet_url)
         
 
-        print("Listing tweet end")
     except Exception as e:
-        print("Error feetching " + account + " tweet")
+        if is_account_banned(S,user) == True:
+            print("Account is banned error feetching " + account + " tweet")
+        elif is_account_existing(S,user) == True:
+            print("Account don't exist error feetching " + account + " tweet")
+        elif is_account_blocking_you(S,user) == True:
+            print("Account is blocking you error feetching " + account + " tweet")
+        else:
+            print("Error feetching " + account + " tweet")
         return(list_of_tweet_url)
 
 
@@ -164,8 +172,6 @@ def get_list_of_user_rt_url(S,account,nb_of_tweet_to_search):
                             S.driver.execute_script("arguments[0].scrollIntoView();", last_tweet)
                             time.sleep(0.030)
                         except Exception as e:    
-                            flop = flop + 1
-                            #print("error " , error)
                             time.sleep(0.030)
         
         if len(list_of_rt_url) > nb_of_tweet_to_search:
@@ -175,9 +181,15 @@ def get_list_of_user_rt_url(S,account,nb_of_tweet_to_search):
             return(list_of_tweet_url_)
         else:
             return (list_of_rt_url)
-        print("Listing rt end")
     except Exception as e:
-        print("Error feetching " + account + " rt")
+        if is_account_banned(S,user) == True:
+            print("Account is banned error feetching " + account + " retweet")
+        elif is_account_existing(S,user) == True:
+            print("Account don't exist error feetching " + account + " retweet")
+        elif is_account_blocking_you(S,user) == True:
+            print("Account is blocking you error feetching " + account + " retweet")
+        else:
+            print("Error feetching " + account + " retweet")
         return(list_of_rt_url)
 
 
@@ -210,6 +222,7 @@ def get_list_of_user_comment_url(S,account,nb_of_tweet_to_search):
             for tweet_info in tweets_info:
                 if len(list_of_tweet_url) >= nb_of_tweet_to_search:
                     run = False
+                    print("totototototototo")
                 if tweet_info not in selenium_data:
                     try:
                         lower_data = str(tweet_info.get_property('outerHTML')).lower()
@@ -244,6 +257,7 @@ def get_list_of_user_comment_url(S,account,nb_of_tweet_to_search):
                             user = user.split(p)
                             tweet_stuff = user[0]
                             tweet_link = "https://twitter.com/" + tweet_stuff
+                            user_to_check = tweet_stuff.split("/")[0]
                             if user_to_check.lower() == account.lower() and tweet_link not in list_of_tweet_url:
                                 list_of_tweet_url.append(tweet_link)
                             selenium_data.append(tweet_info)
@@ -259,7 +273,13 @@ def get_list_of_user_comment_url(S,account,nb_of_tweet_to_search):
             return(list_of_tweet_url_)
         else:
             return (list_of_tweet_url)
-        print("Listing comment end")
     except Exception as e:
-        print("Error feetching " + account + " comment")
+        if is_account_banned(S,user) == True:
+            print("Account is banned error feetching " + account + " comment")
+        elif is_account_existing(S,user) == True:
+            print("Account don't exist error feetching " + account + " comment")
+        elif is_account_blocking_you(S,user) == True:
+            print("Account is blocking you error feetching " + account + " comment")
+        else:
+            print("Error feetching " + account + " comment")
         return(list_of_tweet_url)

@@ -9,6 +9,17 @@ from src.util.num import  *
 import time
 import traceback
 
+def is_tweet_exist(S,url):
+    try:
+        S.driver.get(url)
+        element = WebDriverWait(S.driver, 15).until(
+        EC.presence_of_element_located((By.CSS_SELECTOR, '[data-testid="error-detail"]')))
+        if "Hmm...this page doesn’t exist. Try searching for something else." in element.text:
+            return False
+        return True
+    except:
+        return False
+    
 def get_tweet_info(S,url):
     tweet_info = {"username":"",
     "text":"",
@@ -52,8 +63,10 @@ def get_tweet_info(S,url):
         try:
             tweet_date = str(str(tweet_data).split("Translate Tweet")[1]).split(",")[1] + str(str(tweet_data).split("Translate Tweet")[1]).split(",")[2] 
         except:
-            tweet_date = str(str(tweet_data).split(tweet_text)[1]).split(",")[1] + str(str(tweet_data).split(tweet_text)[1]).split(",")[2]
-
+            try:
+                tweet_date = str(str(tweet_data).split(tweet_text)[1]).split(",")[1] + str(str(tweet_data).split(tweet_text)[1]).split(",")[2]
+            except:
+                tweet_date = "date_loading_error"
         if "Likes" in str(tweet_data):
             nb_like = tweet_data[tweet_data.index(" Likes") - 1]
         if "Bookmarks" in str(tweet_data):
@@ -76,6 +89,8 @@ def get_tweet_info(S,url):
         "view":parse_number(nb_view)}
         return (tweet_info)
     except Exception as e:
-        traceback.print_exc()
-        print("Tweet info error")
+        if is_tweet_exist(S,url) == False:
+            print("Tweet don't exist , info error")
+        else: 
+            print("Tweet info error")
         return (tweet_info)

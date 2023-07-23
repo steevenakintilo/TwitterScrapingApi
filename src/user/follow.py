@@ -14,7 +14,6 @@ def follow_an_account(S,account):
         element = WebDriverWait(S.driver, 15).until(
         EC.presence_of_element_located((By.CSS_SELECTOR,'[data-testid="placementTracking"]')))
         follow_button = S.driver.find_element(By.CSS_SELECTOR,'[data-testid="placementTracking"]')
-        print(follow_button.text)
         if follow_button.text != "Follow":
             return (True)
         follow_button.click()
@@ -28,7 +27,6 @@ def unfollow_an_account(S,account):
         element = WebDriverWait(S.driver, 15).until(
         EC.presence_of_element_located((By.CSS_SELECTOR,'[data-testid="placementTracking"]')))
         unfollow_button = S.driver.find_element(By.CSS_SELECTOR,'[data-testid="placementTracking"]')
-        print(unfollow_button.text)
         if unfollow_button.text != "Following":
             return (True)
         unfollow_button.click()

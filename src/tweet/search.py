@@ -74,14 +74,11 @@ def search_tweet(S,query="hello",mode="toto",nb_of_tweet_to_search=100):
                             tweet_link = "https://twitter.com/" + tweet_stuff
                             if "/status" in tweet_link:
                                 list_of_tweet_url.append(tweet_link)
-                                #print("list len ", len(list_of_tweet_url))
                             selenium_data.append(tweet_info)                        
                             
                             S.driver.execute_script("arguments[0].scrollIntoView();", last_tweet)
                             time.sleep(0.030)
                         except Exception as e:    
-                            flop = flop + 1
-                            #print("list len ", len(list_of_tweet_url))
                             time.sleep(0.1)
         
 
@@ -92,9 +89,6 @@ def search_tweet(S,query="hello",mode="toto",nb_of_tweet_to_search=100):
 
         else:
             return (list_of_tweet_url)
-        
-
-        print("Searching tweet end")
     except Exception as e:
         print("Error searching " + query + " tweet")
         return(list_of_tweet_url)

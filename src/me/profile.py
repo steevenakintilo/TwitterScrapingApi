@@ -26,9 +26,12 @@ def change_bio(S,text):
         time.sleep(0.5)
         save_input = S.driver.find_element(By.CSS_SELECTOR,'[data-testid="Profile_Save_Button"]')
         save_input.click()
-
+        
+        return True
     except Exception as e:
         print("Error while changing bio")
+        
+        return False
 
 
 
@@ -49,8 +52,12 @@ def change_name(S,text):
         save_input = S.driver.find_element(By.CSS_SELECTOR,'[data-testid="Profile_Save_Button"]')
         save_input.click()
         
+        return True
+        
     except Exception as e:
         print("Error while changing name")
+        
+        return False
 
 
 
@@ -71,8 +78,11 @@ def change_location(S,text):
         save_input = S.driver.find_element(By.CSS_SELECTOR,'[data-testid="Profile_Save_Button"]')
         save_input.click()
         
+        return True
     except Exception as e:
         print("Error while changing location")
+        
+        return False
 
 
 def change_url(S,text):
@@ -93,8 +103,11 @@ def change_url(S,text):
         save_input = S.driver.find_element(By.CSS_SELECTOR,'[data-testid="Profile_Save_Button"]')
         save_input.click()
         
+        return True
     except Exception as e:
         print("Error while changing url")
+        
+        return False
 
 
 def change_profile_picture(S,filepath):
@@ -110,13 +123,17 @@ def change_profile_picture(S,filepath):
         apply_btn.click()
         save_input = S.driver.find_element(By.CSS_SELECTOR,'[data-testid="Profile_Save_Button"]')
         save_input.click()
-        time.sleep(0.5)
+        time.sleep(2)
+        
+        return True
         
     except Exception as e:
         if "File not found" in str(e):
             print("Can't change profile picture file not found")
         else:
             print("Error while changing profile picture")
+        
+        return False
 
 
 def change_banner(S,filepath):
@@ -132,10 +149,14 @@ def change_banner(S,filepath):
         apply_btn.click()
         save_input = S.driver.find_element(By.CSS_SELECTOR,'[data-testid="Profile_Save_Button"]')
         save_input.click()
-        time.sleep(0.5)
+        time.sleep(2)
+        
+        return True
         
     except Exception as e:
         if "File not found" in str(e):
             print("Can't change banner file not found")
         else:
             print("Error while changing banner")
+        
+        return False

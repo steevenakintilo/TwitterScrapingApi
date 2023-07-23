@@ -195,17 +195,40 @@ def main():
     #unlike_a_tweet(S,"https://twitter.com/PiccoDamayonaiz/status/1674688012448583684")
     #get_list_of_following(S,"twiiiiter7")
     #check_if_user_follow(S,"twiiiiter7")
-    #reetweet_a_tweet(S,"https://twitter.com/ZinoToujours/status/1681000213786361857")
+    #retweet_a_tweet(S,"https://twitter.com/ZinoToujours/status/1681000213786361857")
     #make_a_tweet_with_pool(S,"hello my name is bob 👍",4,"1","2","3","4",7,23,59)
     #make_a_tweet_with_pool(S,"hello my name is bob 👍",4,"1","2","3","4",6,23,59)
 
     #idx = 0
-    #get_mentions(S,50)
+    #change_profile_picture(S,r"C:\Users\sakin\Pictures\r.png")
+    
+    
+    l1 = get_list_of_user_comment_url = (S,"twiiiiter7",100)
+    #quit()
+    #l2 = get_list_of_user_tweet_url = (S,"mediavenir",100)
+    #l3 = get_list_of_user_retweet_url = (S,"un_twittos_bleu",100)
+    
+    print("#"*50)
+    for l in l1:
+        print(l)
+        #print("twitter7 comment " , l)
+    print("#"*50)
+    
+    # for l in l2:
+    #     print("mediavenir tweet " , l)
+    # print("#"*50)
+    
+    # for l in l3:
+    #     print("un_twittos_bleu retweet " , l)
+    # print("#"*50)
+    
+    # #print(is_tweet_exist(S,"https://twitter.com/Twiiiiter7/status/1683006005783715840"))
+    quit()
     idx = 0
-
-    search_q = search_tweet(S,"hello","recent",100)
+    search_q = search_tweet(S,"hello","top",50)
     for s in search_q:
-        print(s)
+        print("toto " , s)
+        #print("coco " ,  get_tweet_info(S,s))
     quit()
     tweet_list2 =  get_list_of_user_tweet_url(S,"mediavenir",100)
     print("toto 2")

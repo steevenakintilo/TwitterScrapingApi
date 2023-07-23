@@ -7,6 +7,8 @@ from selenium.webdriver.common.by import By
 from src.util.num import *
 from src.util.list import *
 
+from src.user.type import *
+
 import time
 import traceback
 
@@ -29,8 +31,15 @@ def _get_user_info(S,user,info):
         elem = elem.text
         return (elem)
     except Exception as e:
-        print(info , " error")
-
+        if is_account_banned(S,user) == True:
+            print("Account is banned retrieving user info error")
+        elif is_account_existing(S,user) == True:
+            print("Account don't exist banned retrieving user info error")
+        elif is_account_blocking_you(S,user) == True:
+            print("Account is blocking you retrieving user info error")
+        else:
+            print("Error while retrieving user info")
+        return("")
 def get_user_info(S,user):
     user_info = {"username":"",
     "bio":"",
@@ -55,9 +64,6 @@ def get_user_info(S,user):
             following_count = parse_number(get_elem_from_list_special(S.driver.find_element(By.CSS_SELECTOR, '[data-testid="primaryColumn"]').text.split("\n"),"Following").split(" ")[0])
         except:
             following_count = parse_number(get_elem_from_list(S.driver.find_element(By.CSS_SELECTOR, '[data-testid="primaryColumn"]').text.split("\n"),"Following").split(" ")[0])
-        #print(str(S.driver.find_element(By.CSS_SELECTOR, '[data-testid="primaryColumn"]').text.split("\n")))
-        #print(get_elem_from_list_special(S.driver.find_element(By.CSS_SELECTOR, '[data-testid="primaryColumn"]').text.split("\n"),"Following").split(" ")[0])
-        #follower_count = 0
         user_info = {"username":username,
         "bio":bio,
         "birthdate":birthdate,
@@ -66,8 +72,14 @@ def get_user_info(S,user):
         "following_count":following_count}
         return (user_info)
     except Exception as e:
-        print("User info error")
-        traceback.print_exc()
+        if is_account_banned(S,user) == True:
+            print("Account is banned user info error")
+        elif is_account_existing(S,user) == True:
+            print("Account don't exist user info error")
+        elif is_account_blocking_you(S,user) == True:
+            print("Account is blocking you user info error")
+        else:
+            print("User info error")
         return(user_info)
 
 def get_user_number_of_media(S,user):
@@ -78,6 +90,15 @@ def get_user_number_of_media(S,user):
         nb_of_media = str(nb_of_media[0]).split("\n")
         return(parse_number(nb_of_media[1]))
     except:
+        
+        if is_account_banned(S,user) == True:
+            print("Account is banned user number of media error")
+        elif is_account_existing(S,user) == True:
+            print("Account is banned user number of media error")
+        elif is_account_blocking_you(S,user) == True:
+            print("Account is blocking you user number of media error")
+        else:
+            print("Error while retrieving user number of media")
         return (0)
             
 def get_user_number_of_like(S,user):
@@ -88,4 +109,13 @@ def get_user_number_of_like(S,user):
         nb_of_like = str(nb_of_like[0]).split("\n")
         return(parse_number(nb_of_like[1]))
     except:
+        if is_account_banned(S,user) == True:
+            print("Account is banned user number of like error")
+        elif is_account_existing(S,user) == True:
+            print("Account is banned user number of like error")
+        elif is_account_blocking_you(S,user) == True:
+            print("Account is blocking you user number of like error")
+        else:
+            print("Error while retrieving user number of like")
+        
         return(0)

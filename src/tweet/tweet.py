@@ -46,7 +46,6 @@ def make_a_tweet(S,text="",media=False,filepath=""):
 
         target_element.click()
         time.sleep(1.5)
-        print("Tweet done")
         
     except Exception as e:
         if "File not found" in str(e):
@@ -247,10 +246,9 @@ def make_a_tweet_with_poll(S,text="",nb_of_choice=2,choice1_text="1",choice2_tex
 
         target_element.click()
         time.sleep(1.5)
-        print("Tweet with pool done")
         
     except Exception as e:
-        print("tweet with pool error")
+        print("Tweet with pool error")
 
 def delete_a_tweet(S,url):
     try:
@@ -273,13 +271,15 @@ def delete_a_tweet(S,url):
             element = WebDriverWait(S.driver, 15).until(
             EC.presence_of_element_located((By.CSS_SELECTOR, '[data-testid="confirmationSheetConfirm"]')))
             element.click()
-            print("Tweet deleted")
+            time.sleep(0.5)
+            return True
         else:
             print("You can't delete another person tweet")
-            return("")
+            return False 
         
     except Exception as e:
         print("Tweet delete error")
+        return False
 
 
 def bookmark_a_tweet(S,url):

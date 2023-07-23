@@ -47,16 +47,13 @@ def get_list_of_my_followers(S):
                             time.sleep(0.025)
                             pass
                         if nb >= nb_of_followers:
-                            print("Your followers listing done")
                             return(list_of_user)
             except Exception as e:
-                print("Your followers listing failed")
-                traceback.print_exc()
+                print("Your followers listing failed but we still retrieve some followers")
                 return (list_of_user)
         return(list_of_user)
     except Exception as e:
         print("Your followers listing failed")
-        traceback.print_exc()
         return([])
 
 def get_list_of_my_followings(S):
@@ -80,7 +77,8 @@ def get_list_of_my_followings(S):
                         try:
                             parsing_user =str(tweet_username.text).split("\n")
                             account = parsing_user[1]
-                            list_of_user.append(account.replace("@",""))
+                            if account.replace("@","") not in list_of_user:
+                                list_of_user.append(account.replace("@",""))
                             selenium_data.append(tweet_username)
                             S.driver.execute_script("arguments[0].scrollIntoView();", tweet_username)
                             nb+=1
@@ -89,13 +87,11 @@ def get_list_of_my_followings(S):
                             time.sleep(0.025)
                             pass
                         if nb >= nb_of_followings:
-                            print("Your following listing done")
                             return(list_of_user)
             except Exception as e:
-                print("Your following listing failed")
+                print("Your followings listing failed but we still retrieve some followings")
                 return (list_of_user)
         return(list_of_user)
     except Exception as e:
         print("Your following listing failed")
-        traceback.print_exc()
         return([])

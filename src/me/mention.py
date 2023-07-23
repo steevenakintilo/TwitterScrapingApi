@@ -17,12 +17,13 @@ with open("configuration.yml", "r") as file:
         
 username_info = data["account_username"]
 
-def get_mentions(S,nb_of_mention):
+def get_mention_url_and_text(S,nb_of_mention):
     try:
         nb = 0
         S.driver.get("https://twitter.com/notifications/mentions")
         run  = True
         list_of_mention_url = []
+        big_list = []
         list_of_mention_text = []
         selenium_data = []
         p = '"'
@@ -50,16 +51,21 @@ def get_mentions(S,nb_of_mention):
                         tweet_id = lower_data[0].replace("/","").replace(p,"")
                         tweet_link = "https://twitter.com/" + account + "/status/" + tweet_id
                         
-                        list_of_mention_url.append(tweet_link)
-                        list_of_mention_text.append(tweet_text.text)
+                        if tweet_link not in list_of_mention_url:
+                            list_of_mention_url.append(tweet_link)
+                            list_of_mention_text.append(tweet_text.text)
                         selenium_data.append(tweet_info)
                         if len(list_of_mention_url) > nb_of_mention:
                             run = False
                             print("Listing mention end")
                             return(list_of_mention_url,list_of_mention_text)
+                big_list.append(last_tweet)
+                if are_last_x_elements_same(big_list,200) == True:
+                    run = False
                 S.driver.execute_script("arguments[0].scrollIntoView();", last_tweet)
                 time.sleep(0.05)
-            except:
+            except Exception as e:
+                print("You don't have enough mention")
                 return (list_of_mention_url,list_of_mention_text)
         print("Listing mention end")
         return(list_of_mention_url)

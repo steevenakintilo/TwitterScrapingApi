@@ -18,7 +18,7 @@ def is_account_banned(S,account):
         S.driver.get("https://twitter.com/"+account)
         element = WebDriverWait(S.driver, 3).until(
         EC.presence_of_element_located((By.CSS_SELECTOR,'[data-testid="empty_state_header_text"]')))
-        if "Account suspended" in element:
+        if "Account suspended" in element.text:
           return (True)
         return (False)
     except Exception as e:
@@ -29,7 +29,7 @@ def is_account_blocking_you(S,account):
         S.driver.get("https://twitter.com/"+account)
         element = WebDriverWait(S.driver,3).until(
         EC.presence_of_element_located((By.CSS_SELECTOR,'[data-testid="empty_state_header_text"]')))
-        if "You’re blocked" in element:
+        if "You’re blocked" in element.text:
           return (True)
         return (False)
     except Exception as e:
@@ -40,7 +40,7 @@ def is_account_existing(S,account):
         S.driver.get("https://twitter.com/"+account)
         element = WebDriverWait(S.driver, 3).until(
         EC.presence_of_element_located((By.CSS_SELECTOR,'[data-testid="empty_state_header_text"]')))
-        if "This account doesn’t exist" in element:
+        if "This account doesn’t exist" in element.text:
           return (True)
         return (False)
     except Exception as e:

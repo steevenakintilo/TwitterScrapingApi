@@ -8,6 +8,7 @@ from src.util.string import *
 import time
 
 from selenium.webdriver import ActionChains
+from src.tweet.info import is_tweet_exist
 
 import pyperclip
 import traceback
@@ -59,14 +60,20 @@ def comment_a_tweet(S,url,text="",media=False,filepath=""):
         S.driver.execute_script("arguments[0].scrollIntoView();", target_element)
         target_element.click()
         time.sleep(1.5)
-        print("Comment done")
+
+        return True
+    
     except Exception as e:
         if "File not found" in str(e):
-            print("Can't comment tweet file not found")
+            print("Can't comment tweet file not found,comment error")
         elif "Message: invalid argument: 'text' is empty" in str(e):
-            print("Media set to true nbut no media added")
+            print("Media set to true nbut no media added,comment error")
+        elif is_tweet_exist(S,url) == False:
+            print("Tweet don't exist , comment error")
         else:
             print("comment error")
+        
+        return False
          
 def comment_with_poll(S,url,text="",nb_of_choice=2,choice1_text="1",choice2_text="2",choice3_text="3",choice4_text="4",days=1,hours=0,minutes=0):
     try:
@@ -274,10 +281,14 @@ def comment_with_poll(S,url,text="",nb_of_choice=2,choice1_text="1",choice2_text
         target_element.click()
         time.sleep(1.5)
         
-        print("Comment with pool done")
-        
+        return True        
     except Exception as e:
-        print("Comment with pool error")
+        if is_tweet_exist(S,url) == False:
+            print("Tweet don't exist , comment with pool error")
+        else:
+           print("Comment with pool error")
+
+        return False
 
 def is_tweet_a_comment(S,url):
     try:
@@ -296,5 +307,8 @@ def is_tweet_a_comment(S,url):
         return True
     
     except Exception as e:
-        print("Error so the function returned false")
+        if is_tweet_exist(S,url) == False:
+            print("Tweet don't exist , so it's not a comment error")
+        else:
+            print("Tweet is not a comment since an error happend")
         return False
