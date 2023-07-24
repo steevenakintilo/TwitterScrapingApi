@@ -63,8 +63,9 @@ def get_list_of_user_tweet_url(S,account,nb_of_tweet_to_search):
                         lower_data = lower_data.split(" ")
                         tweet_id = lower_data[0].replace("/","").replace(p,"")
                         tweet_link = "https://twitter.com/" + account + "/status/" + tweet_id
-                                            
-                        list_of_tweet_url.append(tweet_link)
+
+                        if tweet_id[len(tweet_id) - 1] in "0123456789":                    
+                            list_of_tweet_url.append(tweet_link)
                         selenium_data.append(tweet_info)
                         S.driver.execute_script("arguments[0].scrollIntoView();", last_tweet)
                         time.sleep(0.025)
@@ -81,9 +82,11 @@ def get_list_of_user_tweet_url(S,account,nb_of_tweet_to_search):
                             user = user.split(p)
                             tweet_stuff = user[0]
                             tweet_link = "https://twitter.com/" + tweet_stuff
+                            time.sleep(100000)
                             user_to_check = tweet_stuff.split("/")[0]
                             if user_to_check.lower() == account.lower():
-                                list_of_tweet_url.append(tweet_link)
+                                if tweet_link[len(tweet_link) - 1] in "0123456789" and "status" in tweet_link:
+                                    list_of_tweet_url.append(tweet_link)
                             selenium_data.append(tweet_info)
                             S.driver.execute_script("arguments[0].scrollIntoView();", last_tweet)
                             time.sleep(0.025)
@@ -159,7 +162,8 @@ def get_list_of_user_retweet_url(S,account,nb_of_tweet_to_search):
                         lower_data = lower_data.split(" ")
                         tweet_id = lower_data[0].replace("/","").replace(p,"")
                         tweet_link = "https://twitter.com/" + account + "/status/" + tweet_id
-                        list_of_tweet_url.append(tweet_link)            
+                        if tweet_link[len(tweet_link) - 1] in "0123456789" and "status" in tweet_link:
+                            list_of_tweet_url.append(tweet_link)            
                         selenium_data.append(tweet_info)
                         S.driver.execute_script("arguments[0].scrollIntoView();", last_tweet)
                         time.sleep(0.025)
@@ -178,8 +182,9 @@ def get_list_of_user_retweet_url(S,account,nb_of_tweet_to_search):
                             tweet_link = "https://twitter.com/" + tweet_stuff
                             user_to_check = tweet_stuff.split("/")[0]
                             if user_to_check.lower() != account.lower():
-                                list_of_rt_url.append(tweet_link)
-                                list_of_tweet_url.append(tweet_link)
+                                if tweet_link[len(tweet_link) - 1] in "0123456789" and "status" in tweet_link:
+                                    list_of_rt_url.append(tweet_link)
+                                    list_of_tweet_url.append(tweet_link)
                             selenium_data.append(tweet_info)
                             S.driver.execute_script("arguments[0].scrollIntoView();", last_tweet)
                             time.sleep(0.030)
@@ -253,8 +258,9 @@ def get_list_of_user_comment_url(S,account,nb_of_tweet_to_search):
                         tweet_id = lower_data[0].replace("/","").replace(p,"")
                         tweet_link = "https://twitter.com/" + account + "/status/" + tweet_id
 
-                        if account in  tweet_link and tweet_link not in list_of_tweet_url:                
-                            list_of_tweet_url.append(tweet_link)
+                        if account in  tweet_link and tweet_link not in list_of_tweet_url:
+                            if tweet_link[len(tweet_link) - 1] in "0123456789" and "status" in tweet_link:              
+                                list_of_tweet_url.append(tweet_link)
                         selenium_data.append(tweet_info)
                         S.driver.execute_script("arguments[0].scrollIntoView();", last_tweet)
                         time.sleep(0.030)
@@ -274,7 +280,8 @@ def get_list_of_user_comment_url(S,account,nb_of_tweet_to_search):
                             tweet_link = "https://twitter.com/" + tweet_stuff
                             user_to_check = tweet_stuff.split("/")[0]
                             if user_to_check.lower() == account.lower() and tweet_link not in list_of_tweet_url:
-                                list_of_tweet_url.append(tweet_link)
+                                if tweet_link[len(tweet_link) - 1] in "0123456789" and "status" in tweet_link:
+                                    list_of_tweet_url.append(tweet_link)
                             selenium_data.append(tweet_info)
                             S.driver.execute_script("arguments[0].scrollIntoView();", last_tweet)
                             time.sleep(0.030)

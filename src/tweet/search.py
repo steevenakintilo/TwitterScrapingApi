@@ -9,7 +9,7 @@ from src.util.list import are_last_x_elements_same
 import traceback
 import time
 
-def search_tweet(S,query="hello",mode="toto",nb_of_tweet_to_search=100):
+def search_tweet(S,query="hello",mode="recent",nb_of_tweet_to_search=100):
     list_of_tweet_url = []
     selenium_data = []
     list_of_tweet_url_ = []
@@ -35,7 +35,7 @@ def search_tweet(S,query="hello",mode="toto",nb_of_tweet_to_search=100):
                 if len(list_of_tweet_url) >= nb_of_tweet_to_search:
                     run = False
                 list_len.append(len(list_of_tweet_url))
-                if are_last_x_elements_same(list_len,200) == True:
+                if are_last_x_elements_same(list_len,2000) == True:
                     run = False
                 if tweet_info not in selenium_data:
                     try:
@@ -72,7 +72,7 @@ def search_tweet(S,query="hello",mode="toto",nb_of_tweet_to_search=100):
                             user = user.split(p)
                             tweet_stuff = user[0]
                             tweet_link = "https://twitter.com/" + tweet_stuff
-                            if "/status" in tweet_link:
+                            if tweet_link[len(tweet_link) - 1] in "0123456789" and "status" in tweet_link:
                                 list_of_tweet_url.append(tweet_link)
                             selenium_data.append(tweet_info)                        
                             
