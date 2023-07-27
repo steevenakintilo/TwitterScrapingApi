@@ -55,7 +55,8 @@ def get_list_of_homepage_tweet_url(S,nb_of_tweet_to_search):
                         tweet_stuff = user[0]
                         tweet_link = "https://twitter.com/" + tweet_stuff
                         user_to_check = tweet_stuff.split("/")[0]
-                        list_of_tweet_url.append(tweet_link)
+                        if tweet_link[len(tweet_link) - 1] in "0123456789" and "status" in tweet_link:
+                            list_of_tweet_url.append(tweet_link)
                         selenium_data.append(tweet_info)
                         S.driver.execute_script("arguments[0].scrollIntoView();", last_tweet)
                         time.sleep(0.025)
@@ -73,7 +74,8 @@ def get_list_of_homepage_tweet_url(S,nb_of_tweet_to_search):
                             tweet_stuff = user[0]
                             tweet_link = "https://twitter.com/" + tweet_stuff
                             user_to_check = tweet_stuff.split("/")[0]
-                            list_of_tweet_url.append(tweet_link)
+                            if tweet_link[len(tweet_link) - 1] in "0123456789" and "status" in tweet_link:
+                                list_of_tweet_url.append(tweet_link)
                             selenium_data.append(tweet_info)
                             S.driver.execute_script("arguments[0].scrollIntoView();", last_tweet)
                             time.sleep(0.025)

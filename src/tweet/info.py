@@ -5,6 +5,7 @@ from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.by import By
 
 from src.util.num import  *
+from src.util.list import *
 
 import time
 import traceback
@@ -12,16 +13,14 @@ import traceback
 def is_tweet_exist(S,url):
     try:
         S.driver.get(url)
-        element = WebDriverWait(S.driver, 15).until(
-        EC.presence_of_element_located((By.CSS_SELECTOR, '[data-testid="error-detail"]')))
-        if "Hmm...this page doesn’t exist. Try searching for something else." in element.text:
-            return False
+        element = WebDriverWait(S.driver, 3).until(
+        EC.presence_of_element_located((By.CSS_SELECTOR, '[data-testid="tweet"]')))
         return True
-    except:
+    except Exception as e:
         return False
-    
+  
 def get_tweet_info(S,url):
-    tweet_info = {"username":"",
+    tweet_info_dict = {"username":"",
     "text":"",
     "id":0,
     "date":"",
@@ -40,7 +39,7 @@ def get_tweet_info(S,url):
         S.driver.get(url)
         user_tweet = url.split("/")[3]
         
-        element = WebDriverWait(S.driver, 15).until(
+        element = WebDriverWait(S.driver, 2).until(
         EC.presence_of_element_located((By.CSS_SELECTOR, '[data-testid="cellInnerDiv"]')))
         tweet_info = S.driver.find_elements(By.CSS_SELECTOR, '[data-testid="cellInnerDiv"]')
         pos = 0
@@ -50,23 +49,23 @@ def get_tweet_info(S,url):
                 pos = i
                 break
         
-        element = WebDriverWait(S.driver, 15).until(
+        element = WebDriverWait(S.driver, 2).until(
         EC.presence_of_element_located((By.CSS_SELECTOR, '[data-testid="tweet"]')))        
         
-        ta = S.driver.find_elements(By.CSS_SELECTOR,'[data-testid="tweetText"]')
         
         _tweet_data = S.driver.find_elements(By.CSS_SELECTOR,'[data-testid="tweet"]')
         _tweet_text = S.driver.find_elements(By.CSS_SELECTOR,'[data-testid="tweetText"]')
         
         tweet_data = str(_tweet_data[pos].text).split("\n")
         tweet_text = str(_tweet_text[pos].text)
+
         try:
             tweet_date = str(str(tweet_data).split("Translate Tweet")[1]).split(",")[1] + str(str(tweet_data).split("Translate Tweet")[1]).split(",")[2] 
         except:
             try:
                 tweet_date = str(str(tweet_data).split(tweet_text)[1]).split(",")[1] + str(str(tweet_data).split(tweet_text)[1]).split(",")[2]
             except:
-                tweet_date = "date_loading_error"
+                tweet_date = get_elems_from_list(tweet_data,"AM","PM")
         if "Likes" in str(tweet_data):
             nb_like = tweet_data[tweet_data.index(" Likes") - 1]
         if "Bookmarks" in str(tweet_data):
@@ -78,7 +77,7 @@ def get_tweet_info(S,url):
         if "Views" in str(tweet_data):
             nb_view = tweet_data[tweet_data.index(" Views") - 1]
         
-        tweet_info = {"username":tweet_data[1],
+        tweet_info_dict = {"username":tweet_data[1],
         "text":tweet_text,
         "id":int(url.split("status/")[1]),
         "date":tweet_date,
@@ -87,10 +86,12 @@ def get_tweet_info(S,url):
         "quote":parse_number(nb_quote),
         "bookmark":parse_number(nb_bookmark),
         "view":parse_number(nb_view)}
-        return (tweet_info)
+        return (tweet_info_dict)
     except Exception as e:
         if is_tweet_exist(S,url) == False:
             print("Tweet don't exist , info error")
         else: 
             print("Tweet info error")
-        return (tweet_info)
+        traceback.print_exc()
+        return (tweet_info_dict)
+

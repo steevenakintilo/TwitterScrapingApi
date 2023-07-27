@@ -4,6 +4,12 @@ def get_elem_from_list(list_,elem_):
             return (l)
     return ("")
 
+def get_elems_from_list(list_,elem1_,elem2_):
+    for l in list_:
+        if elem1_ in l or elem2_ in l:
+            return (l)
+    return ("")
+
 def get_elem_from_list_special(list_,elem_):
     i = 0
     for l in list_:
@@ -26,3 +32,6 @@ def are_last_x_elements_same(lst,x):
             else:
                 lst_2.append(l)
     return True
+
+def check_elem_on_a_list(elem_, list_):
+    return next((l for l in list_ if elem_ in l.lower()), elem_)
