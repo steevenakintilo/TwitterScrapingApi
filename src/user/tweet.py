@@ -456,7 +456,6 @@ def get_list_of_user_comment(S,account,nb_of_tweet_to_search=100):
                             S.driver.execute_script("arguments[0].scrollIntoView();", last_tweet)
                             time.sleep(0.030)
                         except Exception as e:
-                            #print(e)   
                             flop = flop + 1
                             time.sleep(0.030)
         

@@ -264,7 +264,6 @@ def make_a_tweet_with_poll(S,text="",nb_of_choice=2,choice1_text="1",choice2_tex
         print("Tweet with pool done")
         return True        
     except Exception as e:
-        traceback.print_exc()
         print("tweet with pool error")
         return False
 
@@ -324,7 +323,7 @@ def bookmark_a_tweet(S,url):
         except:
             pass            
     except Exception as e:
-        print(e)
+        p
         print("Tweet bookmark error")
 
 def unbookmark_a_tweet(S,url):
@@ -351,5 +350,4 @@ def unbookmark_a_tweet(S,url):
         except:
             pass            
     except Exception as e:
-        print(e)
         print("Tweet unbookmark error")
