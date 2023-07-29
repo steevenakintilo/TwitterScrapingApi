@@ -16,14 +16,14 @@ import time
 
 import traceback
 
-def get_list_of_user_tweet(S,account,nb_of_tweet_to_search=100):
+def get_list_of_user_tweet(selenium_session,account,nb_of_tweet_to_search=100):
     try:
         account = account.replace("@","")
         nb = 0
-        #nb_of_tweet = int(get_user_info(S,account)["tweet_count"])
+        #nb_of_tweet = int(get_user_info(selenium_session,account)["tweet_count"])
         if nb_of_tweet_to_search > 3000:
             nb_of_tweet_to_search = nb_of_tweet_to_search - 1
-        S.driver.get("https://twitter.com/"+account)
+        selenium_session.driver.get("https://twitter.com/"+account)
         run  = True
         selenium_data = []
         list_of_tweet_url_ = []
@@ -44,10 +44,10 @@ def get_list_of_user_tweet(S,account,nb_of_tweet_to_search=100):
         if nb_of_tweet_to_search > 3000:
             nb_of_tweet_to_search = 3000
         while run:
-            element = WebDriverWait(S.driver, 15).until(
+            element = WebDriverWait(selenium_session.driver, 15).until(
             EC.presence_of_element_located((By.CSS_SELECTOR, '[data-testid="tweet"]')))
-            tweets_info = S.driver.find_elements(By.CSS_SELECTOR, '[data-testid="tweet"]')
-            tweets_text = S.driver.find_elements(By.CSS_SELECTOR, '[data-testid="tweetText"]')
+            tweets_info = selenium_session.driver.find_elements(By.CSS_SELECTOR, '[data-testid="tweet"]')
+            tweets_text = selenium_session.driver.find_elements(By.CSS_SELECTOR, '[data-testid="tweetText"]')
             last_tweet = tweets_info[len(tweets_info) - 1]
             for tweet_info, tweet_text in zip(tweets_info, tweets_text):
                 if are_last_x_elements_same(list_len,250) == True:
@@ -109,7 +109,7 @@ def get_list_of_user_tweet(S,account,nb_of_tweet_to_search=100):
                             data_list.append(tweet_info_dict)
                         selenium_data.append(tweet_info)
 
-                        S.driver.execute_script("arguments[0].scrollIntoView();", last_tweet)
+                        selenium_session.driver.execute_script("arguments[0].scrollIntoView();", last_tweet)
                         time.sleep(0.025)
                     except Exception as e:
                         try:
@@ -165,7 +165,7 @@ def get_list_of_user_tweet(S,account,nb_of_tweet_to_search=100):
                                     tweet_info_dict = {"username":account,"text":text_,"id":int(str(tweet_link.split("status/")[1]).replace("/photo/1","")),"url":tweet_link,"date":str(convert_string_to_date(get_date.replace(p,""))),"like":int(str(nb_of_like).replace(p,"")),"retweet":int(str(nb_of_rt).replace(p,"")),"reply":int(str(nb_of_reply).replace(p,""))}
                                     data_list.append(tweet_info_dict)
                             selenium_data.append(tweet_info)
-                            S.driver.execute_script("arguments[0].scrollIntoView();", last_tweet)
+                            selenium_session.driver.execute_script("arguments[0].scrollIntoView();", last_tweet)
                             time.sleep(0.025)
                         except Exception as e:
                             time.sleep(0.1)
@@ -180,24 +180,24 @@ def get_list_of_user_tweet(S,account,nb_of_tweet_to_search=100):
         
 
     except Exception as e:
-        if is_account_banned(S,account) == True:
+        if is_account_banned(selenium_session,account) == True:
             print("Account is banned error feetching " + account + " tweet")
-        elif is_account_existing(S,account) == True:
+        elif is_account_existing(selenium_session,account) == True:
             print("Account don't exist error feetching " + account + " tweet")
-        elif is_account_blocking_you(S,account) == True:
+        elif is_account_blocking_you(selenium_session,account) == True:
             print("Account is blocking you error feetching " + account + " tweet")
         else:
             print("Error feetching " + account + " tweet")
         return(data_list)
 
-def get_list_of_user_retweet(S,account,nb_of_tweet_to_search=100):
+def get_list_of_user_retweet(selenium_session,account,nb_of_tweet_to_search=100):
     try:
         account = account.replace("@","")
         nb = 0
-        nb_of_tweet = int(get_user_info(S,account)["tweet_count"])
+        nb_of_tweet = int(get_user_info(selenium_session,account)["tweet_count"])
         if nb_of_tweet_to_search < 3000 and nb_of_tweet_to_search >= nb_of_tweet:
             nb_of_tweet_to_search = nb_of_tweet_to_search - 1
-        S.driver.get("https://twitter.com/"+account)
+        selenium_session.driver.get("https://twitter.com/"+account)
         run  = True
         list_of_tweet_url = []
         list_of_rt_url = []
@@ -219,10 +219,10 @@ def get_list_of_user_retweet(S,account,nb_of_tweet_to_search=100):
         if nb_of_tweet_to_search > 3000:
             nb_of_tweet_to_search = 3000
         while run:
-            element = WebDriverWait(S.driver, 15).until(
+            element = WebDriverWait(selenium_session.driver, 15).until(
             EC.presence_of_element_located((By.CSS_SELECTOR, '[data-testid="tweet"]')))
-            tweets_info = S.driver.find_elements(By.CSS_SELECTOR, '[data-testid="tweet"]')
-            tweets_text = S.driver.find_elements(By.CSS_SELECTOR, '[data-testid="tweetText"]')
+            tweets_info = selenium_session.driver.find_elements(By.CSS_SELECTOR, '[data-testid="tweet"]')
+            tweets_text = selenium_session.driver.find_elements(By.CSS_SELECTOR, '[data-testid="tweetText"]')
             last_tweet = tweets_info[len(tweets_info) - 1]
             for tweet_info, tweet_text in zip(tweets_info, tweets_text):
                 if are_last_x_elements_same(list_len,250) == True:
@@ -282,7 +282,7 @@ def get_list_of_user_retweet(S,account,nb_of_tweet_to_search=100):
                                 tweet_info_dict = {"username":user_to_check,"text":text_,"id":int(str(tweet_link.split("status/")[1]).replace("/photo/1","")),"url":tweet_link,"date":str(convert_string_to_date(get_date.replace(p,""))),"like":int(str(nb_of_like).replace(p,"")),"retweet":int(str(nb_of_rt).replace(p,"")),"reply":int(str(nb_of_reply).replace(p,""))}
                                 data_list.append(tweet_info_dict)
                         selenium_data.append(tweet_info)
-                        S.driver.execute_script("arguments[0].scrollIntoView();", last_tweet)
+                        selenium_session.driver.execute_script("arguments[0].scrollIntoView();", last_tweet)
                         time.sleep(0.030)
                     except Exception as e:    
                         time.sleep(0.030)
@@ -295,25 +295,25 @@ def get_list_of_user_retweet(S,account,nb_of_tweet_to_search=100):
         else:
             return (data_list)
     except Exception as e:
-        if is_account_banned(S,account) == True:
+        if is_account_banned(selenium_session,account) == True:
             print("Account is banned error feetching " + account + " retweet")
-        elif is_account_existing(S,account) == True:
+        elif is_account_existing(selenium_session,account) == True:
             print("Account don't exist error feetching " + account + " retweet")
-        elif is_account_blocking_you(S,account) == True:
+        elif is_account_blocking_you(selenium_session,account) == True:
             print("Account is blocking you error feetching " + account + " retweet")
         else:
             print("Error feetching " + account + " retweet")
         return(data_list)
 
-def get_list_of_user_comment(S,account,nb_of_tweet_to_search=100):
+def get_list_of_user_comment(selenium_session,account,nb_of_tweet_to_search=100):
     try:
         account = account.replace("@","")
         final_list_url = []
         nb = 0
-        nb_of_tweet = int(get_user_info(S,account)["tweet_count"])
+        nb_of_tweet = int(get_user_info(selenium_session,account)["tweet_count"])
         if nb_of_tweet_to_search < 3000 and nb_of_tweet_to_search >= nb_of_tweet:
             nb_of_tweet_to_search = nb_of_tweet_to_search - 1
-        S.driver.get("https://twitter.com/"+account+"/with_replies")
+        selenium_session.driver.get("https://twitter.com/"+account+"/with_replies")
         run  = True
         list_of_tweet_url = []
         selenium_data = []
@@ -335,10 +335,10 @@ def get_list_of_user_comment(S,account,nb_of_tweet_to_search=100):
         if nb_of_tweet_to_search > 3000:
             nb_of_tweet_to_search = 3000
         while run:
-            element = WebDriverWait(S.driver, 15).until(
+            element = WebDriverWait(selenium_session.driver, 15).until(
             EC.presence_of_element_located((By.CSS_SELECTOR, '[data-testid="tweet"]')))
-            tweets_info = S.driver.find_elements(By.CSS_SELECTOR, '[data-testid="tweet"]')
-            tweets_text = S.driver.find_elements(By.CSS_SELECTOR, '[data-testid="tweetText"]')
+            tweets_info = selenium_session.driver.find_elements(By.CSS_SELECTOR, '[data-testid="tweet"]')
+            tweets_text = selenium_session.driver.find_elements(By.CSS_SELECTOR, '[data-testid="tweetText"]')
             tweets_text = tweets_text[:-1]
             last_tweet = tweets_info[len(tweets_info) - 1]
             for tweet_info, tweet_text in zip(tweets_info, tweets_text):
@@ -400,7 +400,7 @@ def get_list_of_user_comment(S,account,nb_of_tweet_to_search=100):
                                     tweet_info_dict = {"username":account,"text":text_,"id":int(str(tweet_link.split("status/")[1]).replace("/photo/1","")),"url":tweet_link,"date":str(convert_string_to_date(get_date.replace(p,""))),"like":int(str(nb_of_like).replace(p,"")),"retweet":int(str(nb_of_rt).replace(p,"")),"reply":int(str(nb_of_reply).replace(p,""))}
                                     data_list.append(tweet_info_dict)
                         selenium_data.append(tweet_info)
-                        S.driver.execute_script("arguments[0].scrollIntoView();", last_tweet)
+                        selenium_session.driver.execute_script("arguments[0].scrollIntoView();", last_tweet)
                         time.sleep(0.030)
                     except:
                         try:
@@ -453,7 +453,7 @@ def get_list_of_user_comment(S,account,nb_of_tweet_to_search=100):
                                         tweet_info_dict = {"username":account,"text":text_,"id":int(str(tweet_link.split("status/")[1]).replace("/photo/1","")),"url":tweet_link,"date":str(convert_string_to_date(get_date.replace(p,""))),"like":int(str(nb_of_like).replace(p,"")),"retweet":int(str(nb_of_rt).replace(p,"")),"reply":int(str(nb_of_reply).replace(p,""))}
                                         data_list.append(tweet_info_dict)
                                 selenium_data.append(tweet_info)
-                            S.driver.execute_script("arguments[0].scrollIntoView();", last_tweet)
+                            selenium_session.driver.execute_script("arguments[0].scrollIntoView();", last_tweet)
                             time.sleep(0.030)
                         except Exception as e:
                             flop = flop + 1
@@ -466,11 +466,11 @@ def get_list_of_user_comment(S,account,nb_of_tweet_to_search=100):
         else:
             return (data_list)
     except Exception as e:
-        if is_account_banned(S,account) == True:
+        if is_account_banned(selenium_session,account) == True:
             print("Account is banned error feetching " + account + " comment")
-        elif is_account_existing(S,account) == True:
+        elif is_account_existing(selenium_session,account) == True:
             print("Account don't exist error feetching " + account + " comment")
-        elif is_account_blocking_you(S,account) == True:
+        elif is_account_blocking_you(selenium_session,account) == True:
             print("Account is blocking you error feetching " + account + " comment")
         else:
             print("Error feetching " + account + " comment")

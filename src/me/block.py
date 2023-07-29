@@ -8,26 +8,26 @@ from src.user.type import *
 import time
 import traceback
 
-def block_an_user(S,user):
+def block_an_user(selenium_session,user):
     try:
-        S.driver.get("https://twitter.com/"+user)
-        element = WebDriverWait(S.driver, 15).until(
+        selenium_session.driver.get("https://twitter.com/"+user)
+        element = WebDriverWait(selenium_session.driver, 15).until(
         EC.presence_of_element_located((By.CSS_SELECTOR, '[data-testid="userActions"]')))
 
-        user_option = S.driver.find_element(By.CSS_SELECTOR, '[data-testid="userActions"]')
+        user_option = selenium_session.driver.find_element(By.CSS_SELECTOR, '[data-testid="userActions"]')
         user_option.click()
 
-        element = WebDriverWait(S.driver, 15).until(
+        element = WebDriverWait(selenium_session.driver, 15).until(
         EC.presence_of_element_located((By.CSS_SELECTOR, '[data-testid="block"]')))
 
-        block_btn = S.driver.find_element(By.CSS_SELECTOR, '[data-testid="block"]')
-        S.driver.execute_script("arguments[0].scrollIntoView();", block_btn)
+        block_btn = selenium_session.driver.find_element(By.CSS_SELECTOR, '[data-testid="block"]')
+        selenium_session.driver.execute_script("arguments[0].scrollIntoView();", block_btn)
         block_btn.click()
 
-        element = WebDriverWait(S.driver, 15).until(
+        element = WebDriverWait(selenium_session.driver, 15).until(
         EC.presence_of_element_located((By.CSS_SELECTOR, '[data-testid="confirmationSheetConfirm"]')))
 
-        confirm_block = S.driver.find_element(By.CSS_SELECTOR, '[data-testid="confirmationSheetConfirm"]')
+        confirm_block = selenium_session.driver.find_element(By.CSS_SELECTOR, '[data-testid="confirmationSheetConfirm"]')
         confirm_block.click()
 
         time.sleep(0.1)
@@ -35,35 +35,35 @@ def block_an_user(S,user):
         return True
     
     except Exception as e:
-        if is_account_banned(S,user) == True:
+        if is_account_banned(selenium_session,user) == True:
             print("Account is banned blocking error")
-        elif is_account_existing(S,user) == True:
+        elif is_account_existing(selenium_session,user) == True:
             print("Account don't exist blocking error")
         else:
             print("Blocking error")
         
         return False 
 
-def unblock_an_user(S,user):
+def unblock_an_user(selenium_session,user):
     try:
-        S.driver.get("https://twitter.com/"+user)
-        element = WebDriverWait(S.driver, 15).until(
+        selenium_session.driver.get("https://twitter.com/"+user)
+        element = WebDriverWait(selenium_session.driver, 15).until(
         EC.presence_of_element_located((By.CSS_SELECTOR, '[data-testid="userActions"]')))
 
-        user_option = S.driver.find_element(By.CSS_SELECTOR, '[data-testid="userActions"]')
+        user_option = selenium_session.driver.find_element(By.CSS_SELECTOR, '[data-testid="userActions"]')
         user_option.click()
 
-        element = WebDriverWait(S.driver, 15).until(
+        element = WebDriverWait(selenium_session.driver, 15).until(
         EC.presence_of_element_located((By.CSS_SELECTOR, '[data-testid="block"]')))
 
-        unblock_btn = S.driver.find_element(By.CSS_SELECTOR, '[data-testid="block"]')
-        S.driver.execute_script("arguments[0].scrollIntoView();", unblock_btn)
+        unblock_btn = selenium_session.driver.find_element(By.CSS_SELECTOR, '[data-testid="block"]')
+        selenium_session.driver.execute_script("arguments[0].scrollIntoView();", unblock_btn)
         unblock_btn.click()
 
-        element = WebDriverWait(S.driver, 15).until(
+        element = WebDriverWait(selenium_session.driver, 15).until(
         EC.presence_of_element_located((By.CSS_SELECTOR, '[data-testid="confirmationSheetConfirm"]')))
 
-        confirm_unblock = S.driver.find_element(By.CSS_SELECTOR, '[data-testid="confirmationSheetConfirm"]')
+        confirm_unblock = selenium_session.driver.find_element(By.CSS_SELECTOR, '[data-testid="confirmationSheetConfirm"]')
         confirm_unblock.click()
 
         time.sleep(0.1)
@@ -71,9 +71,9 @@ def unblock_an_user(S,user):
         return True
     
     except Exception as e:
-        if is_account_banned(S,user) == True:
+        if is_account_banned(selenium_session,user) == True:
             print("Account is banned unblocking error")
-        elif is_account_existing(S,user) == True:
+        elif is_account_existing(selenium_session,user) == True:
             print("Account don't exist unblocking error")
         else:
             print("Unlocking error")

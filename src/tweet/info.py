@@ -10,16 +10,16 @@ from src.util.list import *
 import time
 import traceback
 
-def is_tweet_exist(S,url):
+def is_tweet_exist(selenium_session,url):
     try:
-        S.driver.get(url)
-        element = WebDriverWait(S.driver, 3).until(
+        selenium_session.driver.get(url)
+        element = WebDriverWait(selenium_session.driver, 3).until(
         EC.presence_of_element_located((By.CSS_SELECTOR, '[data-testid="tweet"]')))
         return True
     except Exception as e:
         return False
   
-def get_tweet_info(S,url):
+def get_tweet_info(selenium_session,url):
     tweet_info_dict = {"username":"",
     "text":"",
     "id":0,
@@ -36,12 +36,12 @@ def get_tweet_info(S,url):
     nb_bookmark = 0
     nb_view = 0
     try:
-        S.driver.get(url)
+        selenium_session.driver.get(url)
         user_tweet = url.split("/")[3]
         
-        element = WebDriverWait(S.driver, 2).until(
+        element = WebDriverWait(selenium_session.driver, 2).until(
         EC.presence_of_element_located((By.CSS_SELECTOR, '[data-testid="cellInnerDiv"]')))
-        tweet_info = S.driver.find_elements(By.CSS_SELECTOR, '[data-testid="cellInnerDiv"]')
+        tweet_info = selenium_session.driver.find_elements(By.CSS_SELECTOR, '[data-testid="cellInnerDiv"]')
         pos = 0
         for i in range(len(tweet_info)):
             r = tweet_info[i]
@@ -49,12 +49,12 @@ def get_tweet_info(S,url):
                 pos = i
                 break
         
-        element = WebDriverWait(S.driver, 2).until(
+        element = WebDriverWait(selenium_session.driver, 2).until(
         EC.presence_of_element_located((By.CSS_SELECTOR, '[data-testid="tweet"]')))        
         
         
-        _tweet_data = S.driver.find_elements(By.CSS_SELECTOR,'[data-testid="tweet"]')
-        _tweet_text = S.driver.find_elements(By.CSS_SELECTOR,'[data-testid="tweetText"]')
+        _tweet_data = selenium_session.driver.find_elements(By.CSS_SELECTOR,'[data-testid="tweet"]')
+        _tweet_text = selenium_session.driver.find_elements(By.CSS_SELECTOR,'[data-testid="tweetText"]')
         
         tweet_data = str(_tweet_data[pos].text).split("\n")
         tweet_text = str(_tweet_text[pos].text)
@@ -88,7 +88,7 @@ def get_tweet_info(S,url):
         "view":parse_number(nb_view)}
         return (tweet_info_dict)
     except Exception as e:
-        if is_tweet_exist(S,url) == False:
+        if is_tweet_exist(selenium_session,url) == False:
             print("Tweet don't exist , info error")
         else: 
             print("Tweet info error")

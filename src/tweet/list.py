@@ -15,10 +15,10 @@ import time
 import traceback
 
 
-def get_list_of_user_who_like_a_tweet(S,url,nb_of_like):
+def get_list_of_user_who_like_a_tweet(selenium_session,url,nb_of_like):
     try:
         nb = 0
-        S.driver.get(url+"/likes")
+        selenium_session.driver.get(url+"/likes")
         run  = True
         list_of_user = []
         selenium_data = []
@@ -29,9 +29,9 @@ def get_list_of_user_who_like_a_tweet(S,url,nb_of_like):
             nb_of_like = 2000
         while run:
             try:
-                element = WebDriverWait(S.driver, 15).until(
+                element = WebDriverWait(selenium_session.driver, 15).until(
                 EC.presence_of_element_located((By.CSS_SELECTOR, '[data-testid="UserCell"]')))
-                tweets_username = S.driver.find_elements(By.CSS_SELECTOR, '[data-testid="UserCell"]')
+                tweets_username = selenium_session.driver.find_elements(By.CSS_SELECTOR, '[data-testid="UserCell"]')
                 last_user = tweets_username[len(tweets_username) - 1]
                 for tweet_username in tweets_username:
                     if are_last_x_elements_same(list_len,100) == True:
@@ -44,7 +44,7 @@ def get_list_of_user_who_like_a_tweet(S,url,nb_of_like):
 
                             list_of_user.append(account.replace("@",""))
                             selenium_data.append(tweet_username)
-                            S.driver.execute_script("arguments[0].scrollIntoView();", tweet_username)
+                            selenium_session.driver.execute_script("arguments[0].scrollIntoView();", tweet_username)
                             time.sleep(0.025)
                         except Exception as e:
                             time.sleep(0.025)
@@ -56,17 +56,17 @@ def get_list_of_user_who_like_a_tweet(S,url,nb_of_like):
                 return (list_of_user)
         return(list_of_user)
     except Exception as e:
-        if is_tweet_exist(S,url) == False:
+        if is_tweet_exist(selenium_session,url) == False:
             print("Tweet don't exist , can't feetch user who liked this tweet")
         else:
             print("Error feetching user who liked this tweet")
         return([])
 
 
-def get_list_of_user_who_retweet_a_tweet(S,url,nb_of_rt):
+def get_list_of_user_who_retweet_a_tweet(selenium_session,url,nb_of_rt):
     try:
         nb = 0
-        S.driver.get(url+"/retweets")
+        selenium_session.driver.get(url+"/retweets")
         run  = True
         list_of_user = []
         selenium_data = []
@@ -77,9 +77,9 @@ def get_list_of_user_who_retweet_a_tweet(S,url,nb_of_rt):
             nb_of_rt = 2000
         while run:
             try:
-                element = WebDriverWait(S.driver, 15).until(
+                element = WebDriverWait(selenium_session.driver, 15).until(
                 EC.presence_of_element_located((By.CSS_SELECTOR, '[data-testid="UserCell"]')))
-                tweets_username = S.driver.find_elements(By.CSS_SELECTOR, '[data-testid="UserCell"]')
+                tweets_username = selenium_session.driver.find_elements(By.CSS_SELECTOR, '[data-testid="UserCell"]')
                 last_user = tweets_username[len(tweets_username) - 1]
                 for tweet_username in tweets_username:
                     if are_last_x_elements_same(list_len,100) == True:
@@ -91,7 +91,7 @@ def get_list_of_user_who_retweet_a_tweet(S,url,nb_of_rt):
                             account = parsing_user[1]
                             list_of_user.append(account.replace("@",""))
                             selenium_data.append(tweet_username)
-                            S.driver.execute_script("arguments[0].scrollIntoView();", tweet_username)
+                            selenium_session.driver.execute_script("arguments[0].scrollIntoView();", tweet_username)
                             time.sleep(0.025)
                         except:
                             time.sleep(0.025)
@@ -103,7 +103,7 @@ def get_list_of_user_who_retweet_a_tweet(S,url,nb_of_rt):
                 return (list_of_user)
         return(list_of_user)
     except Exception as e:
-        if is_tweet_exist(S,url) == False:
+        if is_tweet_exist(selenium_session,url) == False:
             print("Tweet don't exist , can't feetch user who retweeted this tweet")
         else:
             print("Error feetching user who retweeted this tweet")
@@ -111,10 +111,10 @@ def get_list_of_user_who_retweet_a_tweet(S,url,nb_of_rt):
         return([])
 
 
-def get_list_of_quote_of_a_tweet(S,url,nb_of_quote):
+def get_list_of_quote_of_a_tweet(selenium_session,url,nb_of_quote):
     try:
         nb = 0
-        S.driver.get(url+"/retweets/with_comments")
+        selenium_session.driver.get(url+"/retweets/with_comments")
         time.sleep(1)
         run  = True
         list_of_quote_url = []
@@ -139,11 +139,11 @@ def get_list_of_quote_of_a_tweet(S,url,nb_of_quote):
 
         while run:
             try:
-                element = WebDriverWait(S.driver, 15).until(
+                element = WebDriverWait(selenium_session.driver, 15).until(
                 EC.presence_of_element_located((By.CSS_SELECTOR, '[data-testid="tweet"]')))
-                tweets_info = S.driver.find_elements(By.CSS_SELECTOR, '[data-testid="tweet"]')
-                tweets_username = S.driver.find_elements(By.CSS_SELECTOR, '[data-testid="User-Name"]')
-                tweets_text = S.driver.find_elements(By.CSS_SELECTOR, '[data-testid="tweetText"]')
+                tweets_info = selenium_session.driver.find_elements(By.CSS_SELECTOR, '[data-testid="tweet"]')
+                tweets_username = selenium_session.driver.find_elements(By.CSS_SELECTOR, '[data-testid="User-Name"]')
+                tweets_text = selenium_session.driver.find_elements(By.CSS_SELECTOR, '[data-testid="tweetText"]')
                 last_tweet = tweets_info[len(tweets_info) - 1]
                 for tweet_info, tweet_username, tweet_text in zip(tweets_info, tweets_username,tweets_text):
                     if are_last_x_elements_same(list_len,100) == True:
@@ -201,10 +201,10 @@ def get_list_of_quote_of_a_tweet(S,url,nb_of_quote):
                                     tweet_info_dict = {"username":account,"text":text_,"id":int(str(tweet_link.split("status/")[1]).replace("/photo/1","")),"url":tweet_link,"date":str(convert_string_to_date(get_date.replace(p,""))),"like":int(str(nb_of_like).replace(p,"")),"retweet":int(str(nb_of_rt).replace(p,"")),"reply":int(str(nb_of_reply).replace(p,""))}
                                     data_list.append(tweet_info_dict)
                             selenium_data.append(tweet_info)
-                            S.driver.execute_script("arguments[0].scrollIntoView();", last_tweet)
+                            selenium_session.driver.execute_script("arguments[0].scrollIntoView();", last_tweet)
                             time.sleep(0.025)
                         except:
-                            S.driver.execute_script("arguments[0].scrollIntoView();", last_tweet)
+                            selenium_session.driver.execute_script("arguments[0].scrollIntoView();", last_tweet)
                             time.sleep(0.1)
                         if len(data_list) >= nb_of_quote:
                             run = False
@@ -218,7 +218,7 @@ def get_list_of_quote_of_a_tweet(S,url,nb_of_quote):
                 return (data_list)
         return(data_list)
     except Exception as e:
-        if is_tweet_exist(S,url) == False:
+        if is_tweet_exist(selenium_session,url) == False:
             print("Tweet don't exist , can't get list of quote of this tweet")
         else:
             print("Error feetching list of quote of this tweet")
@@ -226,12 +226,12 @@ def get_list_of_quote_of_a_tweet(S,url,nb_of_quote):
         return(data_list)
 
 
-def get_list_of_comment_of_a_tweet(S,url,nb_of_comment=10):
+def get_list_of_comment_of_a_tweet(selenium_session,url,nb_of_comment=10):
     try:
         nb = 0
         if nb_of_comment > 0:
             nb_of_comment = nb_of_comment + 1
-        S.driver.get(url)
+        selenium_session.driver.get(url)
         time.sleep(1)
         run  = True
         selenium_data = []
@@ -257,11 +257,11 @@ def get_list_of_comment_of_a_tweet(S,url,nb_of_comment=10):
 
         while run:
             try:
-                element = WebDriverWait(S.driver, 15).until(
+                element = WebDriverWait(selenium_session.driver, 15).until(
                 EC.presence_of_element_located((By.CSS_SELECTOR, '[data-testid="tweet"]')))
-                tweets_info = S.driver.find_elements(By.CSS_SELECTOR, '[data-testid="tweet"]')
-                tweets_username = S.driver.find_elements(By.CSS_SELECTOR, '[data-testid="User-Name"]')
-                tweets_text = S.driver.find_elements(By.CSS_SELECTOR, '[data-testid="tweetText"]')
+                tweets_info = selenium_session.driver.find_elements(By.CSS_SELECTOR, '[data-testid="tweet"]')
+                tweets_username = selenium_session.driver.find_elements(By.CSS_SELECTOR, '[data-testid="User-Name"]')
+                tweets_text = selenium_session.driver.find_elements(By.CSS_SELECTOR, '[data-testid="tweetText"]')
                 last_tweet = tweets_info[len(tweets_info) - 1]
                 for tweet_info, tweet_username, tweet_text in zip(tweets_info, tweets_username,tweets_text):
                     if are_last_x_elements_same(list_len,500) == True:
@@ -322,10 +322,10 @@ def get_list_of_comment_of_a_tweet(S,url,nb_of_comment=10):
                                     tweet_info_dict = {"username":account,"text":text_,"id":int(str(tweet_link.split("status/")[1]).replace("/photo/1","")),"url":tweet_link,"date":str(convert_string_to_date(get_date.replace(p,""))),"like":int(str(nb_of_like).replace(p,"")),"retweet":int(str(nb_of_rt).replace(p,"")),"reply":int(str(nb_of_reply).replace(p,""))}
                                     data_list.append(tweet_info_dict)
                             selenium_data.append(tweet_info)
-                            S.driver.execute_script("arguments[0].scrollIntoView();", last_tweet)
+                            selenium_session.driver.execute_script("arguments[0].scrollIntoView();", last_tweet)
                             time.sleep(0.025)
                         except:
-                            S.driver.execute_script("arguments[0].scrollIntoView();", last_tweet)
+                            selenium_session.driver.execute_script("arguments[0].scrollIntoView();", last_tweet)
                             time.sleep(0.1)
                         
                         if len(data_list) >= nb_of_comment:
@@ -343,11 +343,10 @@ def get_list_of_comment_of_a_tweet(S,url,nb_of_comment=10):
                 return (data_list)
         return(data_list)
     except Exception as e:
-        print(is_tweet_exist(S,url))
+        print(is_tweet_exist(selenium_session,url))
 
-        if is_tweet_exist(S,url) == False:
+        if is_tweet_exist(selenium_session,url) == False:
             print("Tweet don't exist , can't get list of comment of this tweet")
         else:
             print("Error feetching list of comment of this tweet")
         return(data_list)
-    

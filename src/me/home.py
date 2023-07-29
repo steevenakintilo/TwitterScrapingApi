@@ -17,10 +17,10 @@ import time
 
 import traceback
 
-def get_list_of_homepage_tweet(S,nb_of_tweet_to_search):
+def get_list_of_homepage_tweet(selenium_session,nb_of_tweet_to_search):
     try:
         nb = 0
-        S.driver.get("https://twitter.com/home")
+        selenium_session.driver.get("https://twitter.com/home")
         run  = True
         list_of_tweet_url = []
         selenium_data = []
@@ -42,11 +42,11 @@ def get_list_of_homepage_tweet(S,nb_of_tweet_to_search):
         if nb_of_tweet_to_search > 100:
             nb_of_tweet_to_search = 100
         while run:
-            element = WebDriverWait(S.driver, 15).until(
+            element = WebDriverWait(selenium_session.driver, 15).until(
             EC.presence_of_element_located((By.CSS_SELECTOR, '[data-testid="tweet"]')))
-            tweets_info = S.driver.find_elements(By.CSS_SELECTOR, '[data-testid="tweet"]')
-            tweets_text = S.driver.find_elements(By.CSS_SELECTOR, '[data-testid="tweetText"]')
-            tweets_text = S.driver.find_elements(By.CSS_SELECTOR, '[data-testid="tweetText"]')
+            tweets_info = selenium_session.driver.find_elements(By.CSS_SELECTOR, '[data-testid="tweet"]')
+            tweets_text = selenium_session.driver.find_elements(By.CSS_SELECTOR, '[data-testid="tweetText"]')
+            tweets_text = selenium_session.driver.find_elements(By.CSS_SELECTOR, '[data-testid="tweetText"]')
             last_tweet = tweets_info[len(tweets_info) - 1]
             for tweet_info, tweet_text in zip(tweets_info, tweets_text):
                 if are_last_x_elements_same(list_len,500) == True:
@@ -102,7 +102,7 @@ def get_list_of_homepage_tweet(S,nb_of_tweet_to_search):
                             tweet_info_dict = {"username":user_to_check,"text":text_,"id":int(str(tweet_link.split("status/")[1]).replace("/photo/1","")),"url":tweet_link,"date":str(convert_string_to_date(get_date.replace(p,""))),"like":int(str(nb_of_like).replace(p,"")),"retweet":int(str(nb_of_rt).replace(p,"")),"reply":int(str(nb_of_reply).replace(p,""))}
                             data_list.append(tweet_info_dict)
                         selenium_data.append(tweet_info)
-                        S.driver.execute_script("arguments[0].scrollIntoView();", last_tweet)
+                        selenium_session.driver.execute_script("arguments[0].scrollIntoView();", last_tweet)
                         time.sleep(0.025)
                     except:
                         try:
@@ -152,7 +152,7 @@ def get_list_of_homepage_tweet(S,nb_of_tweet_to_search):
                                 tweet_info_dict = {"username":user_to_check,"text":text_,"id":int(str(tweet_link.split("status/")[1]).replace("/photo/1","")),"url":tweet_link,"date":str(convert_string_to_date(get_date.replace(p,""))),"like":int(str(nb_of_like).replace(p,"")),"retweet":int(str(nb_of_rt).replace(p,"")),"reply":int(str(nb_of_reply).replace(p,""))}
                                 data_list.append(tweet_info_dict)
                             selenium_data.append(tweet_info)
-                            S.driver.execute_script("arguments[0].scrollIntoView();", last_tweet)
+                            selenium_session.driver.execute_script("arguments[0].scrollIntoView();", last_tweet)
                             time.sleep(0.025)
                         except Exception as e:    
                             time.sleep(0.1)

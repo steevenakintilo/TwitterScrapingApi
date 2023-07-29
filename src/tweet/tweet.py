@@ -12,39 +12,39 @@ import time
 
 import traceback
 
-def make_a_tweet(S,text="",media=False,filepath=""):
+def make_a_tweet(selenium_session,text="",media=False,filepath=""):
     try:
         if len(text) == 0 or len(text) > 240:
             print("Text lenght must be between 1 and 240")
             return ("")
 
-        S.driver.get("https://twitter.com/compose/tweet")
+        selenium_session.driver.get("https://twitter.com/compose/tweet")
         time.sleep(1.5)
         
-        element = WebDriverWait(S.driver, 15).until(
+        element = WebDriverWait(selenium_session.driver, 15).until(
         EC.presence_of_element_located((By.CSS_SELECTOR, '[data-testid="tweetTextarea_0"]')))
         
-        textbox = S.driver.find_element(By.CSS_SELECTOR, '[data-testid="tweetTextarea_0"]')
+        textbox = selenium_session.driver.find_element(By.CSS_SELECTOR, '[data-testid="tweetTextarea_0"]')
         textbox.click()
         time.sleep(1.5)
                 
         pyperclip.copy(text)
-        act = ActionChains(S.driver)
+        act = ActionChains(selenium_session.driver)
         act.key_down(Keys.CONTROL).send_keys("v").key_up(Keys.CONTROL).perform()
 
         if media == True:
-            file_input = S.driver.find_element(By.XPATH,"//input[@type='file']")
+            file_input = selenium_session.driver.find_element(By.XPATH,"//input[@type='file']")
             file_input.send_keys(filepath)
         
         time.sleep(1.5)
         
-        element = WebDriverWait(S.driver, 15).until(
+        element = WebDriverWait(selenium_session.driver, 15).until(
         EC.presence_of_element_located((By.CSS_SELECTOR, '[data-testid="tweetButton"]')))
 
-        wait = WebDriverWait(S.driver, 10)
+        wait = WebDriverWait(selenium_session.driver, 10)
         target_element = wait.until(EC.element_to_be_clickable((By.CSS_SELECTOR, '[data-testid="tweetButton"]')))
 
-        S.driver.execute_script("arguments[0].scrollIntoView();", target_element)
+        selenium_session.driver.execute_script("arguments[0].scrollIntoView();", target_element)
 
         target_element.click()
         time.sleep(1.5)
@@ -58,7 +58,7 @@ def make_a_tweet(S,text="",media=False,filepath=""):
             print("tweet error")
 
 
-def make_a_tweet_with_poll(S,text="",nb_of_choice=2,choice1_text="1",choice2_text="2",choice3_text="3",choice4_text="4",days=1,hours=0,minutes=0):
+def make_a_tweet_with_poll(selenium_session,text="",nb_of_choice=2,choice1_text="1",choice2_text="2",choice3_text="3",choice4_text="4",days=1,hours=0,minutes=0):
     try:
         if len(text) == 0:
             text = "."
@@ -89,113 +89,113 @@ def make_a_tweet_with_poll(S,text="",nb_of_choice=2,choice1_text="1",choice2_tex
             nb_of_choice = 2
             choice2_text = "."
         
-        S.driver.get("https://twitter.com/compose/tweet")
+        selenium_session.driver.get("https://twitter.com/compose/tweet")
         time.sleep(1.5)
         
-        element = WebDriverWait(S.driver, 15).until(
+        element = WebDriverWait(selenium_session.driver, 15).until(
         EC.presence_of_element_located((By.CSS_SELECTOR, '[data-testid="tweetTextarea_0RichTextInputContainer"]')))
         
-        textbox = S.driver.find_element(By.CSS_SELECTOR, '[data-testid="tweetTextarea_0RichTextInputContainer"]')
+        textbox = selenium_session.driver.find_element(By.CSS_SELECTOR, '[data-testid="tweetTextarea_0RichTextInputContainer"]')
         textbox.click()
         time.sleep(1.5)
         
         pyperclip.copy(text)
-        act = ActionChains(S.driver)
+        act = ActionChains(selenium_session.driver)
         act.key_down(Keys.CONTROL).send_keys("v").key_up(Keys.CONTROL).perform()
 
         time.sleep(1.5)
         
-        element = WebDriverWait(S.driver, 15).until(
+        element = WebDriverWait(selenium_session.driver, 15).until(
         EC.presence_of_element_located((By.CSS_SELECTOR, '[data-testid="createPollButton"]')))
 
-        poll_btn = S.driver.find_element(By.CSS_SELECTOR, '[data-testid="createPollButton"]')
+        poll_btn = selenium_session.driver.find_element(By.CSS_SELECTOR, '[data-testid="createPollButton"]')
         poll_btn.click()
 
-        element = WebDriverWait(S.driver, 15).until(
+        element = WebDriverWait(selenium_session.driver, 15).until(
         EC.presence_of_element_located((By.CSS_SELECTOR, '[data-testid="addPollChoice"]')))
         
         
         if nb_of_choice == 2:
-            choice1 = S.driver.find_element(By.NAME, "Choice1")
-            S.driver.execute_script("arguments[0].scrollIntoView();", choice1)
+            choice1 = selenium_session.driver.find_element(By.NAME, "Choice1")
+            selenium_session.driver.execute_script("arguments[0].scrollIntoView();", choice1)
             choice1.click()
             pyperclip.copy(choice1_text)
-            act = ActionChains(S.driver)
+            act = ActionChains(selenium_session.driver)
             act.key_down(Keys.CONTROL).send_keys("v").key_up(Keys.CONTROL).perform()
 
-            choice2 = S.driver.find_element(By.NAME, "Choice2")
-            S.driver.execute_script("arguments[0].scrollIntoView();", choice2)
+            choice2 = selenium_session.driver.find_element(By.NAME, "Choice2")
+            selenium_session.driver.execute_script("arguments[0].scrollIntoView();", choice2)
             choice2.click()
             pyperclip.copy(choice2_text)
-            act = ActionChains(S.driver)
+            act = ActionChains(selenium_session.driver)
             act.key_down(Keys.CONTROL).send_keys("v").key_up(Keys.CONTROL).perform()
             
         if nb_of_choice == 3:
-            choice1 = S.driver.find_element(By.NAME, "Choice1")            
-            S.driver.execute_script("arguments[0].scrollIntoView();", choice1)
+            choice1 = selenium_session.driver.find_element(By.NAME, "Choice1")            
+            selenium_session.driver.execute_script("arguments[0].scrollIntoView();", choice1)
             choice1.click()
             pyperclip.copy(choice1_text)
-            act = ActionChains(S.driver)
+            act = ActionChains(selenium_session.driver)
             act.key_down(Keys.CONTROL).send_keys("v").key_up(Keys.CONTROL).perform()
 
             
-            element = WebDriverWait(S.driver, 15).until(
+            element = WebDriverWait(selenium_session.driver, 15).until(
             EC.presence_of_element_located((By.NAME, "Choice2")))
 
-            choice2 = S.driver.find_element(By.NAME, "Choice2")
-            S.driver.execute_script("arguments[0].scrollIntoView();", choice2)
+            choice2 = selenium_session.driver.find_element(By.NAME, "Choice2")
+            selenium_session.driver.execute_script("arguments[0].scrollIntoView();", choice2)
             choice2.click()
             pyperclip.copy(choice2_text)
-            act = ActionChains(S.driver)
+            act = ActionChains(selenium_session.driver)
             act.key_down(Keys.CONTROL).send_keys("v").key_up(Keys.CONTROL).perform()
 
             for i in range(nb_of_choice - 2):
-                add_pool = S.driver.find_element(By.CSS_SELECTOR, '[data-testid="addPollChoice"]')
+                add_pool = selenium_session.driver.find_element(By.CSS_SELECTOR, '[data-testid="addPollChoice"]')
                 add_pool.click()
             
             
-            element = WebDriverWait(S.driver, 15).until(
+            element = WebDriverWait(selenium_session.driver, 15).until(
             EC.presence_of_element_located((By.NAME, "Choice3")))
 
-            choice3 = S.driver.find_element(By.NAME, "Choice3")
-            S.driver.execute_script("arguments[0].scrollIntoView();", choice3)
+            choice3 = selenium_session.driver.find_element(By.NAME, "Choice3")
+            selenium_session.driver.execute_script("arguments[0].scrollIntoView();", choice3)
             choice3.click()
             pyperclip.copy(choice3_text)
-            act = ActionChains(S.driver)
+            act = ActionChains(selenium_session.driver)
             act.key_down(Keys.CONTROL).send_keys("v").key_up(Keys.CONTROL).perform()
 
         if nb_of_choice == 4:
             
-            choice1 = S.driver.find_element(By.NAME, "Choice1")
-            S.driver.execute_script("arguments[0].scrollIntoView();", choice1)
+            choice1 = selenium_session.driver.find_element(By.NAME, "Choice1")
+            selenium_session.driver.execute_script("arguments[0].scrollIntoView();", choice1)
             choice1.click()
             pyperclip.copy(choice1_text)
-            act = ActionChains(S.driver)
+            act = ActionChains(selenium_session.driver)
             act.key_down(Keys.CONTROL).send_keys("v").key_up(Keys.CONTROL).perform()
 
-            choice2 = S.driver.find_element(By.NAME, "Choice2")
-            S.driver.execute_script("arguments[0].scrollIntoView();", choice2)
+            choice2 = selenium_session.driver.find_element(By.NAME, "Choice2")
+            selenium_session.driver.execute_script("arguments[0].scrollIntoView();", choice2)
             choice2.click()
             pyperclip.copy(choice2_text)
-            act = ActionChains(S.driver)
+            act = ActionChains(selenium_session.driver)
             act.key_down(Keys.CONTROL).send_keys("v").key_up(Keys.CONTROL).perform()
 
             for i in range(nb_of_choice - 2):
-                add_pool = S.driver.find_element(By.CSS_SELECTOR, '[data-testid="addPollChoice"]')
+                add_pool = selenium_session.driver.find_element(By.CSS_SELECTOR, '[data-testid="addPollChoice"]')
                 add_pool.click()
             
-            choice3 = S.driver.find_element(By.NAME, "Choice3")
-            S.driver.execute_script("arguments[0].scrollIntoView();", choice3)
+            choice3 = selenium_session.driver.find_element(By.NAME, "Choice3")
+            selenium_session.driver.execute_script("arguments[0].scrollIntoView();", choice3)
             choice3.click()
             pyperclip.copy(choice3_text)
-            act = ActionChains(S.driver)
+            act = ActionChains(selenium_session.driver)
             act.key_down(Keys.CONTROL).send_keys("v").key_up(Keys.CONTROL).perform()
 
-            choice4 = S.driver.find_element(By.NAME, "Choice4")
-            S.driver.execute_script("arguments[0].scrollIntoView();", choice4)
+            choice4 = selenium_session.driver.find_element(By.NAME, "Choice4")
+            selenium_session.driver.execute_script("arguments[0].scrollIntoView();", choice4)
             choice4.click()
             pyperclip.copy(choice4_text)
-            act = ActionChains(S.driver)
+            act = ActionChains(selenium_session.driver)
             act.key_down(Keys.CONTROL).send_keys("v").key_up(Keys.CONTROL).perform()
         
         if days > 6:
@@ -215,8 +215,8 @@ def make_a_tweet_with_poll(S,text="",nb_of_choice=2,choice1_text="1",choice2_tex
             minutes = 5
         else:
             minutes - 1        
-        days_ =  S.driver.find_element(By.CSS_SELECTOR, '[data-testid="selectPollDays"]')
-        S.driver.execute_script("arguments[0].scrollIntoView();", days_)
+        days_ =  selenium_session.driver.find_element(By.CSS_SELECTOR, '[data-testid="selectPollDays"]')
+        selenium_session.driver.execute_script("arguments[0].scrollIntoView();", days_)
         days_.click()
         for i in range(days):
             days_.send_keys(Keys.ARROW_DOWN)
@@ -228,8 +228,8 @@ def make_a_tweet_with_poll(S,text="",nb_of_choice=2,choice1_text="1",choice2_tex
             days_.send_keys(Keys.RETURN)
         
 
-        hours_ =  S.driver.find_element(By.CSS_SELECTOR, '[data-testid="selectPollHours"]')
-        S.driver.execute_script("arguments[0].scrollIntoView();", hours_)
+        hours_ =  selenium_session.driver.find_element(By.CSS_SELECTOR, '[data-testid="selectPollHours"]')
+        selenium_session.driver.execute_script("arguments[0].scrollIntoView();", hours_)
         hours_.click()
         
         if hours <= 0:
@@ -243,49 +243,48 @@ def make_a_tweet_with_poll(S,text="",nb_of_choice=2,choice1_text="1",choice2_tex
                 hours_.send_keys(Keys.ARROW_DOWN)
             hours_.send_keys(Keys.RETURN)
 
-            minutes_ =  S.driver.find_element(By.CSS_SELECTOR, '[data-testid="selectPollMinutes"]')
-            S.driver.execute_script("arguments[0].scrollIntoView();", minutes_)
+            minutes_ =  selenium_session.driver.find_element(By.CSS_SELECTOR, '[data-testid="selectPollMinutes"]')
+            selenium_session.driver.execute_script("arguments[0].scrollIntoView();", minutes_)
             minutes_.click()
             
             for i in range(minutes):
                 minutes_.send_keys(Keys.ARROW_DOWN)
             minutes_.send_keys(Keys.RETURN)
             minutes_.click()
-        element = WebDriverWait(S.driver, 15).until(
+        element = WebDriverWait(selenium_session.driver, 15).until(
         EC.presence_of_element_located((By.CSS_SELECTOR, '[data-testid="tweetButton"]')))
         
-        wait = WebDriverWait(S.driver, 10)
+        wait = WebDriverWait(selenium_session.driver, 10)
         target_element = wait.until(EC.element_to_be_clickable((By.CSS_SELECTOR, '[data-testid="tweetButton"]')))
 
-        S.driver.execute_script("arguments[0].scrollIntoView();", target_element)
+        selenium_session.driver.execute_script("arguments[0].scrollIntoView();", target_element)
 
         target_element.click()
         time.sleep(1.5)
-        print("Tweet with pool done")
         return True        
     except Exception as e:
         print("tweet with pool error")
         return False
 
-def delete_a_tweet(S,url):
+def delete_a_tweet(selenium_session,url):
     try:
-        S.driver.get(url)
+        selenium_session.driver.get(url)
         time.sleep(1.5)
-        element = WebDriverWait(S.driver, 15).until(
+        element = WebDriverWait(selenium_session.driver, 15).until(
         EC.presence_of_element_located((By.CSS_SELECTOR, '[data-testid="caret"]')))
-        optionbox = S.driver.find_element(By.CSS_SELECTOR, '[data-testid="caret"]')
+        optionbox = selenium_session.driver.find_element(By.CSS_SELECTOR, '[data-testid="caret"]')
         optionbox.click()
         time.sleep(0.1)
-        element = WebDriverWait(S.driver, 15).until(
+        element = WebDriverWait(selenium_session.driver, 15).until(
         EC.presence_of_element_located((By.CSS_SELECTOR, '[data-testid="Dropdown"]')))
-        wait = WebDriverWait(S.driver, 10)
+        wait = WebDriverWait(selenium_session.driver, 10)
         target_element = wait.until(EC.element_to_be_clickable((By.CSS_SELECTOR, '[data-testid="Dropdown"]')))
         tweet_option = str(target_element.text).split("\n")
         if tweet_option[0] == "Delete":
-            element = WebDriverWait(S.driver, 15).until(
+            element = WebDriverWait(selenium_session.driver, 15).until(
             EC.presence_of_element_located((By.XPATH, '/html/body/div[1]/div/div/div[1]/div[2]/div/div/div/div[2]/div/div[3]/div/div/div/div[1]')))
             element.click()
-            element = WebDriverWait(S.driver, 15).until(
+            element = WebDriverWait(selenium_session.driver, 15).until(
             EC.presence_of_element_located((By.CSS_SELECTOR, '[data-testid="confirmationSheetConfirm"]')))
             element.click()
             time.sleep(0.5)
@@ -299,24 +298,24 @@ def delete_a_tweet(S,url):
         return False
 
 
-def bookmark_a_tweet(S,url):
+def bookmark_a_tweet(selenium_session,url):
     try:
-        S.driver.get(url)
+        selenium_session.driver.get(url)
         time.sleep(1.5)
         pos = 0
-        element = WebDriverWait(S.driver, 15).until(
+        element = WebDriverWait(selenium_session.driver, 15).until(
         EC.presence_of_element_located((By.CSS_SELECTOR, '[data-testid="cellInnerDiv"]')))
         
-        tweet_info = S.driver.find_elements(By.CSS_SELECTOR, '[data-testid="cellInnerDiv"]')
+        tweet_info = selenium_session.driver.find_elements(By.CSS_SELECTOR, '[data-testid="cellInnerDiv"]')
         for i in range(len(tweet_info)):
             r = tweet_info[i]
             if url.split("twitter.com")[1] in str(r.get_attribute("outerHTML")):
                 pos = i
                 break
         try:
-            element = WebDriverWait(S.driver, 3).until(
+            element = WebDriverWait(selenium_session.driver, 3).until(
             EC.presence_of_element_located((By.CSS_SELECTOR, '[data-testid="bookmark"]')))
-            bookmark_btn = S.driver.find_elements(By.CSS_SELECTOR, '[data-testid="bookmark"]')
+            bookmark_btn = selenium_session.driver.find_elements(By.CSS_SELECTOR, '[data-testid="bookmark"]')
 
             bookmark_btn[pos].click()
             time.sleep(0.1)
@@ -326,24 +325,24 @@ def bookmark_a_tweet(S,url):
         p
         print("Tweet bookmark error")
 
-def unbookmark_a_tweet(S,url):
+def unbookmark_a_tweet(selenium_session,url):
     try:
-        S.driver.get(url)
+        selenium_session.driver.get(url)
         time.sleep(1.5)
         pos = 0
-        element = WebDriverWait(S.driver, 15).until(
+        element = WebDriverWait(selenium_session.driver, 15).until(
         EC.presence_of_element_located((By.CSS_SELECTOR, '[data-testid="cellInnerDiv"]')))
         
-        tweet_info = S.driver.find_elements(By.CSS_SELECTOR, '[data-testid="cellInnerDiv"]')
+        tweet_info = selenium_session.driver.find_elements(By.CSS_SELECTOR, '[data-testid="cellInnerDiv"]')
         for i in range(len(tweet_info)):
             r = tweet_info[i]
             if url.split("twitter.com")[1] in str(r.get_attribute("outerHTML")):
                 pos = i
                 break
         try:
-            element = WebDriverWait(S.driver, 3).until(
+            element = WebDriverWait(selenium_session.driver, 3).until(
             EC.presence_of_element_located((By.CSS_SELECTOR, '[data-testid="removebookmark"]')))
-            bookmark_btn = S.driver.find_elements(By.CSS_SELECTOR, '[data-testid="removebookmark"]')
+            bookmark_btn = selenium_session.driver.find_elements(By.CSS_SELECTOR, '[data-testid="removebookmark"]')
 
             bookmark_btn[pos].click()
             time.sleep(0.1)

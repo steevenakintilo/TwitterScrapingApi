@@ -34,46 +34,46 @@ class Scraper:
     test_tweet = 'https://twitter.com/Twitter/status/1580661436132757506'
     
     
-def login(S,_username,_password):
+def login(selenium_session,_username,_password):
 
     try:
-        S.driver.get("https://twitter.com/i/flow/login")
+        selenium_session.driver.get("https://twitter.com/i/flow/login")
         print("Starting Twitter")
 
         #USERNAME
-        element = WebDriverWait(S.driver, 15).until(
-        EC.presence_of_element_located((By.XPATH, S.username_xpath)))
+        element = WebDriverWait(selenium_session.driver, 15).until(
+        EC.presence_of_element_located((By.XPATH, selenium_session.username_xpath)))
 
-        username = S.driver.find_element(By.XPATH,S.username_xpath)
+        username = selenium_session.driver.find_element(By.XPATH,selenium_session.username_xpath)
         username.send_keys(_username)    
         
-        element = WebDriverWait(S.driver, 15).until(
-        EC.presence_of_element_located((By.XPATH, S.button_xpath)))
+        element = WebDriverWait(selenium_session.driver, 15).until(
+        EC.presence_of_element_located((By.XPATH, selenium_session.button_xpath)))
 
 
         #FIRST BUTTON
 
-        button = S.driver.find_element(By.XPATH,S.button_xpath)
+        button = selenium_session.driver.find_element(By.XPATH,selenium_session.button_xpath)
         button.click()
         #print("button click")
 
 
         #PASSWORD
         
-        element = WebDriverWait(S.driver, 15).until(
-        EC.presence_of_element_located((By.XPATH, S.password_xpath)))
+        element = WebDriverWait(selenium_session.driver, 15).until(
+        EC.presence_of_element_located((By.XPATH, selenium_session.password_xpath)))
         
-        password = S.driver.find_element(By.XPATH,S.password_xpath)
+        password = selenium_session.driver.find_element(By.XPATH,selenium_session.password_xpath)
         password.send_keys(_password)
         #print("password done")
 
 
         #LOGIN BUTTON
 
-        element = WebDriverWait(S.driver, 15).until(
-        EC.presence_of_element_located((By.XPATH, S.login_button_xpath)))
+        element = WebDriverWait(selenium_session.driver, 15).until(
+        EC.presence_of_element_located((By.XPATH, selenium_session.login_button_xpath)))
         
-        login_button = S.driver.find_element(By.XPATH,S.login_button_xpath)
+        login_button = selenium_session.driver.find_element(By.XPATH,selenium_session.login_button_xpath)
         login_button.click()
 
         #print("Closing Twitter")
@@ -81,10 +81,10 @@ def login(S,_username,_password):
         print("Username wrong change your info on the configuration.yml file")
         quit()
 
-def check_login_good(S):
+def check_login_good(selenium_session):
     try:
-        S.driver.get("https://twitter.com/home")
-        element = WebDriverWait(S.driver, 15).until(
+        selenium_session.driver.get("https://twitter.com/home")
+        element = WebDriverWait(selenium_session.driver, 15).until(
     EC.presence_of_element_located((By.CSS_SELECTOR, '[data-testid="AppTabBar_Notifications_Link"]')))
         print("Login done")
         return True
@@ -93,14 +93,14 @@ def check_login_good(S):
         print("Password wrong change your info on the configuration.yml file")
         return False
     
-def accept_coockie(S):
+def accept_coockie(selenium_session):
     try:
-        S.driver.get(S.test_tweet)
+        selenium_session.driver.get(selenium_session.test_tweet)
 
-        element = WebDriverWait(S.driver, 10).until(
-        EC.presence_of_element_located((By.XPATH, S.cookie_button_xpath)))
+        element = WebDriverWait(selenium_session.driver, 10).until(
+        EC.presence_of_element_located((By.XPATH, selenium_session.cookie_button_xpath)))
         
-        cookie_button = S.driver.find_element(By.XPATH,S.cookie_button_xpath)
+        cookie_button = selenium_session.driver.find_element(By.XPATH,selenium_session.cookie_button_xpath)
         cookie_button.click()
 
     except:
@@ -109,24 +109,24 @@ def accept_coockie(S):
     print("coockie done")
 
 
-def accept_notification(S):
+def accept_notification(selenium_session):
     try:
-        S.driver.get(S.test_tweet)
+        selenium_session.driver.get(selenium_session.test_tweet)
 
-        element = WebDriverWait(S.driver, 10).until(
-        EC.presence_of_element_located((By.XPATH, S.notification_button_xpath)))
+        element = WebDriverWait(selenium_session.driver, 10).until(
+        EC.presence_of_element_located((By.XPATH, selenium_session.notification_button_xpath)))
         
-        cookie_button = S.driver.find_element(By.XPATH,S.notification_button_xpath)
+        cookie_button = selenium_session.driver.find_element(By.XPATH,selenium_session.notification_button_xpath)
         cookie_button.click()
     except:
         pass    
     try:
-        S.driver.get(S.test_tweet)
+        selenium_session.driver.get(selenium_session.test_tweet)
 
-        element = WebDriverWait(S.driver, 10).until(
-        EC.presence_of_element_located((By.XPATH, S.cookie_button_xpath)))
+        element = WebDriverWait(selenium_session.driver, 10).until(
+        EC.presence_of_element_located((By.XPATH, selenium_session.cookie_button_xpath)))
         
-        cookie_button = S.driver.find_element(By.XPATH,S.cookie_button_xpath)
+        cookie_button = selenium_session.driver.find_element(By.XPATH,selenium_session.cookie_button_xpath)
         cookie_button.click()
 
     except:
@@ -134,17 +134,17 @@ def accept_notification(S):
     
     print("notification done")
     
-def check_connection(S):
+def check_connection(selenium_session):
     try:
-        S.driver.set_page_load_timeout(30)
-        S.driver.get("https://www.google.com/")
+        selenium_session.driver.set_page_load_timeout(30)
+        selenium_session.driver.get("https://www.google.com/")
         return True
     except:
         print("No internet connection")
         return False
 
-def save_coockie(S):
-    pickle.dump(S.driver.get_cookies(), open("cookies.pkl", "wb"))
+def save_coockie(selenium_session):
+    pickle.dump(selenium_session.driver.get_cookies(), open("cookies.pkl", "wb"))
 
 def print_file_info(path):
     f = open(path, 'rb')
@@ -152,47 +152,47 @@ def print_file_info(path):
     f.close()
     return(str(content))
 
-def start_api():
+def start_selenium():
     ELON_MUSK = 20
     ck = print_file_info("cookies.pkl")
     with open("configuration.yml", "r") as file:
         data = yaml.load(file, Loader=yaml.FullLoader)
     if len(str(ck)) > ELON_MUSK:
-        S = Scraper()
+        selenium_session = Scraper()
         username_info = data["account_username"]
         print("Connection to" , username_info[0] , "account")
-        if check_connection(S) == False:
+        if check_connection(selenium_session) == False:
             exit()
-        S.driver.get("https://twitter.com/i/flow/login")
+        selenium_session.driver.get("https://twitter.com/i/flow/login")
         
         cookies = pickle.load(open("cookies.pkl","rb"))
 
         for cookie in cookies:
-            S.driver.add_cookie(cookie)
+            selenium_session.driver.add_cookie(cookie)
         time.sleep(0.2)
         print("Already Connected Nice")
-        return (S)
+        return (selenium_session)
     else:
         username_info = data["account_username"]
         password_info = data["account_password"]
         
-        S = Scraper()
+        selenium_session = Scraper()
         print("Connection to" , username_info[0] , "account")
-        if check_connection(S) == False:
+        if check_connection(selenium_session) == False:
             exit()
-        login(S,username_info[0],password_info[0])
-        time.sleep(S.wait_time)
-        if check_login_good(S) == False:
+        login(selenium_session,username_info[0],password_info[0])
+        time.sleep(selenium_session.wait_time)
+        if check_login_good(selenium_session) == False:
             quit()
-        time.sleep(S.wait_time)
-        accept_coockie(S)
-        time.sleep(S.wait_time)    
-        accept_notification(S)
-        time.sleep(S.wait_time)
-        accept_coockie(S)
-        time.sleep(S.wait_time)
-        save_coockie(S)
-        cookies = S.driver.get_cookies()
-        pickle.dump( S.driver.get_cookies() , open("cookies.pkl","wb"))
+        time.sleep(selenium_session.wait_time)
+        accept_coockie(selenium_session)
+        time.sleep(selenium_session.wait_time)    
+        accept_notification(selenium_session)
+        time.sleep(selenium_session.wait_time)
+        accept_coockie(selenium_session)
+        time.sleep(selenium_session.wait_time)
+        save_coockie(selenium_session)
+        cookies = selenium_session.driver.get_cookies()
+        pickle.dump( selenium_session.driver.get_cookies() , open("cookies.pkl","wb"))
         print("Connection done well")
-        return S
+        return selenium_session

@@ -14,7 +14,7 @@ from src.util.num import *
 from src.util.list import are_last_x_elements_same , check_elem_on_a_list
 
 
-def search_tweet(S,query="hello",mode="recent",nb_of_tweet_to_search=10):
+def search_tweet(selenium_session,query="hello",mode="recent",nb_of_tweet_to_search=10):
     list_of_tweet_url = []
     selenium_data = []
     list_of_tweet_url_ = []
@@ -33,19 +33,19 @@ def search_tweet(S,query="hello",mode="recent",nb_of_tweet_to_search=10):
     
     try:
         if mode == "top":
-            S.driver.get("https://twitter.com/search?q="+query+"&src=typed_query&f=top")
+            selenium_session.driver.get("https://twitter.com/search?q="+query+"&src=typed_query&f=top")
         elif mode == "recent":
-            S.driver.get("https://twitter.com/search?q="+query+"&src=typed_query&f=live")
+            selenium_session.driver.get("https://twitter.com/search?q="+query+"&src=typed_query&f=live")
         else:
-            S.driver.get("https://twitter.com/search?q="+query+"&src=typed_query&f=live")
+            selenium_session.driver.get("https://twitter.com/search?q="+query+"&src=typed_query&f=live")
         
         run  = True
         p = '"'
         while run:
-            element = WebDriverWait(S.driver, 15).until(
+            element = WebDriverWait(selenium_session.driver, 15).until(
             EC.presence_of_element_located((By.CSS_SELECTOR, '[data-testid="tweet"]')))
-            tweets_info = S.driver.find_elements(By.CSS_SELECTOR, '[data-testid="tweet"]')
-            tweets_text = S.driver.find_elements(By.CSS_SELECTOR, '[data-testid="tweetText"]')
+            tweets_info = selenium_session.driver.find_elements(By.CSS_SELECTOR, '[data-testid="tweet"]')
+            tweets_text = selenium_session.driver.find_elements(By.CSS_SELECTOR, '[data-testid="tweetText"]')
             last_tweet = tweets_info[len(tweets_info) - 1]
             for tweet_info, tweet_text in zip(tweets_info, tweets_text):
                 if len(data_list) >= nb_of_tweet_to_search:
@@ -113,7 +113,7 @@ def search_tweet(S,query="hello",mode="recent",nb_of_tweet_to_search=10):
                             #print("list len ", len(list_of_tweet_url))
                         selenium_data.append(tweet_info)
                         
-                        S.driver.execute_script("arguments[0].scrollIntoView();", last_tweet)
+                        selenium_session.driver.execute_script("arguments[0].scrollIntoView();", last_tweet)
                         time.sleep(0.030)
                     except:
                         try:
@@ -175,7 +175,7 @@ def search_tweet(S,query="hello",mode="recent",nb_of_tweet_to_search=10):
                         
                             selenium_data.append(tweet_info)                        
                             
-                            S.driver.execute_script("arguments[0].scrollIntoView();", last_tweet)
+                            selenium_session.driver.execute_script("arguments[0].scrollIntoView();", last_tweet)
                             time.sleep(0.030)
                         except Exception as e:
                             time.sleep(0.1)

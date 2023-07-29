@@ -17,10 +17,10 @@ with open("configuration.yml", "r") as file:
         
 username_info = str(data["account_username"][0]).replace("@","")
 
-def get_list_of_my_followers(S):
+def get_list_of_my_followers(selenium_session):
     try:
-        nb_of_followers = get_user_info(S,username_info)["follower_count"]
-        S.driver.get("https://twitter.com/"+username_info+"/followers")
+        nb_of_followers = get_user_info(selenium_session,username_info)["follower_count"]
+        selenium_session.driver.get("https://twitter.com/"+username_info+"/followers")
         run  = True
         list_of_user = []
         selenium_data = []
@@ -28,9 +28,9 @@ def get_list_of_my_followers(S):
         nb = 0
         while run:
             try:
-                element = WebDriverWait(S.driver, 15).until(
+                element = WebDriverWait(selenium_session.driver, 15).until(
                 EC.presence_of_element_located((By.CSS_SELECTOR, '[data-testid="UserCell"]')))
-                tweets_username = S.driver.find_elements(By.CSS_SELECTOR, '[data-testid="UserCell"]')
+                tweets_username = selenium_session.driver.find_elements(By.CSS_SELECTOR, '[data-testid="UserCell"]')
                 last_user = tweets_username[len(tweets_username) - 1]
                 for tweet_username in tweets_username:
                 
@@ -40,7 +40,7 @@ def get_list_of_my_followers(S):
                             account = parsing_user[1]
                             list_of_user.append(account.replace("@",""))
                             selenium_data.append(tweet_username)
-                            S.driver.execute_script("arguments[0].scrollIntoView();", tweet_username)
+                            selenium_session.driver.execute_script("arguments[0].scrollIntoView();", tweet_username)
                             nb+=1
                             time.sleep(0.025)
                         except:
@@ -56,10 +56,10 @@ def get_list_of_my_followers(S):
         print("Your followers listing failed")
         return([])
 
-def get_list_of_my_followings(S):
+def get_list_of_my_followings(selenium_session):
     try:
-        nb_of_followings = get_user_info(S,username_info)["following_count"]
-        S.driver.get("https://twitter.com/"+username_info+"/following")
+        nb_of_followings = get_user_info(selenium_session,username_info)["following_count"]
+        selenium_session.driver.get("https://twitter.com/"+username_info+"/following")
         run  = True
         list_of_user = []
         selenium_data = []
@@ -67,9 +67,9 @@ def get_list_of_my_followings(S):
         nb = 0
         while run:
             try:
-                element = WebDriverWait(S.driver, 15).until(
+                element = WebDriverWait(selenium_session.driver, 15).until(
                 EC.presence_of_element_located((By.CSS_SELECTOR, '[data-testid="UserCell"]')))
-                tweets_username = S.driver.find_elements(By.CSS_SELECTOR, '[data-testid="UserCell"]')
+                tweets_username = selenium_session.driver.find_elements(By.CSS_SELECTOR, '[data-testid="UserCell"]')
                 last_user = tweets_username[len(tweets_username) - 1]
                 for tweet_username in tweets_username:
                 
@@ -80,7 +80,7 @@ def get_list_of_my_followings(S):
                             if account.replace("@","") not in list_of_user:
                                 list_of_user.append(account.replace("@",""))
                             selenium_data.append(tweet_username)
-                            S.driver.execute_script("arguments[0].scrollIntoView();", tweet_username)
+                            selenium_session.driver.execute_script("arguments[0].scrollIntoView();", tweet_username)
                             nb+=1
                             time.sleep(0.025)
                         except:

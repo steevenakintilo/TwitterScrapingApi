@@ -12,12 +12,12 @@ import time
 import traceback
 
 
-def get_trend(S):
+def get_trend(selenium_session):
     try:
-      S.driver.get("https://twitter.com/explore")
-      element = WebDriverWait(S.driver, 15).until(
+      selenium_session.driver.get("https://twitter.com/explore")
+      element = WebDriverWait(selenium_session.driver, 15).until(
       EC.presence_of_element_located((By.CSS_SELECTOR, '[data-testid="trend"]')))
-      trends = S.driver.find_elements(By.CSS_SELECTOR, '[data-testid="trend"]')
+      trends = selenium_session.driver.find_elements(By.CSS_SELECTOR, '[data-testid="trend"]')
       trends_list = []
       pos = 0
       for i in range(len(trends)):

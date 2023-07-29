@@ -18,10 +18,10 @@ with open("configuration.yml", "r") as file:
         
 username_info = data["account_username"]
 
-def get_mention_url_and_text(S,nb_of_mention):
+def get_mention_url_and_text(selenium_session,nb_of_mention):
     try:
         nb = 0
-        S.driver.get("https://twitter.com/notifications/mentions")
+        selenium_session.driver.get("https://twitter.com/notifications/mentions")
         run  = True
         list_of_mention_url = []
         big_list = []
@@ -44,11 +44,11 @@ def get_mention_url_and_text(S,nb_of_mention):
         account = ""
         while run:
             try:
-                element = WebDriverWait(S.driver, 15).until(
+                element = WebDriverWait(selenium_session.driver, 15).until(
                 EC.presence_of_element_located((By.CSS_SELECTOR, '[data-testid="tweet"]')))
-                tweets_info = S.driver.find_elements(By.CSS_SELECTOR, '[data-testid="tweet"]')
-                tweets_username = S.driver.find_elements(By.CSS_SELECTOR, '[data-testid="User-Name"]')
-                tweets_text = S.driver.find_elements(By.CSS_SELECTOR, '[data-testid="tweetText"]')
+                tweets_info = selenium_session.driver.find_elements(By.CSS_SELECTOR, '[data-testid="tweet"]')
+                tweets_username = selenium_session.driver.find_elements(By.CSS_SELECTOR, '[data-testid="User-Name"]')
+                tweets_text = selenium_session.driver.find_elements(By.CSS_SELECTOR, '[data-testid="tweetText"]')
                 last_tweet = tweets_info[len(tweets_info) - 1]
                 for tweet_info, tweet_username , tweet_text in zip(tweets_info, tweets_username,tweets_text):
                     if tweet_info not in selenium_data:
@@ -112,7 +112,7 @@ def get_mention_url_and_text(S,nb_of_mention):
                 big_list.append(last_tweet)
                 if are_last_x_elements_same(big_list,200) == True:
                     run = False
-                S.driver.execute_script("arguments[0].scrollIntoView();", last_tweet)
+                selenium_session.driver.execute_script("arguments[0].scrollIntoView();", last_tweet)
                 time.sleep(0.05)
             except Exception as e:
                 print("You don't have enough mention")
