@@ -19,6 +19,7 @@ class Scraper:
     options.add_argument('headless')
     options.add_argument("--log-level=3")  # Suppress all logging levels
     language_code = "en"  # Specify the desired language code (e.g., "en" for English)
+    options.add_argument("--lang={}".format(language_code))
     driver = webdriver.Chrome(options=options)  # to open the chromedriver    
     driver.execute_script(f"document.documentElement.lang = '{language_code}';")
 
@@ -135,7 +136,7 @@ def accept_notification(S):
     
 def check_connection(S):
     try:
-        S.driver.set_page_load_timeout(10)
+        S.driver.set_page_load_timeout(30)
         S.driver.get("https://www.google.com/")
         return True
     except:
@@ -154,8 +155,14 @@ def print_file_info(path):
 def start_api():
     ELON_MUSK = 20
     ck = print_file_info("cookies.pkl")
+    with open("configuration.yml", "r") as file:
+        data = yaml.load(file, Loader=yaml.FullLoader)
     if len(str(ck)) > ELON_MUSK:
         S = Scraper()
+        username_info = data["account_username"]
+        print("Connection to" , username_info[0] , "account")
+        if check_connection(S) == False:
+            exit()
         S.driver.get("https://twitter.com/i/flow/login")
         
         cookies = pickle.load(open("cookies.pkl","rb"))
@@ -166,14 +173,13 @@ def start_api():
         print("Already Connected Nice")
         return (S)
     else:
-        with open("configuration.yml", "r") as file:
-            data = yaml.load(file, Loader=yaml.FullLoader)
-        
         username_info = data["account_username"]
         password_info = data["account_password"]
         
         S = Scraper()
         print("Connection to" , username_info[0] , "account")
+        if check_connection(S) == False:
+            exit()
         login(S,username_info[0],password_info[0])
         time.sleep(S.wait_time)
         if check_login_good(S) == False:

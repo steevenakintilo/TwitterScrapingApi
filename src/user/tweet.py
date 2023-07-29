@@ -12,7 +12,6 @@ from src.util.string import convert_string_to_date
 
 from src.util.list import are_last_x_elements_same , check_elem_on_a_list
 from src.user.type import *
-
 import time
 
 import traceback
@@ -81,7 +80,6 @@ def get_list_of_user_tweet_url(S,account,nb_of_tweet_to_search=100):
                         tweet_id = lower_data[0].replace("/","").replace(p,"")
                         tweet_link = "https://twitter.com/" + account + "/status/" + tweet_id
                         if tweet_id[len(tweet_id) - 1] in "0123456789": 
-                            dif = len(tweets_text) - len(tweets_info)        
                             get_like = str(str(str(tweet_info.get_property('outerHTML')).lower()).split("likes")[0]).split(" ")
                             get_like = get_like[len(get_like) - 2]
                             get_reply = str(str(str(tweet_info.get_property('outerHTML')).lower()).split("replies")[0]).split(" ")
@@ -100,14 +98,14 @@ def get_list_of_user_tweet_url(S,account,nb_of_tweet_to_search=100):
                                 get_like = get_rt[len(get_like) - 2]
                             if get_reply == ".5-.22.5-.5l19":
                                 get_reply = str(str(str(tweet_info.get_property('outerHTML')).lower()).split("reply")[0]).split(" ")
-                                get_reply = get_rt[len(get_reply) - 2]
+                                get_reply = get_reply[len(get_reply) - 2]
                             if get_like.isnumeric() == True:
                                 nb_of_like = parse_number(get_like)
                             if get_rt.isnumeric() == True:
                                 nb_of_rt = parse_number(get_rt)                            
                             if get_reply.isnumeric() == True:
                                 nb_of_reply = parse_number(get_reply)                            
-                            tweet_info_dict = {"username":account,"text":text_,"id":int(str(tweet_link.split("status/")[1]).replace("/photo/1","")),"url":tweet_link,"date":str(convert_string_to_date(get_date.replace(p,""))),"like":nb_of_like,"retweet":nb_of_rt,"reply":nb_of_reply}
+                            tweet_info_dict = {"username":account,"text":text_,"id":int(str(tweet_link.split("status/")[1]).replace("/photo/1","")),"url":tweet_link,"date":str(convert_string_to_date(get_date.replace(p,""))),"like":int(str(nb_of_like).replace(p,"")),"retweet":int(str(nb_of_rt).replace(p,"")),"reply":int(str(nb_of_reply).replace(p,""))}
                             data_list.append(tweet_info_dict)
                         selenium_data.append(tweet_info)
 
@@ -124,6 +122,8 @@ def get_list_of_user_tweet_url(S,account,nb_of_tweet_to_search=100):
                                 get_text = get_text[2:len(get_text)]
                                 text_list = [text.text.replace("\n"," ").lower() for text in tweets_text]
                                 text_ = check_elem_on_a_list(get_text,text_list)
+                                
+                                
                                 #print("tot " , str(tweet_text.text).replace("\n", " "))
                             
                             splinter = "href=" + p + "/"
@@ -151,10 +151,10 @@ def get_list_of_user_tweet_url(S,account,nb_of_tweet_to_search=100):
                                         get_rt = get_rt[len(get_rt) - 2]
                                     if get_like == ".5-.22.5-.5l19":
                                         get_like = str(str(str(tweet_info.get_property('outerHTML')).lower()).split("like")[0]).split(" ")
-                                        get_like = get_rt[len(get_like) - 2]        
+                                        get_like = get_like[len(get_like) - 2]        
                                     if get_reply == ".5-.22.5-.5l19":
                                         get_reply = str(str(str(tweet_info.get_property('outerHTML')).lower()).split("reply")[0]).split(" ")
-                                        get_reply = get_rt[len(get_reply) - 2]     
+                                        get_reply = get_reply[len(get_reply) - 2]     
                                     if get_like.isnumeric() == True:
                                         nb_of_like = parse_number(get_like)
                                     if get_rt.isnumeric() == True:
@@ -162,7 +162,7 @@ def get_list_of_user_tweet_url(S,account,nb_of_tweet_to_search=100):
                                     if get_reply.isnumeric() == True:
                                         nb_of_reply = parse_number(get_reply)                            
                                     
-                                    tweet_info_dict = {"username":account,"text":text_,"id":int(str(tweet_link.split("status/")[1]).replace("/photo/1","")),"url":tweet_link,"date":str(convert_string_to_date(get_date.replace(p,""))),"like":nb_of_like,"retweet":nb_of_rt,"reply":nb_of_reply}
+                                    tweet_info_dict = {"username":account,"text":text_,"id":int(str(tweet_link.split("status/")[1]).replace("/photo/1","")),"url":tweet_link,"date":str(convert_string_to_date(get_date.replace(p,""))),"like":int(str(nb_of_like).replace(p,"")),"retweet":int(str(nb_of_rt).replace(p,"")),"reply":int(str(nb_of_reply).replace(p,""))}
                                     data_list.append(tweet_info_dict)
                             selenium_data.append(tweet_info)
                             S.driver.execute_script("arguments[0].scrollIntoView();", last_tweet)
@@ -268,10 +268,10 @@ def get_list_of_user_retweet_url(S,account,nb_of_tweet_to_search=100):
                                     get_rt = get_rt[len(get_rt) - 2]
                                 if get_like == ".5-.22.5-.5l19":
                                     get_like = str(str(str(tweet_info.get_property('outerHTML')).lower()).split("like")[0]).split(" ")
-                                    get_like = get_rt[len(get_like) - 2]        
+                                    get_like = get_like[len(get_like) - 2]        
                                 if get_reply == ".5-.22.5-.5l19":
                                     get_reply = str(str(str(tweet_info.get_property('outerHTML')).lower()).split("reply")[0]).split(" ")
-                                    get_reply = get_rt[len(get_reply) - 2]     
+                                    get_reply = get_reply[len(get_reply) - 2]     
                                 if get_like.isnumeric() == True:
                                     nb_of_like = parse_number(get_like)
                                 if get_rt.isnumeric() == True:
@@ -279,7 +279,7 @@ def get_list_of_user_retweet_url(S,account,nb_of_tweet_to_search=100):
                                 if get_reply.isnumeric() == True:
                                     nb_of_reply = parse_number(get_reply)                            
                                 
-                                tweet_info_dict = {"username":user_to_check,"text":text_,"id":int(str(tweet_link.split("status/")[1]).replace("/photo/1","")),"url":tweet_link,"date":str(convert_string_to_date(get_date.replace(p,""))),"like":nb_of_like,"retweet":nb_of_rt,"reply":nb_of_reply}
+                                tweet_info_dict = {"username":user_to_check,"text":text_,"id":int(str(tweet_link.split("status/")[1]).replace("/photo/1","")),"url":tweet_link,"date":str(convert_string_to_date(get_date.replace(p,""))),"like":int(str(nb_of_like).replace(p,"")),"retweet":int(str(nb_of_rt).replace(p,"")),"reply":int(str(nb_of_reply).replace(p,""))}
                                 data_list.append(tweet_info_dict)
                         selenium_data.append(tweet_info)
                         S.driver.execute_script("arguments[0].scrollIntoView();", last_tweet)
@@ -289,7 +289,7 @@ def get_list_of_user_retweet_url(S,account,nb_of_tweet_to_search=100):
         
         if len(data_list) > nb_of_tweet_to_search:
             for i in range(0,nb_of_tweet_to_search):
-                list_of_tweet_url_.append(list_of_rt_url[i])
+                list_of_tweet_url_.append(data_list[i])
         
             return(list_of_tweet_url_)
         else:
@@ -352,7 +352,6 @@ def get_list_of_user_comment_url(S,account,nb_of_tweet_to_search=100):
                     try:
                         lower_data = str(tweet_info.get_property('outerHTML')).lower()
                         if "useravatar-container-"+account.lower() in lower_data and tweet_text.text.lower() in lower_data:
-                            print("yay")
                             text_ = tweet_text.text.replace("Show more","")
                             if "@" in text_:
                                 get_text = str(tweet_info.get_property('outerHTML')).lower().split("css-901oao css-16my406 r-poiln3 r-bcqeeo r-qvutc0")
@@ -388,10 +387,10 @@ def get_list_of_user_comment_url(S,account,nb_of_tweet_to_search=100):
                                         get_rt = get_rt[len(get_rt) - 2]
                                     if get_like == ".5-.22.5-.5l19":
                                         get_like = str(str(str(tweet_info.get_property('outerHTML')).lower()).split("like")[0]).split(" ")
-                                        get_like = get_rt[len(get_like) - 2]        
+                                        get_like = get_like[len(get_like) - 2]        
                                     if get_reply == ".5-.22.5-.5l19":
                                         get_reply = str(str(str(tweet_info.get_property('outerHTML')).lower()).split("reply")[0]).split(" ")
-                                        get_reply = get_rt[len(get_reply) - 2]     
+                                        get_reply = get_reply[len(get_reply) - 2]     
                                     if get_like.isnumeric() == True:
                                         nb_of_like = parse_number(get_like)
                                     if get_rt.isnumeric() == True:
@@ -399,7 +398,7 @@ def get_list_of_user_comment_url(S,account,nb_of_tweet_to_search=100):
                                     if get_reply.isnumeric() == True:
                                         nb_of_reply = parse_number(get_reply)                            
                                     
-                                    tweet_info_dict = {"username":account,"text":text_,"id":int(str(tweet_link.split("status/")[1]).replace("/photo/1","")),"url":tweet_link,"date":str(convert_string_to_date(get_date.replace(p,""))),"like":nb_of_like,"retweet":nb_of_rt,"reply":nb_of_reply}
+                                    tweet_info_dict = {"username":account,"text":text_,"id":int(str(tweet_link.split("status/")[1]).replace("/photo/1","")),"url":tweet_link,"date":str(convert_string_to_date(get_date.replace(p,""))),"like":int(str(nb_of_like).replace(p,"")),"retweet":int(str(nb_of_rt).replace(p,"")),"reply":int(str(nb_of_reply).replace(p,""))}
                                     data_list.append(tweet_info_dict)
                         selenium_data.append(tweet_info)
                         S.driver.execute_script("arguments[0].scrollIntoView();", last_tweet)
@@ -441,10 +440,10 @@ def get_list_of_user_comment_url(S,account,nb_of_tweet_to_search=100):
                                             get_rt = get_rt[len(get_rt) - 2]
                                         if get_like == ".5-.22.5-.5l19":
                                             get_like = str(str(str(tweet_info.get_property('outerHTML')).lower()).split("like")[0]).split(" ")
-                                            get_like = get_rt[len(get_like) - 2]        
+                                            get_like = get_like[len(get_like) - 2]        
                                         if get_reply == ".5-.22.5-.5l19":
                                             get_reply = str(str(str(tweet_info.get_property('outerHTML')).lower()).split("reply")[0]).split(" ")
-                                            get_reply = get_rt[len(get_reply) - 2]     
+                                            get_reply = get_reply[len(get_reply) - 2]     
                                         if get_like.isnumeric() == True:
                                             nb_of_like = parse_number(get_like)
                                         if get_rt.isnumeric() == True:
@@ -452,7 +451,7 @@ def get_list_of_user_comment_url(S,account,nb_of_tweet_to_search=100):
                                         if get_reply.isnumeric() == True:
                                             nb_of_reply = parse_number(get_reply)                            
                                         
-                                        tweet_info_dict = {"username":account,"text":text_,"id":int(str(tweet_link.split("status/")[1]).replace("/photo/1","")),"url":tweet_link,"date":str(convert_string_to_date(get_date.replace(p,""))),"like":nb_of_like,"retweet":nb_of_rt,"reply":nb_of_reply}
+                                        tweet_info_dict = {"username":account,"text":text_,"id":int(str(tweet_link.split("status/")[1]).replace("/photo/1","")),"url":tweet_link,"date":str(convert_string_to_date(get_date.replace(p,""))),"like":int(str(nb_of_like).replace(p,"")),"retweet":int(str(nb_of_rt).replace(p,"")),"reply":int(str(nb_of_reply).replace(p,""))}
                                         data_list.append(tweet_info_dict)
                                 selenium_data.append(tweet_info)
                             S.driver.execute_script("arguments[0].scrollIntoView();", last_tweet)
