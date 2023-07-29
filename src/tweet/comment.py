@@ -146,9 +146,6 @@ def comment_a_tweet_with_poll(S,url,text="",nb_of_choice=2,choice1_text="1",choi
         element = WebDriverWait(S.driver, 15).until(
         EC.presence_of_element_located((By.CSS_SELECTOR, '[data-testid="addPollChoice"]')))
         
-        for i in range(nb_of_choice - 2):
-            add_pool = S.driver.find_element(By.CSS_SELECTOR, '[data-testid="addPollChoice"]')
-            add_pool.click()
             
         if nb_of_choice == 2:
             choice1 = S.driver.find_element(By.NAME, "Choice1")
@@ -180,6 +177,10 @@ def comment_a_tweet_with_poll(S,url,text="",nb_of_choice=2,choice1_text="1",choi
             act = ActionChains(S.driver)
             act.key_down(Keys.CONTROL).send_keys("v").key_up(Keys.CONTROL).perform()
 
+            for i in range(nb_of_choice - 2):
+                add_pool = S.driver.find_element(By.CSS_SELECTOR, '[data-testid="addPollChoice"]')
+                add_pool.click()
+            
             choice3 = S.driver.find_element(By.NAME, "Choice3")
             S.driver.execute_script("arguments[0].scrollIntoView();", choice3)
             choice3.click()
@@ -201,7 +202,11 @@ def comment_a_tweet_with_poll(S,url,text="",nb_of_choice=2,choice1_text="1",choi
             pyperclip.copy(choice2_text)
             act = ActionChains(S.driver)
             act.key_down(Keys.CONTROL).send_keys("v").key_up(Keys.CONTROL).perform()
-
+        
+            for i in range(nb_of_choice - 2):
+                add_pool = S.driver.find_element(By.CSS_SELECTOR, '[data-testid="addPollChoice"]')
+                add_pool.click()
+            
             choice3 = S.driver.find_element(By.NAME, "Choice3")
             S.driver.execute_script("arguments[0].scrollIntoView();", choice3)
             choice3.click()

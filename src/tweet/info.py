@@ -92,6 +92,5 @@ def get_tweet_info(S,url):
             print("Tweet don't exist , info error")
         else: 
             print("Tweet info error")
-        traceback.print_exc()
         return (tweet_info_dict)
 

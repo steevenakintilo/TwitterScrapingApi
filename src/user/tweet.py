@@ -16,7 +16,7 @@ import time
 
 import traceback
 
-def get_list_of_user_tweet_url(S,account,nb_of_tweet_to_search=100):
+def get_list_of_user_tweet(S,account,nb_of_tweet_to_search=100):
     try:
         account = account.replace("@","")
         nb = 0
@@ -190,7 +190,7 @@ def get_list_of_user_tweet_url(S,account,nb_of_tweet_to_search=100):
             print("Error feetching " + account + " tweet")
         return(data_list)
 
-def get_list_of_user_retweet_url(S,account,nb_of_tweet_to_search=100):
+def get_list_of_user_retweet(S,account,nb_of_tweet_to_search=100):
     try:
         account = account.replace("@","")
         nb = 0
@@ -303,10 +303,9 @@ def get_list_of_user_retweet_url(S,account,nb_of_tweet_to_search=100):
             print("Account is blocking you error feetching " + account + " retweet")
         else:
             print("Error feetching " + account + " retweet")
-        traceback.print_exc()
         return(data_list)
 
-def get_list_of_user_comment_url(S,account,nb_of_tweet_to_search=100):
+def get_list_of_user_comment(S,account,nb_of_tweet_to_search=100):
     try:
         account = account.replace("@","")
         final_list_url = []

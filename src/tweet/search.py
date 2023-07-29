@@ -190,5 +190,4 @@ def search_tweet(S,query="hello",mode="recent",nb_of_tweet_to_search=10):
             return (data_list)
     except Exception as e:
         print("Error searching " + query + " tweet")
-        traceback.print_exc()
         return(data_list)

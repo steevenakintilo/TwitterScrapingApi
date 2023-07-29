@@ -17,7 +17,7 @@ import time
 
 import traceback
 
-def get_list_of_homepage_tweet_url(S,nb_of_tweet_to_search):
+def get_list_of_homepage_tweet(S,nb_of_tweet_to_search):
     try:
         nb = 0
         S.driver.get("https://twitter.com/home")
