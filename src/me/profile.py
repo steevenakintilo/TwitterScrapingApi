@@ -26,7 +26,7 @@ def change_bio(selenium_session,text):
         time.sleep(0.5)
         save_input = selenium_session.driver.find_element(By.CSS_SELECTOR,'[data-testid="Profile_Save_Button"]')
         save_input.click()
-        
+        time.sleep(1.5)
         return True
     except Exception as e:
         print("Error while changing bio")
@@ -51,7 +51,7 @@ def change_name(selenium_session,text):
         time.sleep(0.5)
         save_input = selenium_session.driver.find_element(By.CSS_SELECTOR,'[data-testid="Profile_Save_Button"]')
         save_input.click()
-        
+        time.sleep(1.5)
         return True
         
     except Exception as e:
@@ -77,7 +77,7 @@ def change_location(selenium_session,text):
         time.sleep(0.5)
         save_input = selenium_session.driver.find_element(By.CSS_SELECTOR,'[data-testid="Profile_Save_Button"]')
         save_input.click()
-        
+        time.sleep(1.5)
         return True
     except Exception as e:
         print("Error while changing location")
@@ -102,7 +102,7 @@ def change_url(selenium_session,text):
         time.sleep(0.5)
         save_input = selenium_session.driver.find_element(By.CSS_SELECTOR,'[data-testid="Profile_Save_Button"]')
         save_input.click()
-        
+        time.sleep(1.5)
         return True
     except Exception as e:
         print("Error while changing url")
@@ -130,9 +130,10 @@ def change_profile_picture(selenium_session,filepath):
     except Exception as e:
         if "File not found" in str(e):
             print("Can't change profile picture file not found")
+        elif "unknown error: path is not absolute:" in str(e):
+            print("You need to put full path of the picture")
         else:
             print("Error while changing profile picture")
-        
         return False
 
 
@@ -156,6 +157,8 @@ def change_banner(selenium_session,filepath):
     except Exception as e:
         if "File not found" in str(e):
             print("Can't change banner file not found")
+        elif "unknown error: path is not absolute:" in str(e):
+            print("You need to put full path of the picture")
         else:
             print("Error while changing banner")
         
