@@ -12,7 +12,7 @@ from src.user.type import *
 
 import pyperclip
 
-def dm_user(selenium_session,user,text):
+def dm_an_user(selenium_session,user,text):
     try:
         selenium_session.driver.get("https://twitter.com/"+user)
         try:
@@ -20,7 +20,7 @@ def dm_user(selenium_session,user,text):
             EC.presence_of_element_located((By.CSS_SELECTOR, '[data-testid="sendDMFromProfile"]')))
         except:
             print("You can't dm the user")
-            return("")
+            return(False)
         if len(text) == 0:
             text = "."
         dm_button = selenium_session.driver.find_element(By.CSS_SELECTOR,'[data-testid="sendDMFromProfile"]')
@@ -36,7 +36,7 @@ def dm_user(selenium_session,user,text):
         pyperclip.copy(text)
         act = ActionChains(selenium_session.driver)
         act.key_down(Keys.CONTROL).send_keys("v").key_up(Keys.CONTROL).perform()
-
+        
         send_dm = selenium_session.driver.find_element(By.CSS_SELECTOR,'[data-testid="dmComposerSendButton"]')
         send_dm.click()
         time.sleep(0.5)
@@ -50,6 +50,5 @@ def dm_user(selenium_session,user,text):
         elif is_account_blocking_you(selenium_session,user) == True:
             print("Account is blocking you DM error")
         else:
-            print("DM error or you don't have twitter blue")
-    
+            print("DM error or you don't have twitter blue")    
         return False
