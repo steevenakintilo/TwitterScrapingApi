@@ -18,7 +18,7 @@ with open("configuration.yml", "r") as file:
         
 username_info = data["account_username"]
 
-def get_mention_url_and_text(selenium_session,nb_of_mention):
+def get_mention(selenium_session,nb_of_mention=25):
     try:
         nb = 0
         selenium_session.driver.get("https://twitter.com/notifications/mentions")
@@ -42,6 +42,8 @@ def get_mention_url_and_text(selenium_session,nb_of_mention):
         "reply":0,}
         p = '"'
         account = ""
+        if nb_of_mention > 100:
+            nb_of_mention = 100
         while run:
             try:
                 element = WebDriverWait(selenium_session.driver, 15).until(
