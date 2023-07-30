@@ -12,6 +12,14 @@ def block_an_user(selenium_session,user):
     try:
         selenium_session.driver.get("https://twitter.com/"+user)
         element = WebDriverWait(selenium_session.driver, 15).until(
+        EC.presence_of_element_located((By.CSS_SELECTOR, '[data-testid="placementTracking"]')))
+
+        check_if_block = selenium_session.driver.find_element(By.CSS_SELECTOR, '[data-testid="placementTracking"]')
+        if check_if_block.text == "Blocked":
+            print("The user is already blocked")
+            return True
+        
+        element = WebDriverWait(selenium_session.driver, 15).until(
         EC.presence_of_element_located((By.CSS_SELECTOR, '[data-testid="userActions"]')))
 
         user_option = selenium_session.driver.find_element(By.CSS_SELECTOR, '[data-testid="userActions"]')
@@ -47,6 +55,15 @@ def block_an_user(selenium_session,user):
 def unblock_an_user(selenium_session,user):
     try:
         selenium_session.driver.get("https://twitter.com/"+user)
+        
+        element = WebDriverWait(selenium_session.driver, 15).until(
+        EC.presence_of_element_located((By.CSS_SELECTOR, '[data-testid="placementTracking"]')))
+
+        check_if_block = selenium_session.driver.find_element(By.CSS_SELECTOR, '[data-testid="placementTracking"]')
+        if check_if_block.text == "Follow":
+            print("The user is already unblocked")
+            return True
+
         element = WebDriverWait(selenium_session.driver, 15).until(
         EC.presence_of_element_located((By.CSS_SELECTOR, '[data-testid="userActions"]')))
 
