@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><link rel="canonical" href="https://TwitterScrapingApi.com/code/me/" />
+      <link rel="shortcut icon" href="../../img/favicon.ico" />
+    <title>Me - TwitterScrapingApi</title>
+    <link rel="stylesheet" href="../../css/theme.css" />
+    <link rel="stylesheet" href="../../css/theme_extra.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
+    
+      <script>
+        // Current page data
+        var mkdocs_page_name = "Me";
+        var mkdocs_page_input_path = "code\\me.md";
+        var mkdocs_page_url = "/code/me/";
+      </script>
+    
+    <!--[if lt IE 9]>
+      <script src="../../js/html5shiv.min.js"></script>
+    <![endif]-->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+      <script>hljs.highlightAll();</script> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+          <a href="../.." class="icon icon-home"> TwitterScrapingApi
+        </a><div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+      <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../..">Home</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../../installation/">Installaion</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../../function/">Functions</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../../example/">Example</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../../about/">About</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../../question/">Question</a>
+                </li>
+              </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../..">TwitterScrapingApi</a>
+        
+      </nav>
+      <div class="wy-nav-content">
+        <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../.." class="icon icon-home" aria-label="Docs"></a> &raquo;</li>
+      <li class="breadcrumb-item active">Me</li>
+    <li class="wy-breadcrumbs-aside">
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div class="section" itemprop="articleBody">
+              
+                <h1 id="me">Me</h1>
+<pre><code class="language-python">def block_an_user(selenium_session,user):
+</code></pre>
+<ul>
+<li>
+<p><strong>Explanation</strong></p>
+<ul>
+<li>This function will block an user</li>
+</ul>
+</li>
+<li>
+<p><strong>Parameters:</strong></p>
+<ul>
+<li><strong>selenium_session</strong> -selenium browser</li>
+<li><strong>user</strong> -user to be blocked</li>
+</ul>
+</li>
+<li>
+<p><strong>Return:</strong></p>
+<ul>
+<li>True if the blocking succed</li>
+<li>False if it failed</li>
+</ul>
+</li>
+</ul>
+<pre><code class="language-python">def unblock_an_user(selenium_session,user):
+</code></pre>
+<ul>
+<li>
+<p><strong>Explanation</strong></p>
+<ul>
+<li>This function will unblock an user</li>
+</ul>
+</li>
+<li>
+<p><strong>Parameters:</strong></p>
+<ul>
+<li><strong>selenium_session</strong> -selenium browser</li>
+<li><strong>user</strong> -user to be blocked</li>
+</ul>
+</li>
+<li>
+<p><strong>Return:</strong></p>
+<ul>
+<li>True if the blocking succed</li>
+<li>False if it failed</li>
+</ul>
+</li>
+</ul>
+<pre><code class="language-python">def dm_an_user(selenium_session,user,text):
+</code></pre>
+<ul>
+<li>
+<p><strong>Explanation</strong></p>
+<ul>
+<li>This function will dm an user with a certain text</li>
+</ul>
+</li>
+<li>
+<p><strong>Parameters:</strong></p>
+<ul>
+<li><strong>selenium_session</strong> -selenium browser</li>
+<li><strong>user</strong> -user to be dm</li>
+<li><strong>text</strong> -text to be send</li>
+</ul>
+</li>
+<li>
+<p><strong>Return:</strong></p>
+<ul>
+<li>True if the dm succed</li>
+<li>False if it failed</li>
+</ul>
+</li>
+</ul>
+<pre><code class="language-python">def get_list_of_my_followers(selenium_session):
+</code></pre>
+<ul>
+<li>
+<p><strong>Explanation</strong></p>
+<ul>
+<li>This function will list all the followers of your account</li>
+</ul>
+</li>
+<li>
+<p><strong>Parameters:</strong></p>
+<ul>
+<li><strong>selenium_session</strong> -selenium browser</li>
+</ul>
+</li>
+<li>
+<p><strong>Return:</strong></p>
+<ul>
+<li>Return a list of all your followers if it's succed</li>
+<li>Return a list of almost all your followers if it's succed but failed sometimes during the process</li>
+<li>Return an empty list if the function 100% failed</li>
+</ul>
+</li>
+</ul>
+<pre><code class="language-python">def get_list_of_my_following(selenium_session):
+</code></pre>
+<ul>
+<li>
+<p><strong>Explanation</strong></p>
+<ul>
+<li>This function will list all the followings of your account</li>
+</ul>
+</li>
+<li>
+<p><strong>Parameters:</strong></p>
+<ul>
+<li><strong>selenium_session</strong> -selenium browser</li>
+</ul>
+</li>
+<li>
+<p><strong>Return:</strong></p>
+<ul>
+<li>Return a list of all your followingss if it's succed</li>
+<li>Return a list of almost all your followings if it's succed but failed sometimes during the process</li>
+<li>Return an empty list if the function 100% failed</li>
+</ul>
+</li>
+</ul>
+<pre><code class="language-python">def get_list_of_homepage_tweet(selenium_session,nb_of_tweet_to_search=25):
+</code></pre>
+<ul>
+<li>
+<p><strong>Explanation</strong></p>
+<ul>
+<li>This function will get a list of information about my last x homepage tweet</li>
+</ul>
+</li>
+<li>
+<p><strong>Parameters:</strong></p>
+<ul>
+<li><strong>selenium_session</strong> -selenium browser</li>
+<li><strong>nb_of_tweet_to_search</strong> -number of tweet to retrieve (the maximum number of tweet you can search is up to 100 to avoid tweet search limitations)</li>
+</ul>
+</li>
+<li>
+<p><strong>Return:</strong></p>
+<ul>
+<li>If it succed a list of dictionaries for each tweet retrieved each one have the username of the tweet ,the text of the tweet, the id of the tweet, the url of the tweet, the date of the tweet, the number of like of the tweet, the number of retweet of the tweet and the number of reply</li>
+<li>If it failed it return an empty list</li>
+</ul>
+</li>
+</ul>
+<pre><code class="language-python">def get_mention(selenium_session,nb_of_mention=25):
+</code></pre>
+<ul>
+<li>
+<p><strong>Explanation</strong></p>
+<ul>
+<li>This function will retrieve your last x mention</li>
+</ul>
+</li>
+<li>
+<p><strong>Parameters:</strong></p>
+<ul>
+<li><strong>selenium_session</strong> -selenium browser</li>
+<li><strong>nb_of_mention</strong> -number of mention to retrieve (the maximum number of mention you can search is up to 100 to avoid limitation)</li>
+</ul>
+</li>
+<li>
+<p><strong>Return:</strong></p>
+<ul>
+<li>If it succed a list of dictionaries for each mention retrieved each one have the username of the mention ,the text of the mention, the id of the mention, the url of the mention, the date of the mention, the number of like of the mention, the number of retweet of the mention and the number of reply</li>
+<li>If it failed it return an empty list</li>
+</ul>
+</li>
+</ul>
+<pre><code class="language-python">def change_bio(selenium_session,text):
+</code></pre>
+<ul>
+<li>
+<p><strong>Explanation</strong></p>
+<ul>
+<li>This function will change your twitter bio</li>
+</ul>
+</li>
+<li>
+<p><strong>Parameters:</strong></p>
+<ul>
+<li><strong>selenium_session</strong> -selenium browser</li>
+<li><strong>text</strong> -text that will be your new bio</li>
+</ul>
+</li>
+<li>
+<p><strong>Return:</strong></p>
+<ul>
+<li>Return True if it succed</li>
+<li>Return False if it failed</li>
+</ul>
+</li>
+</ul>
+<pre><code class="language-python">def change_name(selenium_session,text):
+</code></pre>
+<ul>
+<li>
+<p><strong>Explanation</strong></p>
+<ul>
+<li>This function will change your twitter name</li>
+</ul>
+</li>
+<li>
+<p><strong>Parameters:</strong></p>
+<ul>
+<li><strong>selenium_session</strong> -selenium browser</li>
+<li><strong>text</strong> -text that will be your new name</li>
+</ul>
+</li>
+<li>
+<p><strong>Return:</strong></p>
+<ul>
+<li>Return True if it succed</li>
+<li>Return False if it failed</li>
+</ul>
+</li>
+</ul>
+<pre><code class="language-python">def change_location(selenium_session,text):
+</code></pre>
+<ul>
+<li>
+<p><strong>Explanation</strong></p>
+<ul>
+<li>This function will change your twitter location</li>
+</ul>
+</li>
+<li>
+<p><strong>Parameters:</strong></p>
+<ul>
+<li><strong>selenium_session</strong> -selenium browser</li>
+<li><strong>text</strong> -text that will be your new location</li>
+</ul>
+</li>
+<li>
+<p><strong>Return:</strong></p>
+<ul>
+<li>Return True if it succed</li>
+<li>Return False if it failed</li>
+</ul>
+</li>
+</ul>
+<pre><code class="language-python">def change_url(selenium_session,text):
+</code></pre>
+<ul>
+<li>
+<p><strong>Explanation</strong></p>
+<ul>
+<li>This function will change your twitter url</li>
+</ul>
+</li>
+<li>
+<p><strong>Parameters:</strong></p>
+<ul>
+<li><strong>selenium_session</strong> -selenium browser</li>
+<li><strong>text</strong> -text that will be your new url</li>
+</ul>
+</li>
+<li>
+<p><strong>Return:</strong></p>
+<ul>
+<li>Return True if it succed</li>
+<li>Return False if it failed</li>
+</ul>
+</li>
+</ul>
+<pre><code class="language-python">def change_profile_picture(selenium_session,filepath):
+</code></pre>
+<ul>
+<li>
+<p><strong>Explanation</strong></p>
+<ul>
+<li>This function will change your twitter profile picture</li>
+</ul>
+</li>
+<li>
+<p><strong>Parameters:</strong></p>
+<ul>
+<li><strong>selenium_session</strong> -selenium browser</li>
+<li><strong>filepath</strong> -filepath to the picture to be set as your new profile picture</li>
+</ul>
+</li>
+<li>
+<p><strong>Return:</strong></p>
+<ul>
+<li>Return True if it succed</li>
+<li>Return False if it failed</li>
+</ul>
+</li>
+</ul>
+<pre><code class="language-python">def change_profile_banner(selenium_session,filepath):
+</code></pre>
+<ul>
+<li>
+<p><strong>Explanation</strong></p>
+<ul>
+<li>This function will change your twitter banner</li>
+</ul>
+</li>
+<li>
+<p><strong>Parameters:</strong></p>
+<ul>
+<li><strong>selenium_session</strong> -selenium browser</li>
+<li><strong>filepath</strong> -filepath to the picture to be set as your new banner</li>
+</ul>
+</li>
+<li>
+<p><strong>Return:</strong></p>
+<ul>
+<li>Return True if it succed</li>
+<li>Return False if it failed</li>
+</ul>
+</li>
+</ul>
+              
+            </div>
+          </div><footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+          
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="Versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+    
+    
+  </span>
+</div>
+    <script src="../../js/jquery-3.6.0.min.js"></script>
+    <script>var base_url = "../..";</script>
+    <script src="../../js/theme_extra.js"></script>
+    <script src="../../js/theme.js"></script>
+      <script src="../../search/main.js"></script>
+    <script>
+        jQuery(function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        });
+    </script>
+
+</body>
+</html>
