@@ -58,12 +58,16 @@ def get_tweet_info(selenium_session,url):
         
         tweet_data = str(_tweet_data[pos].text).split("\n")
         tweet_text = str(_tweet_text[pos].text)
-
+        
         try:
             tweet_date = str(str(tweet_data).split("Translate Tweet")[1]).split(",")[1] + str(str(tweet_data).split("Translate Tweet")[1]).split(",")[2] 
+            if "PM" not in tweet_date and "AM" not in tweet_date:
+                tweet_date = get_elems_from_list(tweet_data,"AM","PM")
         except:
             try:
                 tweet_date = str(str(tweet_data).split(tweet_text)[1]).split(",")[1] + str(str(tweet_data).split(tweet_text)[1]).split(",")[2]
+                if "PM" not in tweet_date and "AM" not in tweet_date:
+                    tweet_date = get_elems_from_list(tweet_data,"AM","PM")
             except:
                 tweet_date = get_elems_from_list(tweet_data,"AM","PM")
         if "Likes" in str(tweet_data):

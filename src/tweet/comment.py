@@ -13,7 +13,9 @@ from src.tweet.info import is_tweet_exist
 import pyperclip
 import traceback
 
-def comment_a_tweet(selenium_session,url,text="",media=False,filepath=""):
+from src.util.string import get_absolute_picture_path
+
+def comment_a_tweet(selenium_session,url,text=""):
 
     try:
         if len(text) == 0:
@@ -47,10 +49,6 @@ def comment_a_tweet(selenium_session,url,text="",media=False,filepath=""):
         pyperclip.copy(text)
         act = ActionChains(selenium_session.driver)
         act.key_down(Keys.CONTROL).send_keys("v").key_up(Keys.CONTROL).perform()
-
-        if media == True:
-            file_input = selenium_session.driver.find_element(By.XPATH,"//input[@type='file']")
-            file_input.send_keys(filepath)
         
         time.sleep(1.5)
         element = WebDriverWait(selenium_session.driver, 15).until(
@@ -66,6 +64,71 @@ def comment_a_tweet(selenium_session,url,text="",media=False,filepath=""):
     except Exception as e:
         if "File not found" in str(e):
             print("Can't comment tweet file not found,comment error")
+        elif is_tweet_exist(selenium_session,url) == False:
+            print("Tweet don't exist , comment error")
+        else:
+            print("comment error")
+        
+        return False
+
+
+def comment_a_tweet_with_media(selenium_session,url,text="",filepath="",type="picture"):
+
+    try:
+        filepath = get_absolute_picture_path(filepath)
+        if len(text) == 0:
+            text = "."
+        if len(text) == 0 or len(text) > 280:
+            text = text[0:279]
+        selenium_session.driver.get(url)
+        
+        pos = 0
+        element = WebDriverWait(selenium_session.driver, 15).until(
+        EC.presence_of_element_located((By.CSS_SELECTOR, '[data-testid="cellInnerDiv"]')))
+        
+        tweet_info = selenium_session.driver.find_elements(By.CSS_SELECTOR, '[data-testid="cellInnerDiv"]')
+        for i in range(len(tweet_info)):
+            r = tweet_info[i]
+            if url.split("twitter.com")[1] in str(r.get_attribute("outerHTML")):
+                pos = i
+                break
+        
+        element = WebDriverWait(selenium_session.driver, 15).until(
+        EC.presence_of_element_located((By.CSS_SELECTOR, '[data-testid="reply"]')))
+        comment_button = selenium_session.driver.find_elements(By.CSS_SELECTOR, '[data-testid="reply"]')
+        comment_button[pos].click()
+        time.sleep(1.5)
+        element = WebDriverWait(selenium_session.driver, 15).until(
+        EC.presence_of_element_located((By.CSS_SELECTOR, '[data-testid="tweetTextarea_0"]')))
+        textbox = selenium_session.driver.find_element(By.CSS_SELECTOR, '[data-testid="tweetTextarea_0"]')
+        selenium_session.driver.execute_script("arguments[0].scrollIntoView();", textbox)
+        textbox.click()
+        
+        pyperclip.copy(text)
+        act = ActionChains(selenium_session.driver)
+        act.key_down(Keys.CONTROL).send_keys("v").key_up(Keys.CONTROL).perform()
+
+        file_input = selenium_session.driver.find_element(By.XPATH,"//input[@type='file']")
+        file_input.send_keys(filepath)
+        
+        time.sleep(1.5)
+        element = WebDriverWait(selenium_session.driver, 15).until(
+        EC.presence_of_element_located((By.CSS_SELECTOR, '[data-testid="tweetButton"]')))
+        wait = WebDriverWait(selenium_session.driver, 10)
+        target_element = wait.until(EC.element_to_be_clickable((By.CSS_SELECTOR, '[data-testid="tweetButton"]')))
+        selenium_session.driver.execute_script("arguments[0].scrollIntoView();", target_element)
+        if type == "video":
+            time.sleep(60)
+        target_element.click()
+        if type == "video":
+            time.sleep(30)
+        time.sleep(1.5)
+        
+        return True
+    
+    except Exception as e:
+        if "File not found" in str(e):
+            print("Can't comment tweet file not found,comment error")
         elif "Message: invalid argument: 'text' is empty" in str(e):
             print("Media set to true nbut no media added,comment error")
         elif is_tweet_exist(selenium_session,url) == False:
@@ -74,7 +137,7 @@ def comment_a_tweet(selenium_session,url,text="",media=False,filepath=""):
             print("comment error")
         
         return False
-         
+
 def comment_a_tweet_with_poll(selenium_session,url,text="",nb_of_choice=2,choice1_text="1",choice2_text="2",choice3_text="3",choice4_text="4",days=1,hours=0,minutes=0):
     try:
         if len(text) == 0:
@@ -292,7 +355,7 @@ def comment_a_tweet_with_poll(selenium_session,url,text="",nb_of_choice=2,choice
             print("Tweet don't exist , comment with pool error")
         else:
            print("Comment with pool error")
-
+        traceback.print_exc()
         return False
 
 def is_tweet_a_comment(selenium_session,url):
@@ -308,8 +371,8 @@ def is_tweet_a_comment(selenium_session,url):
                 pos = i
                 break
         if pos != 0:
-            return False
-        return True
+            return True
+        return False
     
     except Exception as e:
         if is_tweet_exist(selenium_session,url) == False:

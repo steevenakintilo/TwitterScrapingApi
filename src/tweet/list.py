@@ -34,7 +34,7 @@ def get_list_of_user_who_like_a_tweet(selenium_session,url,nb_of_like):
                 tweets_username = selenium_session.driver.find_elements(By.CSS_SELECTOR, '[data-testid="UserCell"]')
                 last_user = tweets_username[len(tweets_username) - 1]
                 for tweet_username in tweets_username:
-                    if are_last_x_elements_same(list_len,100) == True:
+                    if are_last_x_elements_same(list_len,200) == True:
                         run = False
                     list_len.append(len(list_of_user))
                     if tweet_username not in selenium_data:
@@ -82,7 +82,7 @@ def get_list_of_user_who_retweet_a_tweet(selenium_session,url,nb_of_rt):
                 tweets_username = selenium_session.driver.find_elements(By.CSS_SELECTOR, '[data-testid="UserCell"]')
                 last_user = tweets_username[len(tweets_username) - 1]
                 for tweet_username in tweets_username:
-                    if are_last_x_elements_same(list_len,100) == True:
+                    if are_last_x_elements_same(list_len,200) == True:
                         run = False
                     list_len.append(len(list_of_user))
                     if tweet_username not in selenium_data:
@@ -145,8 +145,13 @@ def get_list_of_quote_of_a_tweet(selenium_session,url,nb_of_quote):
                 tweets_username = selenium_session.driver.find_elements(By.CSS_SELECTOR, '[data-testid="User-Name"]')
                 tweets_text = selenium_session.driver.find_elements(By.CSS_SELECTOR, '[data-testid="tweetText"]')
                 last_tweet = tweets_info[len(tweets_info) - 1]
-                for tweet_info, tweet_username, tweet_text in zip(tweets_info, tweets_username,tweets_text):
-                    if are_last_x_elements_same(list_len,100) == True:
+                #for tweet_info, tweet_username, tweet_text in zip(tweets_info, tweets_username,tweets_text):
+                for i in range(len(tweets_info)):
+                    tweet_info = tweets_info[i]
+                    tweet_username = tweets_username[i]
+                    tweet_text = tweets_text[i]
+                    
+                    if are_last_x_elements_same(list_len,200) == True:
                         run = False
                     list_len.append(len(list_of_quote_url))
                     if tweet_info not in selenium_data:
@@ -164,7 +169,7 @@ def get_list_of_quote_of_a_tweet(selenium_session,url,nb_of_quote):
                                 text_ = check_elem_on_a_list(get_text,text_list)
                             
                             splinter = "href="+p+"/"+account+"/status"
-                            splinter = splinter.replace("\\","/")                    
+                            splinter = splinter.replace("\\","/")  
                             lower_data = lower_data.split(splinter)
                             lower_data = str(lower_data[1])
                             lower_data = lower_data.split(" ")
@@ -189,23 +194,26 @@ def get_list_of_quote_of_a_tweet(selenium_session,url,nb_of_quote):
                                         get_like = str(str(str(tweet_info.get_property('outerHTML')).lower()).split("like")[0]).split(" ")
                                         get_like = get_like[len(get_like) - 2]        
                                     if get_reply == ".5-.22.5-.5l19":
-                                        get_reply = str(str(str(tweet_info.get_property('outerHTML')).lower()).split("reply")[0]).split(" ")
-                                        get_reply = get_reply[len(get_reply) - 2]     
+                                        get_reply = str(str(str(tweet_info.get_property('outerHTML')).lower()).split("reply")[0]).split("=")
+                                        get_reply = get_reply[-1].replace(" ","").replace(p,"").strip()
+                
                                     if get_like.isnumeric() == True:
                                         nb_of_like = parse_number(get_like)
                                     if get_rt.isnumeric() == True:
                                         nb_of_rt = parse_number(get_rt)                                    
                                     if get_reply.isnumeric() == True:
                                         nb_of_reply = parse_number(get_reply)                            
-                                    
                                     tweet_info_dict = {"username":account,"text":text_,"id":int(str(tweet_link.split("status/")[1]).replace("/photo/1","")),"url":tweet_link,"date":str(convert_string_to_date(get_date.replace(p,""))),"like":int(str(nb_of_like).replace(p,"")),"retweet":int(str(nb_of_rt).replace(p,"")),"reply":int(str(nb_of_reply).replace(p,""))}
                                     data_list.append(tweet_info_dict)
                             selenium_data.append(tweet_info)
                             selenium_session.driver.execute_script("arguments[0].scrollIntoView();", last_tweet)
                             time.sleep(0.025)
-                        except:
-                            selenium_session.driver.execute_script("arguments[0].scrollIntoView();", last_tweet)
+                            print("pas caca " , len(data_list))
+                        except Exception as e:
                             time.sleep(0.1)
+                            nb = nb + 1
+                            print("caca " , nb)
+                            selenium_session.driver.execute_script("arguments[0].scrollIntoView();", last_tweet)
                         if len(data_list) >= nb_of_quote:
                             run = False
                             return(data_list)
@@ -215,7 +223,7 @@ def get_list_of_quote_of_a_tweet(selenium_session,url,nb_of_quote):
                         return(list_of_tweet_url_)
             
             except Exception as e:
-                return (data_list)
+                time.sleep(0.1)
         return(data_list)
     except Exception as e:
         if is_tweet_exist(selenium_session,url) == False:
@@ -224,7 +232,6 @@ def get_list_of_quote_of_a_tweet(selenium_session,url,nb_of_quote):
             print("Error feetching list of quote of this tweet")
         
         return(data_list)
-
 
 def get_list_of_comment_of_a_tweet(selenium_session,url,nb_of_comment=10):
     try:
@@ -252,8 +259,8 @@ def get_list_of_comment_of_a_tweet(selenium_session,url,nb_of_comment=10):
         p = '"'
         account = ""
         list_len = []
-        if nb_of_comment > 250:
-            nb_of_comment = 250
+        if nb_of_comment > 50:
+            nb_of_comment = 50
 
         while run:
             try:
@@ -264,7 +271,7 @@ def get_list_of_comment_of_a_tweet(selenium_session,url,nb_of_comment=10):
                 tweets_text = selenium_session.driver.find_elements(By.CSS_SELECTOR, '[data-testid="tweetText"]')
                 last_tweet = tweets_info[len(tweets_info) - 1]
                 for tweet_info, tweet_username, tweet_text in zip(tweets_info, tweets_username,tweets_text):
-                    if are_last_x_elements_same(list_len,500) == True:
+                    if are_last_x_elements_same(list_len,200) == True:
                         run = False
                     list_len.append(len(data_list))
                     if tweet_info not in selenium_data:

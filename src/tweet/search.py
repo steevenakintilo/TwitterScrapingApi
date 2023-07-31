@@ -30,7 +30,7 @@ def search_tweet(selenium_session,query="hello",mode="recent",nb_of_tweet_to_sea
     "retweet":0,
     "reply":0,}
     p = '"'
-    
+    nb = 0
     try:
         if mode == "top":
             selenium_session.driver.get("https://twitter.com/search?q="+query+"&src=typed_query&f=top")
@@ -69,7 +69,6 @@ def search_tweet(selenium_session,query="hello",mode="recent",nb_of_tweet_to_sea
                                 except:
                                     pass
                                 
-                            #text_list = [text.text.replace("\n"," ").lower() for text in tweets_text]
                             text_ = check_elem_on_a_list(get_text,text_list)
                             text_list = []
 
@@ -98,10 +97,10 @@ def search_tweet(selenium_session,query="hello",mode="recent",nb_of_tweet_to_sea
                                 get_rt = get_rt[len(get_rt) - 2]
                             if get_like == ".5-.22.5-.5l19":
                                 get_like = str(str(str(tweet_info.get_property('outerHTML')).lower()).split("like")[0]).split(" ")
-                                get_like = get_rt[len(get_like) - 2]
+                                get_like = get_like[len(get_like) - 2]        
                             if get_reply == ".5-.22.5-.5l19":
-                                get_reply = str(str(str(tweet_info.get_property('outerHTML')).lower()).split("reply")[0]).split(" ")
-                                get_reply = get_reply[len(get_reply) - 2]
+                                get_reply = str(str(str(tweet_info.get_property('outerHTML')).lower()).split("reply")[0]).split("=")
+                                get_reply = get_reply[-1].replace(" ","").replace(p,"").strip()
                             if get_like.isnumeric() == True:
                                 nb_of_like = parse_number(get_like)
                             if get_rt.isnumeric() == True:
@@ -112,7 +111,6 @@ def search_tweet(selenium_session,query="hello",mode="recent",nb_of_tweet_to_sea
                             data_list.append(tweet_info_dict)
                             #print("list len ", len(list_of_tweet_url))
                         selenium_data.append(tweet_info)
-                        
                         selenium_session.driver.execute_script("arguments[0].scrollIntoView();", last_tweet)
                         time.sleep(0.030)
                     except:
@@ -132,7 +130,6 @@ def search_tweet(selenium_session,query="hello",mode="recent",nb_of_tweet_to_sea
                                     except:
                                         pass
                                     
-                                #text_list = [text.text.replace("\n"," ").lower() for text in tweets_text]
                                 text_ = check_elem_on_a_list(get_text,text_list)
                                 text_list = []
                             
@@ -159,27 +156,28 @@ def search_tweet(selenium_session,query="hello",mode="recent",nb_of_tweet_to_sea
                                 get_rt = get_rt[len(get_rt) - 2]
                             if get_like == ".5-.22.5-.5l19":
                                 get_like = str(str(str(tweet_info.get_property('outerHTML')).lower()).split("like")[0]).split(" ")
-                                get_like = get_rt[len(get_like) - 2]
+                                get_like = get_like[len(get_like) - 2]        
                             if get_reply == ".5-.22.5-.5l19":
-                                get_reply = str(str(str(tweet_info.get_property('outerHTML')).lower()).split("reply")[0]).split(" ")
-                                get_reply = get_reply[len(get_reply) - 2]
+                                get_reply = str(str(str(tweet_info.get_property('outerHTML')).lower()).split("reply")[0]).split("=")
+                                get_reply = get_reply[-1].replace(" ","").replace(p,"").strip()
+        
                             if get_like.isnumeric() == True:
                                 nb_of_like = parse_number(get_like)
                             if get_rt.isnumeric() == True:
                                 nb_of_rt = parse_number(get_rt)                            
                             if get_reply.isnumeric() == True:
                                 nb_of_reply = parse_number(get_reply)                            
-                            tweet_info_dict = {"username":user,"text":text_,"id":int(str(tweet_link.split("status/")[1]).replace("/photo/1","")),"url":tweet_link,"date":str(convert_string_to_date(get_date.replace(p,""))),"like":int(str(nb_of_like).replace(p,"")),"retweet":int(str(nb_of_rt).replace(p,"")),"reply":int(str(nb_of_reply).replace(p,""))}
+                            tweet_info_dict = {"username":user,"text":text_,"id":int(str(tweet_link.split("status/")[1]).replace("/photo/1","").replace("/analytics","")),"url":tweet_link,"date":str(convert_string_to_date(get_date.replace(p,""))),"like":int(str(nb_of_like).replace(p,"")),"retweet":int(str(nb_of_rt).replace(p,"")),"reply":int(str(nb_of_reply).replace(p,""))}
                             data_list.append(tweet_info_dict)
                             list_of_tweet_url.append(tweet_link)
                         
                             selenium_data.append(tweet_info)                        
-                            
                             selenium_session.driver.execute_script("arguments[0].scrollIntoView();", last_tweet)
                             time.sleep(0.030)
                         except Exception as e:
                             time.sleep(0.1)
-        
+                            #if nb > 30:
+                                #traceback.print_exc()        
 
         if len(data_list) > nb_of_tweet_to_search:
             for i in range(0,nb_of_tweet_to_search):

@@ -6,6 +6,7 @@ from selenium.webdriver.common.by import By
 
 from src.util.num import *
 from src.util.list import *
+from src.util.string import get_absolute_picture_path
 
 import time
 import traceback
@@ -112,6 +113,7 @@ def change_url(selenium_session,text):
 
 def change_profile_picture(selenium_session,filepath):
     try:
+        filepath = get_absolute_picture_path(filepath)
         selenium_session.driver.get("https://twitter.com/settings/profile")
         element = WebDriverWait(selenium_session.driver, 15).until(
         EC.presence_of_element_located((By.CSS_SELECTOR,'[data-testid="fileInput"]')))
@@ -121,6 +123,7 @@ def change_profile_picture(selenium_session,filepath):
         file_input[1].send_keys(filepath)
         apply_btn = selenium_session.driver.find_element(By.CSS_SELECTOR,'[data-testid="applyButton"]')
         apply_btn.click()
+        time.sleep(2)
         save_input = selenium_session.driver.find_element(By.CSS_SELECTOR,'[data-testid="Profile_Save_Button"]')
         save_input.click()
         time.sleep(2)
@@ -130,8 +133,6 @@ def change_profile_picture(selenium_session,filepath):
     except Exception as e:
         if "File not found" in str(e):
             print("Can't change profile picture file not found")
-        elif "unknown error: path is not absolute:" in str(e):
-            print("You need to put full path of the picture")
         else:
             print("Error while changing profile picture")
         return False
@@ -139,6 +140,7 @@ def change_profile_picture(selenium_session,filepath):
 
 def change_banner(selenium_session,filepath):
     try:
+        filepath = get_absolute_picture_path(filepath)
         selenium_session.driver.get("https://twitter.com/settings/profile")
         element = WebDriverWait(selenium_session.driver, 15).until(
         EC.presence_of_element_located((By.CSS_SELECTOR,'[data-testid="fileInput"]')))
@@ -148,6 +150,7 @@ def change_banner(selenium_session,filepath):
         file_input[0].send_keys(filepath)
         apply_btn = selenium_session.driver.find_element(By.CSS_SELECTOR,'[data-testid="applyButton"]')
         apply_btn.click()
+        time.sleep(2)
         save_input = selenium_session.driver.find_element(By.CSS_SELECTOR,'[data-testid="Profile_Save_Button"]')
         save_input.click()
         time.sleep(2)
@@ -157,8 +160,6 @@ def change_banner(selenium_session,filepath):
     except Exception as e:
         if "File not found" in str(e):
             print("Can't change banner file not found")
-        elif "unknown error: path is not absolute:" in str(e):
-            print("You need to put full path of the picture")
         else:
             print("Error while changing banner")
         

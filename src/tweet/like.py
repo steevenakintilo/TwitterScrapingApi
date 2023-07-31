@@ -29,7 +29,6 @@ def like_a_tweet(selenium_session,url):
         liked_or_not = like_button[pos].get_attribute("aria-label")
         if "liked" not in liked_or_not.lower():
             like_button[pos].click()
-        
             return True
         else:
             print("Tweet was already like")
@@ -90,4 +89,5 @@ def check_if_tweet_liked(selenium_session,url):
             return True
     except Exception as e:
         print("Like error")
+        return False
         

@@ -53,6 +53,8 @@ def get_mention(selenium_session,nb_of_mention=25):
                 tweets_text = selenium_session.driver.find_elements(By.CSS_SELECTOR, '[data-testid="tweetText"]')
                 last_tweet = tweets_info[len(tweets_info) - 1]
                 for tweet_info, tweet_username , tweet_text in zip(tweets_info, tweets_username,tweets_text):
+                    list_len.append(len(data_list))
+                    
                     if tweet_info not in selenium_data:
                         account = str(str(tweet_username.text).split("\n")[1]).replace("@","")
                         account = str(account).lower()

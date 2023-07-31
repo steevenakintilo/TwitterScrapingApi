@@ -10,14 +10,16 @@ import pyperclip
 from src.util.string import *
 import time
 
+from src.util.string import get_absolute_picture_path
 import traceback
 
-def make_a_tweet(selenium_session,text="",media=False,filepath=""):
+def make_a_tweet(selenium_session,text=""):
     try:
-        if len(text) == 0 or len(text) > 240:
-            print("Text lenght must be between 1 and 240")
-            return ("")
-
+        if len(text) == 0:
+            text = "."
+        if len(text) == 0 or len(text) > 280:
+            text = text[0:279]
+        
         selenium_session.driver.get("https://twitter.com/compose/tweet")
         time.sleep(1.5)
         
@@ -32,10 +34,6 @@ def make_a_tweet(selenium_session,text="",media=False,filepath=""):
         act = ActionChains(selenium_session.driver)
         act.key_down(Keys.CONTROL).send_keys("v").key_up(Keys.CONTROL).perform()
 
-        if media == True:
-            file_input = selenium_session.driver.find_element(By.XPATH,"//input[@type='file']")
-            file_input.send_keys(filepath)
-        
         time.sleep(1.5)
         
         element = WebDriverWait(selenium_session.driver, 15).until(
@@ -47,6 +45,53 @@ def make_a_tweet(selenium_session,text="",media=False,filepath=""):
         selenium_session.driver.execute_script("arguments[0].scrollIntoView();", target_element)
 
         target_element.click()
+        time.sleep(1.5)
+        
+    except Exception as e:
+        print("tweet error")
+
+def make_a_tweet_with_media(selenium_session,text="",filepath="",type="picture"):
+    try:
+        filepath = get_absolute_picture_path(filepath)
+        if len(text) == 0:
+            text = "."
+        if len(text) == 0 or len(text) > 280:
+            text = text[0:279]
+        
+        selenium_session.driver.get("https://twitter.com/compose/tweet")
+        time.sleep(1.5)
+        
+        element = WebDriverWait(selenium_session.driver, 15).until(
+        EC.presence_of_element_located((By.CSS_SELECTOR, '[data-testid="tweetTextarea_0"]')))
+        
+        textbox = selenium_session.driver.find_element(By.CSS_SELECTOR, '[data-testid="tweetTextarea_0"]')
+        textbox.click()
+        time.sleep(1.5)
+                
+        pyperclip.copy(text)
+        act = ActionChains(selenium_session.driver)
+        act.key_down(Keys.CONTROL).send_keys("v").key_up(Keys.CONTROL).perform()
+
+        file_input = selenium_session.driver.find_element(By.XPATH,"//input[@type='file']")
+        file_input.send_keys(filepath)
+        
+        time.sleep(1.5)
+        
+        element = WebDriverWait(selenium_session.driver, 15).until(
+        EC.presence_of_element_located((By.CSS_SELECTOR, '[data-testid="tweetButton"]')))
+
+        wait = WebDriverWait(selenium_session.driver, 10)
+        target_element = wait.until(EC.element_to_be_clickable((By.CSS_SELECTOR, '[data-testid="tweetButton"]')))
+
+        selenium_session.driver.execute_script("arguments[0].scrollIntoView();", target_element)
+        
+        if type == "video":
+            time.sleep(60)
+        target_element.click()
+        if type == "video":
+            time.sleep(30)
+        time.sleep(1.5)
+        
         time.sleep(1.5)
         
     except Exception as e:
@@ -287,7 +332,7 @@ def delete_a_tweet(selenium_session,url):
             element = WebDriverWait(selenium_session.driver, 15).until(
             EC.presence_of_element_located((By.CSS_SELECTOR, '[data-testid="confirmationSheetConfirm"]')))
             element.click()
-            time.sleep(0.5)
+            time.sleep(1.5)
             return True
         else:
             print("You can't delete another person tweet")
@@ -312,17 +357,28 @@ def bookmark_a_tweet(selenium_session,url):
             if url.split("twitter.com")[1] in str(r.get_attribute("outerHTML")):
                 pos = i
                 break
-        try:
-            element = WebDriverWait(selenium_session.driver, 3).until(
-            EC.presence_of_element_located((By.CSS_SELECTOR, '[data-testid="bookmark"]')))
-            bookmark_btn = selenium_session.driver.find_elements(By.CSS_SELECTOR, '[data-testid="bookmark"]')
+        
+        tweets_info = selenium_session.driver.find_elements(By.CSS_SELECTOR, '[data-testid="tweet"]')
 
-            bookmark_btn[pos].click()
-            time.sleep(0.1)
-        except:
-            pass            
+        for i in range(len(tweet_info)):
+            lower_data = str(tweet_info[i].get_property('outerHTML')).lower()
+            if i == pos:
+                if "bookmarked" in lower_data:
+                    print("Tweet is already bookmarked")
+                    return True
+        
+        element = WebDriverWait(selenium_session.driver, 3).until(
+        EC.presence_of_element_located((By.CSS_SELECTOR, '[data-testid="bookmark"]')))
+        bookmark_btn = selenium_session.driver.find_elements(By.CSS_SELECTOR, '[data-testid="bookmark"]')
+        if pos > len(bookmark_btn):
+            bookmark_btn[len(bookmark_btn) - 1].click()
+        else:
+            try:
+                bookmark_btn[pos].click()
+            except:
+                bookmark_btn[pos-1].click()
+        time.sleep(1)
     except Exception as e:
-        p
         print("Tweet bookmark error")
 
 def unbookmark_a_tweet(selenium_session,url):
@@ -339,14 +395,27 @@ def unbookmark_a_tweet(selenium_session,url):
             if url.split("twitter.com")[1] in str(r.get_attribute("outerHTML")):
                 pos = i
                 break
-        try:
-            element = WebDriverWait(selenium_session.driver, 3).until(
-            EC.presence_of_element_located((By.CSS_SELECTOR, '[data-testid="removebookmark"]')))
-            bookmark_btn = selenium_session.driver.find_elements(By.CSS_SELECTOR, '[data-testid="removebookmark"]')
+        
+        tweets_info = selenium_session.driver.find_elements(By.CSS_SELECTOR, '[data-testid="tweet"]')
 
-            bookmark_btn[pos].click()
-            time.sleep(0.1)
-        except:
-            pass            
+        for i in range(len(tweet_info)):
+            lower_data = str(tweet_info[i].get_property('outerHTML')).lower()
+            if i == pos:
+                if "bookmarked" not in lower_data:
+                    print("Tweet is already unbookmarked")
+                    return True
+        
+        element = WebDriverWait(selenium_session.driver, 3).until(
+        EC.presence_of_element_located((By.CSS_SELECTOR, '[data-testid="removeBookmark"]')))
+        bookmark_btn = selenium_session.driver.find_elements(By.CSS_SELECTOR, '[data-testid="removeBookmark"]')
+        if pos > len(bookmark_btn):
+            bookmark_btn[len(bookmark_btn) - 1].click()
+        else:
+            try:
+                bookmark_btn[pos].click()
+            except:
+                bookmark_btn[pos-1].click()
+        time.sleep(1)
     except Exception as e:
         print("Tweet unbookmark error")
+    
