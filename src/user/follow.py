@@ -17,6 +17,8 @@ def follow_an_account(selenium_session,account):
         if follow_button.text != "Follow":
             return (True)
         follow_button.click()
+        time.sleep(0.2)
+        return True
     except Exception as e:
         print("Follow account error")
         return (False)
@@ -32,6 +34,8 @@ def unfollow_an_account(selenium_session,account):
         unfollow_button.click()
         click_confirm = selenium_session.driver.find_element(By.CSS_SELECTOR,'[data-testid="confirmationSheetConfirm"]')
         click_confirm.click()
+        time.sleep(0.2)
+        return True
     except Exception as e:
         print("Unfollow account error")
         return (False)

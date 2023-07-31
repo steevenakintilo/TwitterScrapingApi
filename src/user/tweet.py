@@ -16,7 +16,7 @@ import time
 
 import traceback
 
-def get_list_of_user_tweet(selenium_session,account,nb_of_tweet_to_search=100):
+def get_list_of_user_tweet(selenium_session,account,nb_of_tweet_to_search=10):
     try:
         account = account.replace("@","")
         nb = 0
@@ -41,8 +41,8 @@ def get_list_of_user_tweet(selenium_session,account,nb_of_tweet_to_search=100):
         p = '"'
         x = 0
         flop = 0
-        if nb_of_tweet_to_search > 3000:
-            nb_of_tweet_to_search = 3000
+        if nb_of_tweet_to_search > 1000:
+            nb_of_tweet_to_search = 1000
         while run:
             element = WebDriverWait(selenium_session.driver, 15).until(
             EC.presence_of_element_located((By.CSS_SELECTOR, '[data-testid="tweet"]')))
@@ -190,13 +190,11 @@ def get_list_of_user_tweet(selenium_session,account,nb_of_tweet_to_search=100):
             print("Error feetching " + account + " tweet")
         return(data_list)
 
-def get_list_of_user_retweet(selenium_session,account,nb_of_tweet_to_search=100):
+def get_list_of_user_retweet(selenium_session,account,nb_of_tweet_to_search=10):
     try:
         account = account.replace("@","")
         nb = 0
-        nb_of_tweet = int(get_user_info(selenium_session,account)["tweet_count"])
-        if nb_of_tweet_to_search < 3000 and nb_of_tweet_to_search >= nb_of_tweet:
-            nb_of_tweet_to_search = nb_of_tweet_to_search - 1
+        #nb_of_tweet = int(get_user_info(selenium_session,account)["tweet_count"])
         selenium_session.driver.get("https://twitter.com/"+account)
         run  = True
         list_of_tweet_url = []
@@ -216,8 +214,8 @@ def get_list_of_user_retweet(selenium_session,account,nb_of_tweet_to_search=100)
         "reply":0,}
         p = '"'
         flop = 0
-        if nb_of_tweet_to_search > 3000:
-            nb_of_tweet_to_search = 3000
+        if nb_of_tweet_to_search > 1000:
+            nb_of_tweet_to_search = 1000
         while run:
             element = WebDriverWait(selenium_session.driver, 15).until(
             EC.presence_of_element_located((By.CSS_SELECTOR, '[data-testid="tweet"]')))
@@ -235,6 +233,8 @@ def get_list_of_user_retweet(selenium_session,account,nb_of_tweet_to_search=100)
                 if tweet_info not in selenium_data:
                     try:
                         lower_data = str(tweet_info.get_property('outerHTML')).lower()
+                        print(lower_data)
+                        time.sleep(10000)
                         text_ = tweet_text.text.replace("Show more","")
                         if "@" in text_:
                             get_text = str(tweet_info.get_property('outerHTML')).lower().split("css-901oao css-16my406 r-poiln3 r-bcqeeo r-qvutc0")
@@ -305,14 +305,12 @@ def get_list_of_user_retweet(selenium_session,account,nb_of_tweet_to_search=100)
             print("Error feetching " + account + " retweet")
         return(data_list)
 
-def get_list_of_user_comment(selenium_session,account,nb_of_tweet_to_search=100):
+def get_list_of_user_comment(selenium_session,account,nb_of_tweet_to_search=10):
     try:
         account = account.replace("@","")
         final_list_url = []
         nb = 0
         nb_of_tweet = int(get_user_info(selenium_session,account)["tweet_count"])
-        if nb_of_tweet_to_search < 3000 and nb_of_tweet_to_search >= nb_of_tweet:
-            nb_of_tweet_to_search = nb_of_tweet_to_search - 1
         selenium_session.driver.get("https://twitter.com/"+account+"/with_replies")
         run  = True
         list_of_tweet_url = []
@@ -332,8 +330,8 @@ def get_list_of_user_comment(selenium_session,account,nb_of_tweet_to_search=100)
         "reply":0,}
         p = '"'
         flop = 0
-        if nb_of_tweet_to_search > 3000:
-            nb_of_tweet_to_search = 3000
+        if nb_of_tweet_to_search > 1000:
+            nb_of_tweet_to_search = 1000
         while run:
             element = WebDriverWait(selenium_session.driver, 15).until(
             EC.presence_of_element_located((By.CSS_SELECTOR, '[data-testid="tweet"]')))

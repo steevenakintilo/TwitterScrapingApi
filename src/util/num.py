@@ -32,4 +32,5 @@ def parse_number(num):
     if "," in num:
         num = num.replace(",","")
     
+    num = num.replace(" ","").strip()
     return int(num)

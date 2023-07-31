@@ -11,28 +11,43 @@ import time
 def like_a_tweet(selenium_session,url):
     try:
         selenium_session.driver.get(url)
+        pos = 0
         element = WebDriverWait(selenium_session.driver, 15).until(
         EC.presence_of_element_located((By.CSS_SELECTOR, '[data-testid="cellInnerDiv"]')))
+        
         tweet_info = selenium_session.driver.find_elements(By.CSS_SELECTOR, '[data-testid="cellInnerDiv"]')
-        pos = 0
         for i in range(len(tweet_info)):
             r = tweet_info[i]
             if url.split("twitter.com")[1] in str(r.get_attribute("outerHTML")):
                 pos = i
                 break
         
-        element = WebDriverWait(selenium_session.driver,15).until(
-            EC.presence_of_element_located((By.CSS_SELECTOR, '[data-testid="like"]'))
-        )
+        tweets_info = selenium_session.driver.find_elements(By.CSS_SELECTOR, '[data-testid="tweet"]')
 
+        for i in range(len(tweet_info)):
+            lower_data = str(tweet_info[i].get_property('outerHTML')).lower()
+            if i == pos:
+                if "unlike" in lower_data:
+                    print("Tweet is already liked")
+                    return True
+        
+        
+        element = WebDriverWait(selenium_session.driver,15).until(
+        EC.presence_of_element_located((By.CSS_SELECTOR, '[data-testid="like"]')))
+    
         like_button = selenium_session.driver.find_elements(By.CSS_SELECTOR,'[data-testid="like"]')
-        liked_or_not = like_button[pos].get_attribute("aria-label")
-        if "liked" not in liked_or_not.lower():
-            like_button[pos].click()
-            return True
+        time.sleep(0.5)
+        if pos > len(like_button):
+            print("ok")
+            like_button[len(like_button) - 1].click()
         else:
-            print("Tweet was already like")
-        return False
+            try:
+                print("be")
+                like_button[pos].click()
+            except:
+                print("sum")
+                like_button[pos-1].click()
+        
     except Exception as e:
         if is_tweet_exist(selenium_session,url) == False:
             print("Tweet don't exist , like error")
@@ -44,34 +59,47 @@ def like_a_tweet(selenium_session,url):
 def unlike_a_tweet(selenium_session,url):
     try:
         selenium_session.driver.get(url)
+        pos = 0
         element = WebDriverWait(selenium_session.driver, 15).until(
         EC.presence_of_element_located((By.CSS_SELECTOR, '[data-testid="cellInnerDiv"]')))
+        
         tweet_info = selenium_session.driver.find_elements(By.CSS_SELECTOR, '[data-testid="cellInnerDiv"]')
-        pos = 0
         for i in range(len(tweet_info)):
             r = tweet_info[i]
             if url.split("twitter.com")[1] in str(r.get_attribute("outerHTML")):
                 pos = i
                 break
         
-        element = WebDriverWait(selenium_session.driver,15).until(
-            EC.presence_of_element_located((By.CSS_SELECTOR, '[data-testid="unlike"]'))
-        )
+        tweets_info = selenium_session.driver.find_elements(By.CSS_SELECTOR, '[data-testid="tweet"]')
 
-        like_button = selenium_session.driver.find_elements(By.CSS_SELECTOR,'[data-testid="unlike"]')
-        liked_or_not = like_button[pos].get_attribute("aria-label")
-        if "liked" in liked_or_not.lower():
-            like_button[pos].click()
-        else:
-            print("tweet was already unlike")
-            return False
+        for i in range(len(tweet_info)):
+            lower_data = str(tweet_info[i].get_property('outerHTML')).lower()
+            if i == pos:
+                if "unlike" not in lower_data:
+                    print("Tweet is already unliked")
+                    return True
         
+        
+        element = WebDriverWait(selenium_session.driver,15).until(
+        EC.presence_of_element_located((By.CSS_SELECTOR, '[data-testid="unlike"]')))
+    
+        like_button = selenium_session.driver.find_elements(By.CSS_SELECTOR,'[data-testid="unlike"]')
+        time.sleep(0.5)
+        if pos > len(like_button):
+            like_button[len(like_button) - 1].click()
+        else:
+            try:
+                like_button[pos].click()
+            except:
+                like_button[pos-1].click()
+
     except Exception as e:
         if is_tweet_exist(selenium_session,url) == False:
             print("Tweet don't exist , unlike error")
         else:
-            print("Unlike error")
+            print("Unike error")
         return False
+
     
 def check_if_tweet_liked(selenium_session,url):
     try:

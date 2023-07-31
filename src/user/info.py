@@ -40,6 +40,7 @@ def _get_user_info(selenium_session,user,info):
         else:
             print("Error while retrieving user info")
         return("")
+
 def get_user_info(selenium_session,user):
     user_info = {"username":"",
     "bio":"",
@@ -117,5 +118,5 @@ def get_user_number_of_like(selenium_session,user):
             print("Account is blocking you user number of like error")
         else:
             print("Error while retrieving user number of like")
-        
+        traceback.print_exc()
         return(0)

@@ -196,6 +196,7 @@ def quote_a_tweet(selenium_session,url,text=""):
             print("Tweet don't exist , quote error")   
         else:
             print("quote error")
+        traceback.print_exc()
         return False
 
 def quote_a_tweet_with_media(selenium_session,url,text="",filepath="",type="pic"):
