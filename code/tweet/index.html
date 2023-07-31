@@ -86,7 +86,655 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
             <div class="section" itemprop="articleBody">
               
-                
+                <h1 id="tweet">Tweet</h1>
+<pre><code class="language-python">def comment_a_tweet(selenium_session,url,text=&quot;&quot;):
+</code></pre>
+<ul>
+<li>
+<p><strong>Explanation</strong></p>
+<ul>
+<li>This function will comment a tweet</li>
+</ul>
+</li>
+<li>
+<p><strong>Parameters:</strong></p>
+<ul>
+<li><strong>selenium_session</strong> -selenium browser</li>
+<li><strong>url</strong> -url of the tweet to comment</li>
+<li><strong>text</strong> -text to comment</li>
+</ul>
+</li>
+<li>
+<p><strong>Return:</strong></p>
+<ul>
+<li>True if the comment succed</li>
+<li>False if it failed</li>
+</ul>
+</li>
+</ul>
+<pre><code class="language-python">def comment_a_tweet_with_media(selenium_session,url,text=&quot;&quot;,filepath=&quot;&quot;,type=&quot;picture&quot;):
+</code></pre>
+<ul>
+<li>
+<p><strong>Explanation</strong></p>
+<ul>
+<li>This function will comment a tweet with a media</li>
+</ul>
+</li>
+<li>
+<p><strong>Parameters:</strong></p>
+<ul>
+<li><strong>selenium_session</strong> -selenium browser</li>
+<li><strong>url</strong> -url of the tweet to comment</li>
+<li><strong>text</strong> -text to comment</li>
+<li><strong>filepath</strong> -filepath of the media to add to the comment</li>
+<li><strong>type</strong> -type of the filepath to add to the comment (picture or video)</li>
+</ul>
+</li>
+<li>
+<p><strong>Return:</strong></p>
+<ul>
+<li>True if the comment with media succed</li>
+<li>False if it failed</li>
+</ul>
+</li>
+</ul>
+<pre><code class="language-python">def comment_a_tweet_with_poll(selenium_session,url,text=&quot;&quot;,nb_of_choice=2,choice1_text=&quot;1&quot;,choice2_text=&quot;2&quot;,choice3_text=&quot;3&quot;,choice4_text=&quot;4&quot;,days=1,hours=0,minutes=0):
+</code></pre>
+<ul>
+<li>
+<p><strong>Explanation</strong></p>
+<ul>
+<li>This function will comment a tweet with a poll</li>
+</ul>
+</li>
+<li>
+<p><strong>Parameters:</strong></p>
+<ul>
+<li><strong>selenium_session</strong> -selenium browser</li>
+<li><strong>url</strong> -url of the tweet to comment</li>
+<li><strong>text</strong> -text to comment</li>
+<li><strong>nb_of_choice</strong> -number of choice for the poll from 2 to 4</li>
+<li><strong>choice1_text</strong> -the text of the choice 1 on the poll</li>
+<li><strong>choice2_text</strong> -the text of the choice 2 on the poll</li>
+<li><strong>choice3_text</strong> -the text of the choice 3 on the poll (If you set nb_of_choice to 2 or lower you can set choice3_text to "")</li>
+<li><strong>choice4_text</strong> -the text of the choice 4 on the poll (If you set nb_of_choice to 3 or lower you can set choice4_text to "")</li>
+<li><strong>days</strong>: -the number of days the poll should last</li>
+<li><strong>hours</strong>: -the number of hours the poll should last</li>
+<li><strong>minutes</strong>: -the number of minutes the poll should last</li>
+</ul>
+</li>
+<li>
+<p><strong>Return:</strong></p>
+<ul>
+<li>True if the comment with poll succed</li>
+<li>False if it failed</li>
+</ul>
+</li>
+</ul>
+<pre><code class="language-python">def is_tweet_a_comment(selenium_session,url):
+</code></pre>
+<ul>
+<li>
+<p><strong>Explanation</strong></p>
+<ul>
+<li>This function will check if a tweet is a comment</li>
+</ul>
+</li>
+<li>
+<p><strong>Parameters:</strong></p>
+<ul>
+<li><strong>selenium_session</strong> -selenium browser</li>
+<li><strong>url</strong> -url of the tweet to check</li>
+</ul>
+</li>
+<li>
+<p><strong>Return:</strong></p>
+<ul>
+<li>True if the tweet is a comment</li>
+<li>False if the tweet is not a comment</li>
+</ul>
+</li>
+</ul>
+<pre><code class="language-python">def is_tweet_exist(selenium_session,url):
+</code></pre>
+<ul>
+<li>
+<p><strong>Explanation</strong></p>
+<ul>
+<li>This function will check if a tweet exist</li>
+</ul>
+</li>
+<li>
+<p><strong>Parameters:</strong></p>
+<ul>
+<li><strong>selenium_session</strong> -selenium browser</li>
+<li><strong>url</strong> -url of the tweet to check</li>
+</ul>
+</li>
+<li>
+<p><strong>Return:</strong></p>
+<ul>
+<li>True if the tweet is exist</li>
+<li>False if the tweet doesn't exist</li>
+</ul>
+</li>
+</ul>
+<pre><code class="language-python">def get_tweet_info(selenium_session,url):
+</code></pre>
+<ul>
+<li>
+<p><strong>Explanation</strong></p>
+<ul>
+<li>This function will get info of a tweet (username,text,id,date,number of likes, number of retweets,number of quotes,number of bookmarks,number of views)</li>
+</ul>
+</li>
+<li>
+<p><strong>Parameters:</strong></p>
+<ul>
+<li><strong>selenium_session</strong> -selenium browser</li>
+<li><strong>url</strong> -url of the tweet to check</li>
+</ul>
+</li>
+<li>
+<p><strong>Return:</strong></p>
+<ul>
+<li>A dict containing (username,text,id,date,number of likes, number of retweets,number of quotes,number of bookmarks,number of views)</li>
+<li>False if the tweet doesn't exist</li>
+</ul>
+</li>
+</ul>
+<pre><code class="language-python">def like_a_tweet(selenium_session,url):
+</code></pre>
+<ul>
+<li><strong>Explanation</strong><ul>
+<li>This function will like a tweet</li>
+</ul>
+</li>
+<li>
+<p><strong>Parameters:</strong></p>
+<ul>
+<li><strong>selenium_session</strong> -selenium browser</li>
+<li><strong>url</strong> -url of the tweet to like</li>
+</ul>
+</li>
+<li>
+<p><strong>Return:</strong></p>
+<ul>
+<li>True if the like succed or the tweet was already liked</li>
+<li>False if the like failed</li>
+</ul>
+</li>
+</ul>
+<pre><code class="language-python">def unlike_a_tweet(selenium_session,url):
+</code></pre>
+<ul>
+<li><strong>Explanation</strong><ul>
+<li>This function will unlike a tweet</li>
+</ul>
+</li>
+<li>
+<p><strong>Parameters:</strong></p>
+<ul>
+<li><strong>selenium_session</strong> -selenium browser</li>
+<li><strong>url</strong> -url of the tweet to unlike</li>
+</ul>
+</li>
+<li>
+<p><strong>Return:</strong></p>
+<ul>
+<li>True if the unlike succed or the tweet was already unliked</li>
+<li>False if the unlike failed</li>
+</ul>
+</li>
+</ul>
+<pre><code class="language-python">def check_if_tweet_liked(selenium_session,url):
+</code></pre>
+<ul>
+<li><strong>Explanation</strong><ul>
+<li>This function check if a tweet is liked</li>
+</ul>
+</li>
+<li>
+<p><strong>Parameters:</strong></p>
+<ul>
+<li><strong>selenium_session</strong> -selenium browser</li>
+<li><strong>url</strong> -url of the tweet to check</li>
+</ul>
+</li>
+<li>
+<p><strong>Return:</strong></p>
+<ul>
+<li>True if the tweet is liked</li>
+<li>False if the tweet wasn't liked or the function failed</li>
+</ul>
+</li>
+</ul>
+<pre><code class="language-python">def get_list_of_user_who_like_a_tweet(selenium_session,url,nb_of_like):
+</code></pre>
+<ul>
+<li>
+<p><strong>Explanation</strong></p>
+<ul>
+<li>This function will retrieve a list of users who liked a tweet</li>
+</ul>
+</li>
+<li>
+<p><strong>Parameters:</strong></p>
+<ul>
+<li><strong>selenium_session</strong> -selenium browser</li>
+<li><strong>url</strong> -url of the tweet to retrieve list of users</li>
+<li><strong>nb_of_like</strong> -number of users to see (the limit is at 2000 to avoid long running code)</li>
+</ul>
+</li>
+<li>
+<p><strong>Return:</strong></p>
+<ul>
+<li>If it succed a list of users who liked the tweet</li>
+<li>If it failed an empty list</li>
+</ul>
+</li>
+</ul>
+<pre><code class="language-python">def get_list_of_user_who_retweet_a_tweet(selenium_session,url,nb_of_rt):
+</code></pre>
+<ul>
+<li>
+<p><strong>Explanation</strong></p>
+<ul>
+<li>This function will retrieve a list of users who retweet a tweet</li>
+</ul>
+</li>
+<li>
+<p><strong>Parameters:</strong></p>
+<ul>
+<li><strong>selenium_session</strong> -selenium browser</li>
+<li><strong>url</strong> -url of the tweet to retrieve list of users</li>
+<li><strong>nb_of_rt</strong> -numbers of users to see (the limit is at 2000 to avoid long running code)</li>
+</ul>
+</li>
+<li>
+<p><strong>Return:</strong></p>
+<ul>
+<li>If it succed a list of users who retweet the tweet</li>
+<li>If it failed an empty list</li>
+</ul>
+</li>
+</ul>
+<pre><code class="language-python">def get_list_of_quote_of_a_tweet(selenium_session,url,nb_of_quote):
+</code></pre>
+<ul>
+<li>
+<p><strong>Explanation</strong></p>
+<ul>
+<li>This function will retrieve a list of user who quoted a tweet</li>
+</ul>
+</li>
+<li>
+<p><strong>Parameters:</strong></p>
+<ul>
+<li><strong>selenium_session</strong> -selenium browser</li>
+<li><strong>url</strong> -url of the tweet to retrieve list of quotes</li>
+<li><strong>nb_of_quote</strong> -number of quote to see (the limit is at 100 since twitter web show approximately 100 quoted tweets)</li>
+</ul>
+</li>
+<li>
+<p><strong>Return:</strong></p>
+<ul>
+<li>If it succed a list of dictionaries for each quoted tweet retrieved each one have the username ,text,id,url,date,number of likes ,number of retweets,the number of replies</li>
+<li>If it failed an empty list</li>
+</ul>
+</li>
+</ul>
+<pre><code class="language-python">def get_list_of_comment_of_a_tweet(selenium_session,url,nb_of_comment):
+</code></pre>
+<ul>
+<li>
+<p><strong>Explanation</strong></p>
+<ul>
+<li>This function will retrieve comments of a tweet</li>
+</ul>
+</li>
+<li>
+<p><strong>Parameters:</strong></p>
+<ul>
+<li><strong>selenium_session</strong> -selenium browser</li>
+<li><strong>url</strong> -url of the tweet to retrieve comment</li>
+<li><strong>nb_of_quote</strong> -number of comments to see (the limit is at 50 to avoid getting tweet that are not comment to the tweet)</li>
+</ul>
+</li>
+<li>
+<p><strong>Return:</strong></p>
+<ul>
+<li>If it succed a list of dictionaries for each comment retrieved each one have the username ,text,id,url,date,number of likes ,number of retweets,the number of replies</li>
+<li>If it failed an empty list</li>
+</ul>
+</li>
+</ul>
+<pre><code class="language-python">def retweet_a_tweet(selenium_session,url):
+</code></pre>
+<ul>
+<li>
+<p><strong>Explanation</strong></p>
+<ul>
+<li>This function will retweet a tweet</li>
+</ul>
+</li>
+<li>
+<p><strong>Parameters:</strong></p>
+<ul>
+<li><strong>selenium_session</strong> -selenium browser</li>
+<li><strong>url</strong> -url of the tweet to retweet    </li>
+</ul>
+</li>
+<li>
+<p><strong>Return:</strong></p>
+<ul>
+<li>True if the retweet succed or the tweet was already retweeted</li>
+<li>False if it failed</li>
+</ul>
+</li>
+</ul>
+<pre><code class="language-python">def unretweet_a_tweet(selenium_session,url):
+</code></pre>
+<ul>
+<li>
+<p><strong>Explanation</strong></p>
+<ul>
+<li>This function will unretweet a tweet</li>
+</ul>
+</li>
+<li>
+<p><strong>Parameters:</strong></p>
+<ul>
+<li><strong>selenium_session</strong> -selenium browser</li>
+<li><strong>url</strong> -url of the tweet to unretweet    </li>
+</ul>
+</li>
+<li>
+<p><strong>Return:</strong></p>
+<ul>
+<li>True if the unretweet succed or the tweet was already unretweeted</li>
+<li>False if it failed</li>
+</ul>
+</li>
+</ul>
+<pre><code class="language-python">def check_if_tweet_retweet(selenium_session,url):
+</code></pre>
+<ul>
+<li>
+<p><strong>Explanation</strong></p>
+<ul>
+<li>This function will check if a tweet is retweeted</li>
+</ul>
+</li>
+<li>
+<p><strong>Parameters:</strong></p>
+<ul>
+<li><strong>selenium_session</strong> -selenium browser</li>
+<li><strong>url</strong> -url of the tweet to check    </li>
+</ul>
+</li>
+<li>
+<p><strong>Return:</strong></p>
+<ul>
+<li>True if the tweet is retweeted</li>
+<li>False if it failed or the tweet is not retweeted</li>
+</ul>
+</li>
+</ul>
+<pre><code class="language-python">def quote_a_tweet(selenium_session,url,text=&quot;&quot;):
+</code></pre>
+<ul>
+<li>
+<p><strong>Explanation</strong></p>
+<ul>
+<li>This function will quote a tweet</li>
+</ul>
+</li>
+<li>
+<p><strong>Parameters:</strong></p>
+<ul>
+<li><strong>selenium_session</strong> -selenium browser</li>
+<li><strong>url</strong> -url of the tweet to quote</li>
+<li><strong>text</strong> -text to quote</li>
+</ul>
+</li>
+<li>
+<p><strong>Return:</strong></p>
+<ul>
+<li>True if the quote succed</li>
+<li>False if it failed</li>
+</ul>
+</li>
+</ul>
+<pre><code class="language-python">def quote_a_tweet_with_media(selenium_session,url,text=&quot;&quot;,filepath=&quot;&quot;,type=&quot;picture&quot;):
+</code></pre>
+<ul>
+<li>
+<p><strong>Explanation</strong></p>
+<ul>
+<li>This function will quote a tweet with a media</li>
+</ul>
+</li>
+<li>
+<p><strong>Parameters:</strong></p>
+<ul>
+<li><strong>selenium_session</strong> -selenium browser</li>
+<li><strong>url</strong> -url of the tweet to quote</li>
+<li><strong>text</strong> -text to quote</li>
+<li><strong>filepath</strong> -filepath of the media to add to the quote</li>
+<li><strong>type</strong> -type of the filepath to add to the quote (picture or video)</li>
+</ul>
+</li>
+<li>
+<p><strong>Return:</strong></p>
+<ul>
+<li>True if the quote with media succed</li>
+<li>False if it failed</li>
+</ul>
+</li>
+</ul>
+<pre><code class="language-python">def search_tweet(selenium_session,query=&quot;hello&quot;,mode=&quot;recent&quot;,nb_of_tweet_to_search=10):
+</code></pre>
+<ul>
+<li>
+<p><strong>Explanation</strong></p>
+<ul>
+<li>This function will search tweet</li>
+</ul>
+</li>
+<li>
+<p><strong>Parameters:</strong></p>
+<ul>
+<li><strong>selenium_session</strong> -selenium browser</li>
+<li><strong>query</strong> -query to search</li>
+<li><strong>mode</strong> -recent mode to search recent tweet and top to search top tweet</li>
+<li><strong>nb_of_tweet_to_search</strong> -Number of tweet so search</li>
+</ul>
+</li>
+<li>
+<p><strong>Return:</strong></p>
+</li>
+<li>If it succed a list of dictionaries for each comment retrieved each one have the username ,text,id,url,date,number of likes ,number of retweets,the number of replies</li>
+<li>An empty list if it failed</li>
+</ul>
+<pre><code class="language-python">def get_trend(selenium_session):
+</code></pre>
+<ul>
+<li>
+<p><strong>Explanation</strong></p>
+<ul>
+<li>This function will get the top trend of the moment</li>
+</ul>
+</li>
+<li>
+<p><strong>Parameters:</strong></p>
+<ul>
+<li><strong>selenium_session</strong> -selenium browser</li>
+</ul>
+</li>
+<li>
+<p><strong>Return:</strong></p>
+<ul>
+<li>A list of trend it it succed</li>
+<li>An empty list if it failed</li>
+</ul>
+</li>
+</ul>
+<pre><code class="language-python">def make_a_tweet(selenium_session,url,text=&quot;&quot;):
+</code></pre>
+<ul>
+<li>
+<p><strong>Explanation</strong></p>
+<ul>
+<li>This function will make a tweet</li>
+</ul>
+</li>
+<li>
+<p><strong>Parameters:</strong></p>
+<ul>
+<li><strong>selenium_session</strong> -selenium browser</li>
+<li><strong>text</strong> -text of the tweet</li>
+</ul>
+</li>
+<li>
+<p><strong>Return:</strong></p>
+<ul>
+<li>True if the tweet succed</li>
+<li>False if it failed</li>
+</ul>
+</li>
+</ul>
+<pre><code class="language-python">def make_a_tweet_with_media(selenium_session,text=&quot;&quot;,filepath=&quot;&quot;,type=&quot;picture&quot;):
+</code></pre>
+<ul>
+<li>
+<p><strong>Explanation</strong></p>
+<ul>
+<li>This function will make a tweet with a media</li>
+</ul>
+</li>
+<li>
+<p><strong>Parameters:</strong></p>
+<ul>
+<li><strong>selenium_session</strong> -selenium browser</li>
+<li><strong>text</strong> -text to tweet</li>
+<li><strong>filepath</strong> -filepath of the media to add to the tweet</li>
+<li><strong>type</strong> -type of the filepath to add to the tweet (picture or video)</li>
+</ul>
+</li>
+<li>
+<p><strong>Return:</strong></p>
+<ul>
+<li>True if the tweet with media succed</li>
+<li>False if it failed</li>
+</ul>
+</li>
+</ul>
+<pre><code class="language-python">def make_a_tweet_with_poll(selenium_session,text=&quot;&quot;,nb_of_choice=2,choice1_text=&quot;1&quot;,choice2_text=&quot;2&quot;,choice3_text=&quot;3&quot;,choice4_text=&quot;4&quot;,days=1,hours=0,minutes=0):
+</code></pre>
+<ul>
+<li>
+<p><strong>Explanation</strong></p>
+<ul>
+<li>This function will make a tweet with a poll</li>
+</ul>
+</li>
+<li>
+<p><strong>Parameters:</strong></p>
+<ul>
+<li><strong>selenium_session</strong> -selenium browser</li>
+<li><strong>text</strong> -text to tweet</li>
+<li><strong>nb_of_choice</strong> -number of choice for the poll from 2 to 4</li>
+<li><strong>choice1_text</strong> -the text of the choice 1 on the poll</li>
+<li><strong>choice2_text</strong> -the text of the choice 2 on the poll</li>
+<li><strong>choice3_text</strong> -the text of the choice 3 on the poll (If you set nb_of_choice to 2 or lower you can set choice3_text to "")</li>
+<li><strong>choice4_text</strong> -the text of the choice 4 on the poll (If you set nb_of_choice to 3 or lower you can set choice4_text to "")</li>
+<li><strong>days</strong>: -the number of days the poll should last</li>
+<li><strong>hours</strong>: -the number of hours the poll should last</li>
+<li><strong>minutes</strong>: -the number of minutes the poll should last</li>
+</ul>
+</li>
+<li>
+<p><strong>Return:</strong></p>
+<ul>
+<li>True if the tweet with poll succed</li>
+<li>False if it failed</li>
+</ul>
+</li>
+</ul>
+<pre><code class="language-python">def delete_a_tweet(selenium_session,url,text=&quot;&quot;):
+</code></pre>
+<ul>
+<li>
+<p><strong>Explanation</strong></p>
+<ul>
+<li>This function will make a tweet</li>
+</ul>
+</li>
+<li>
+<p><strong>Parameters:</strong></p>
+<ul>
+<li><strong>selenium_session</strong> -selenium browser</li>
+<li><strong>url</strong> -url of the tweet to delete</li>
+</ul>
+</li>
+<li>
+<p><strong>Return:</strong></p>
+<ul>
+<li>True if the was delete well</li>
+<li>False if it failed or it wasn't your tweet</li>
+</ul>
+</li>
+</ul>
+<pre><code class="language-python">def bookmark_a_tweet(selenium_session,url):
+</code></pre>
+<ul>
+<li>
+<p><strong>Explanation</strong></p>
+<ul>
+<li>This function will bookmark a tweet</li>
+</ul>
+</li>
+<li>
+<p><strong>Parameters:</strong></p>
+<ul>
+<li><strong>selenium_session</strong> -selenium browser</li>
+<li><strong>url</strong> -url of the tweet to bookmark</li>
+</ul>
+</li>
+<li>
+<p><strong>Return:</strong></p>
+<ul>
+<li>True if the tweet was bookmark well or it was already bookmarked</li>
+<li>False if it failed</li>
+</ul>
+</li>
+</ul>
+<pre><code class="language-python">def unbookmark_a_tweet(selenium_session,url):
+</code></pre>
+<ul>
+<li>
+<p><strong>Explanation</strong></p>
+<ul>
+<li>This function will unbookmark a tweet</li>
+</ul>
+</li>
+<li>
+<p><strong>Parameters:</strong></p>
+<ul>
+<li><strong>selenium_session</strong> -selenium browser</li>
+<li><strong>url</strong> -url of the tweet to unbookmark</li>
+</ul>
+</li>
+<li>
+<p><strong>Return:</strong></p>
+<ul>
+<li>True if the tweet was unbookmark well or it was already unbookmarked</li>
+<li>False if it failed</li>
+</ul>
+</li>
+</ul>
               
             </div>
           </div><footer>
