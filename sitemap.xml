@@ -26,7 +26,17 @@
          <changefreq>daily</changefreq>
     </url>
     <url>
-         <loc>https://TwitterScrapingApi.com/question/</loc>
+         <loc>https://TwitterScrapingApi.com/next/</loc>
+         <lastmod>2023-07-31</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://TwitterScrapingApi.com/start/</loc>
+         <lastmod>2023-07-31</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://TwitterScrapingApi.com/code/all/</loc>
          <lastmod>2023-07-31</lastmod>
          <changefreq>daily</changefreq>
     </url>

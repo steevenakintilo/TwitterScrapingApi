@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><link rel="canonical" href="https://TwitterScrapingApi.com/code/all/" />
+      <link rel="shortcut icon" href="../../img/favicon.ico" />
+    <title>All Functions - TwitterScrapingApi</title>
+    <link rel="stylesheet" href="../../css/theme.css" />
+    <link rel="stylesheet" href="../../css/theme_extra.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
+    
+      <script>
+        // Current page data
+        var mkdocs_page_name = "All Functions";
+        var mkdocs_page_input_path = "code\\all.md";
+        var mkdocs_page_url = "/code/all/";
+      </script>
+    
+    <!--[if lt IE 9]>
+      <script src="../../js/html5shiv.min.js"></script>
+    <![endif]-->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+      <script>hljs.highlightAll();</script> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+          <a href="../.." class="icon icon-home"> TwitterScrapingApi
+        </a><div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+      <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption"><span class="caption-text">Start</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../..">Home</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../installation/">Installaion</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../start/">Getting started</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Functions</span></p>
+              <ul class="current">
+                  <li class="toctree-l1"><a class="reference internal" href="../../function/">Function</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../me/">Me</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../tweet/">Tweet</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../user/">User</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../other/">Other</a>
+                  </li>
+                  <li class="toctree-l1 current"><a class="reference internal current" href="./">All Functions</a>
+    <ul class="current">
+    </ul>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">More</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../example/">Example</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../about/">About</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../next/">Next Update</a>
+                  </li>
+              </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../..">TwitterScrapingApi</a>
+        
+      </nav>
+      <div class="wy-nav-content">
+        <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../.." class="icon icon-home" aria-label="Docs"></a> &raquo;</li>
+          <li>Functions &raquo;</li>
+      <li class="breadcrumb-item active">All Functions</li>
+    <li class="wy-breadcrumbs-aside">
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div class="section" itemprop="articleBody">
+              
+                <h1 id="all-functions">All functions</h1>
+<p>Here is a list of all the functions that are on the documentation</p>
+<pre><code class="language-python">from src.start import *
+from src.scrapper import *
+
+from os import system
+
+def main():
+    selenium_session = start_selenium()
+    print(&quot;All the function of twitterscrapingapi&quot;)
+    url = &quot;https://twitter.com/MrBeast/status/1523674759925760000&quot;
+    block_an_user(selenium_session,&quot;mrbeast&quot;)    
+    unblock_an_user(selenium_session,&quot;mrbeast&quot;)
+    dm_an_user(selenium_session,&quot;mrbeast&quot;,&quot;test&quot;)
+    follower_list = get_list_of_my_followers(selenium_session)
+    following_list = get_list_of_my_followings(selenium_session)
+    homepage_tweet = get_list_of_homepage_tweet(selenium_session,100)
+    my_mention = get_mention(selenium_session,10)
+    change_bio(selenium_session,&quot;Hello World&quot;[::-1])
+    change_name(selenium_session,&quot;betatesteu76031&quot;)
+    change_location(selenium_session,&quot;python main.py&quot;)
+    change_url(selenium_session,&quot;google.com&quot;)
+    change_profile_picture(selenium_session,&quot;pic\profile_picture.jpg&quot;)
+    change_banner(selenium_session,&quot;pic\banner.jpg&quot;)
+    comment_a_tweet(selenium_session,url,&quot;Python is better than Java&quot;)
+    comment_a_tweet_with_media(selenium_session,url,&quot;Well Well Well&quot;,&quot;pic\picture.png&quot;,&quot;picture&quot;)
+    comment_a_tweet_with_poll(selenium_session,url,&quot;tutu&quot;,4,&quot;toto&quot;,&quot;titi&quot;,&quot;tata&quot;,&quot;tyty&quot;,6,59,59)
+    is_tweet_a_comment(selenium_session,url))
+    is_tweet_exist(selenium_session,url+&quot;blablapythonjavaisbadnotreallybudidk&quot;)
+    tweet_info = get_tweet_info(selenium_session,url)
+    like_a_tweet(selenium_session,url)
+    unlike_a_tweet(selenium_session,url)
+    check_if_tweet_liked(selenium_session,url)
+    list_of_user_who_like_a_tweet = get_list_of_user_who_like_a_tweet(selenium_session,url,100)
+    list_of_user_who_retweet_a_tweet = get_list_of_user_who_retweet_a_tweet(selenium_session,url,500)
+    list_of_quote_of_a_tweet  = get_list_of_quote_of_a_tweet(selenium_session,url,20)
+    list_of_comment_of_a_tweet = get_list_of_comment_of_a_tweet(selenium_session,url,30)
+    retweet_a_tweet(selenium_session,url)
+    unretweet_a_tweet(selenium_session,url)
+    check_if_tweet_retweet(selenium_session,url)
+    quote_a_tweet(selenium_session,url,&quot;unit test go wooooo&quot;)
+    quote_a_tweet_with_media(selenium_session,url,&quot;burger kiiiiiiiing&quot;,&quot;pic/video.mp4&quot;,&quot;video&quot;)
+    list_of_tweet = search_tweet(selenium_session,&quot;concours min_retweets:200&quot;,&quot;top&quot;,50)
+    trend = get_trend(selenium_session)
+    make_a_tweet(selenium_session,&quot;make a tweet&quot;)
+    make_a_tweet_with_media(selenium_session,&quot;toto&quot;,&quot;pic/video.mp4&quot;,&quot;video&quot;)
+    make_a_tweet_with_poll(selenium_session,&quot;tutu &quot; + str(i),4,&quot;toto&quot;,&quot;titi&quot;,&quot;tata&quot;,&quot;tyty&quot;,6,59,59)
+    delete_a_tweet(selenium_session,url)
+    bookmark_a_tweet(selenium_session,url)
+    unbookmark_a_tweet(selenium_session,url)
+    follow_an_account(selenium_session,&quot;mrbeast&quot;)
+    unfollow_an_account(selenium_session,&quot;mrbeast&quot;)
+    check_if_user_follow(selenium_session,&quot;mrbeast&quot;))
+    get_user_info(selenium_session,&quot;mrbeast&quot;)
+    get_user_number_of_like(selenium_session,&quot;mrbeast&quot;)
+    get_user_number_of_media(selenium_session,&quot;mrbeast&quot;)
+    get_list_of_user_tweet(selenium_session,&quot;elonmusk&quot;,10)
+    get_list_of_user_retweet(selenium_session,&quot;elonmusk&quot;,10)
+    get_list_of_user_comment(selenium_session,&quot;elonmusk&quot;,10)
+    is_account_banned(selenium_session,&quot;x&quot;)
+    is_account_blocking_you(selenium_session,&quot;x&quot;)
+    is_account_existing(selenium_session,&quot;x&quot;)
+    is_account_private(selenium_session,&quot;x&quot;)
+</code></pre>
+              
+            </div>
+          </div><footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
+        <a href="../other/" class="btn btn-neutral float-left" title="Other"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="../../example/" class="btn btn-neutral float-right" title="Example">Next <span class="icon icon-circle-arrow-right"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+          
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="Versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+    
+      <span><a href="../other/" style="color: #fcfcfc">&laquo; Previous</a></span>
+    
+    
+      <span><a href="../../example/" style="color: #fcfcfc">Next &raquo;</a></span>
+    
+  </span>
+</div>
+    <script src="../../js/jquery-3.6.0.min.js"></script>
+    <script>var base_url = "../..";</script>
+    <script src="../../js/theme_extra.js"></script>
+    <script src="../../js/theme.js"></script>
+      <script src="../../search/main.js"></script>
+    <script>
+        jQuery(function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        });
+    </script>
+
+</body>
+</html>

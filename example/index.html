@@ -39,31 +39,40 @@
       </div>
 
       <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption"><span class="caption-text">Start</span></p>
               <ul>
-                <li class="toctree-l1"><a class="reference internal" href="..">Home</a>
-                </li>
+                  <li class="toctree-l1"><a class="reference internal" href="..">Home</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../installation/">Installaion</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../start/">Getting started</a>
+                  </li>
               </ul>
+              <p class="caption"><span class="caption-text">Functions</span></p>
               <ul>
-                <li class="toctree-l1"><a class="reference internal" href="../installation/">Installaion</a>
-                </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../function/">Function</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../code/me/">Me</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../code/tweet/">Tweet</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../code/user/">User</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../code/other/">Other</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../code/all/">All Functions</a>
+                  </li>
               </ul>
-              <ul>
-                <li class="toctree-l1"><a class="reference internal" href="../function/">Functions</a>
-                </li>
-              </ul>
+              <p class="caption"><span class="caption-text">More</span></p>
               <ul class="current">
-                <li class="toctree-l1 current"><a class="reference internal current" href="./">Example</a>
+                  <li class="toctree-l1 current"><a class="reference internal current" href="./">Example</a>
     <ul class="current">
     </ul>
-                </li>
-              </ul>
-              <ul>
-                <li class="toctree-l1"><a class="reference internal" href="../about/">About</a>
-                </li>
-              </ul>
-              <ul>
-                <li class="toctree-l1"><a class="reference internal" href="../question/">Question</a>
-                </li>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../about/">About</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../next/">Next Update</a>
+                  </li>
               </ul>
       </div>
     </div>
@@ -79,6 +88,7 @@
         <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
   <ul class="wy-breadcrumbs">
     <li><a href=".." class="icon icon-home" aria-label="Docs"></a> &raquo;</li>
+          <li>More &raquo;</li>
       <li class="breadcrumb-item active">Example</li>
     <li class="wy-breadcrumbs-aside">
     </li>
@@ -96,13 +106,37 @@ from src.scrapper import *
 def main():
     selenium_session = start_selenium()
     print(&quot;Hello world&quot;)
-    make_a_tweet(selenium_session,&quot;Welcome to TwitterScrappingApi&quot;)
+    make_a_tweet(selenium_session,&quot;Welcome to TwitterScrapingApi&quot;)
 </code></pre>
+<p>Here is a code that will retrieve the last 10 tweets of mrbeast and like them</p>
+<pre><code class="language-python">from src.start import *
+from src.scrapper import *
+
+def main():
+    selenium_session = start_selenium()
+    mrbeast_tweet = get_list_of_user_tweet(selenium_session,&quot;mrbeast&quot;,10)
+
+    for m in mrbeast_tweet:
+        like_a_tweet(selenium_session,m[&quot;url&quot;])
+        print(&quot;Liking mrbeast tweet url: &quot; , m[&quot;url&quot;])
+</code></pre>
+<p>Here is a code that will change your bio , name , location and website to toto</p>
+<pre><code class="language-python">from src.start import *
+from src.scrapper import *
+
+def main():
+    selenium_session = start_selenium()
+    change_bio(selenium_session,&quot;toto&quot;)
+    change_name(selenium_session,&quot;toto&quot;)
+    change_location(selenium_session,&quot;toto&quot;)
+    change_url(selenium_session,&quot;toto.com&quot;)
+</code></pre>
+<p>With all the function provided you can do a lot of great things</p>
               
             </div>
           </div><footer>
     <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
-        <a href="../function/" class="btn btn-neutral float-left" title="Functions"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="../code/all/" class="btn btn-neutral float-left" title="All Functions"><span class="icon icon-circle-arrow-left"></span> Previous</a>
         <a href="../about/" class="btn btn-neutral float-right" title="About">Next <span class="icon icon-circle-arrow-right"></span></a>
     </div>
 
@@ -126,7 +160,7 @@ def main():
   <span class="rst-current-version" data-toggle="rst-current-version">
     
     
-      <span><a href="../function/" style="color: #fcfcfc">&laquo; Previous</a></span>
+      <span><a href="../code/all/" style="color: #fcfcfc">&laquo; Previous</a></span>
     
     
       <span><a href="../about/" style="color: #fcfcfc">Next &raquo;</a></span>
