@@ -147,24 +147,53 @@ def check_if_tweet_retweet(selenium_session,url):
 def quote_a_tweet(selenium_session,url,text=""):
     
     try:
+        rt = False
         if len(text) == 0:
             text = "."
         if len(text) == 0 or len(text) > 280:
             text = text[0:279]
         selenium_session.driver.get(url)
-        try:
+        element = WebDriverWait(selenium_session.driver, 15).until(
+        EC.presence_of_element_located((By.CSS_SELECTOR, '[data-testid="cellInnerDiv"]')))
+        tweet_info = selenium_session.driver.find_elements(By.CSS_SELECTOR, '[data-testid="cellInnerDiv"]')
+        pos = 0
+        for i in range(len(tweet_info)):
+            r = tweet_info[i]
+            if url.split("twitter.com")[1] in str(r.get_attribute("outerHTML")):
+                pos = i
+                break
+        
+        tweets_info = selenium_session.driver.find_elements(By.CSS_SELECTOR, '[data-testid="tweet"]')
+        
+        element = WebDriverWait(selenium_session.driver,5).until(
+            EC.presence_of_element_located((By.CSS_SELECTOR, '[data-testid="retweet"]'))
+        )
+
+        for i in range(len(tweet_info)):
+            lower_data = str(tweet_info[i].get_property('outerHTML')).lower()
+            if i == pos:
+                if "unretweet" not in lower_data:
+                    rt = False
+        
+        if rt == False:
             element = WebDriverWait(selenium_session.driver, 3).until(
             EC.presence_of_element_located((By.CSS_SELECTOR, '[data-testid="retweet"]')))
-            
-            retweet_button = selenium_session.driver.find_element(By.CSS_SELECTOR, '[data-testid="retweet"]')
-            retweet_button.click()
-        except:
-            element = WebDriverWait(selenium_session.driver,15).until(
-            EC.presence_of_element_located((By.CSS_SELECTOR, '[data-testid="unretweet"]')))
-            
-            retweet_button = selenium_session.driver.find_element(By.CSS_SELECTOR, '[data-testid="unretweet"]')
-            retweet_button.click()
         
+            retweet_button = selenium_session.driver.find_elements(By.CSS_SELECTOR, '[data-testid="retweet"]')
+        else:
+            element = WebDriverWait(selenium_session.driver, 3).until(
+            EC.presence_of_element_located((By.CSS_SELECTOR, '[data-testid="unretweet"]')))
+        
+            retweet_button = selenium_session.driver.find_elements(By.CSS_SELECTOR, '[data-testid="unretweet"]')
+            
+        if pos > len(retweet_button):
+            retweet_button[len(retweet_button) - 1].click()
+        else:
+            try:
+                retweet_button[pos].click()
+            except:
+                retweet_button[pos-1].click()
+            
         element = WebDriverWait(selenium_session.driver, 15).until(
         EC.presence_of_element_located((By.CSS_SELECTOR, '[href="/compose/tweet"]')))
         
@@ -196,30 +225,60 @@ def quote_a_tweet(selenium_session,url,text=""):
             print("Tweet don't exist , quote error")   
         else:
             print("quote error")
-        traceback.print_exc()
         return False
 
 def quote_a_tweet_with_media(selenium_session,url,text="",filepath="",type="pic"):
     try:
+        rt = False
         filepath = get_absolute_picture_path(filepath)
         if len(text) == 0:
             text = "."
         if len(text) == 0 or len(text) > 280:
             text = text[0:279]
         selenium_session.driver.get(url)
-        try:
+
+        element = WebDriverWait(selenium_session.driver, 15).until(
+        EC.presence_of_element_located((By.CSS_SELECTOR, '[data-testid="cellInnerDiv"]')))
+        tweet_info = selenium_session.driver.find_elements(By.CSS_SELECTOR, '[data-testid="cellInnerDiv"]')
+        pos = 0
+        for i in range(len(tweet_info)):
+            r = tweet_info[i]
+            if url.split("twitter.com")[1] in str(r.get_attribute("outerHTML")):
+                pos = i
+                break
+        
+        tweets_info = selenium_session.driver.find_elements(By.CSS_SELECTOR, '[data-testid="tweet"]')
+        
+        element = WebDriverWait(selenium_session.driver,5).until(
+            EC.presence_of_element_located((By.CSS_SELECTOR, '[data-testid="retweet"]'))
+        )
+
+        for i in range(len(tweet_info)):
+            lower_data = str(tweet_info[i].get_property('outerHTML')).lower()
+            if i == pos:
+                if "unretweet" not in lower_data:
+                    rt = False
+        
+        if rt == False:
             element = WebDriverWait(selenium_session.driver, 3).until(
             EC.presence_of_element_located((By.CSS_SELECTOR, '[data-testid="retweet"]')))
-            
-            retweet_button = selenium_session.driver.find_element(By.CSS_SELECTOR, '[data-testid="retweet"]')
-            retweet_button.click()
-        except:
-            element = WebDriverWait(selenium_session.driver,15).until(
-            EC.presence_of_element_located((By.CSS_SELECTOR, '[data-testid="unretweet"]')))
-            
-            retweet_button = selenium_session.driver.find_element(By.CSS_SELECTOR, '[data-testid="unretweet"]')
-            retweet_button.click()
         
+            retweet_button = selenium_session.driver.find_elements(By.CSS_SELECTOR, '[data-testid="retweet"]')
+        else:
+            element = WebDriverWait(selenium_session.driver, 3).until(
+            EC.presence_of_element_located((By.CSS_SELECTOR, '[data-testid="unretweet"]')))
+        
+            retweet_button = selenium_session.driver.find_elements(By.CSS_SELECTOR, '[data-testid="unretweet"]')
+        
+            
+        if pos > len(retweet_button):
+            retweet_button[len(retweet_button) - 1].click()
+        else:
+            try:
+                retweet_button[pos].click()
+            except:
+                retweet_button[pos-1].click()
+            
         element = WebDriverWait(selenium_session.driver, 15).until(
         EC.presence_of_element_located((By.CSS_SELECTOR, '[href="/compose/tweet"]')))
         
@@ -260,5 +319,5 @@ def quote_a_tweet_with_media(selenium_session,url,text="",filepath="",type="pic"
         elif is_tweet_exist(selenium_session,url) == False:
             print("Tweet don't exist , quote error")   
         else:
-            print("quote error")
+            print("quote with media error")
         return False

@@ -100,7 +100,7 @@ def make_a_tweet_with_media(selenium_session,text="",filepath="",type="picture")
         elif "Message: invalid argument: 'text' is empty" in str(e):
             print("Media set to true nbut no media added")
         else:
-            print("tweet error")
+            print("tweet with media error")
 
 
 def make_a_tweet_with_poll(selenium_session,text="",nb_of_choice=2,choice1_text="1",choice2_text="2",choice3_text="3",choice4_text="4",days=1,hours=0,minutes=0):

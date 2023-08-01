@@ -134,7 +134,7 @@ def comment_a_tweet_with_media(selenium_session,url,text="",filepath="",type="pi
         elif is_tweet_exist(selenium_session,url) == False:
             print("Tweet don't exist , comment error")
         else:
-            print("comment error")
+            print("comment with media error")
         
         return False
 
