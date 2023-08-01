@@ -14,7 +14,7 @@ def check_language(selenium_session):
       EC.presence_of_element_located((By.CSS_SELECTOR, '[data-testid="tweet"]')))
       tweet_info = selenium_session.driver.find_element(By.CSS_SELECTOR, '[data-testid="tweet"]')
       lower_data = str(tweet_info.get_property('outerHTML')).lower()
-      if "views" not in lower_data:
+      if "share tweet" not in lower_data:
           return False
       return True
 

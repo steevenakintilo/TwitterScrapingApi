@@ -40,7 +40,6 @@ def login(selenium_session,_username,_password):
         selenium_session.driver.get("https://twitter.com/i/flow/login")
         print("Starting Twitter")
 
-        #USERNAME
         element = WebDriverWait(selenium_session.driver, 15).until(
         EC.presence_of_element_located((By.XPATH, selenium_session.username_xpath)))
 
@@ -50,33 +49,21 @@ def login(selenium_session,_username,_password):
         element = WebDriverWait(selenium_session.driver, 15).until(
         EC.presence_of_element_located((By.XPATH, selenium_session.button_xpath)))
 
-
-        #FIRST BUTTON
-
         button = selenium_session.driver.find_element(By.XPATH,selenium_session.button_xpath)
         button.click()
-        #print("button click")
-
-
-        #PASSWORD
         
         element = WebDriverWait(selenium_session.driver, 15).until(
         EC.presence_of_element_located((By.XPATH, selenium_session.password_xpath)))
         
         password = selenium_session.driver.find_element(By.XPATH,selenium_session.password_xpath)
         password.send_keys(_password)
-        #print("password done")
-
-
-        #LOGIN BUTTON
-
+        
         element = WebDriverWait(selenium_session.driver, 15).until(
         EC.presence_of_element_located((By.XPATH, selenium_session.login_button_xpath)))
         
         login_button = selenium_session.driver.find_element(By.XPATH,selenium_session.login_button_xpath)
         login_button.click()
 
-        #print("Closing Twitter")
     except Exception as e:
         print("Username wrong change your info on the configuration.yml file")
         quit()
@@ -86,7 +73,6 @@ def check_login_good(selenium_session):
         selenium_session.driver.get("https://twitter.com/home")
         element = WebDriverWait(selenium_session.driver, 15).until(
     EC.presence_of_element_located((By.CSS_SELECTOR, '[data-testid="AppTabBar_Notifications_Link"]')))
-        print("Login done")
         return True
     except Exception as e:
         
@@ -105,9 +91,6 @@ def accept_coockie(selenium_session):
 
     except:
         pass    
-        
-    print("coockie done")
-
 
 def accept_notification(selenium_session):
     try:
@@ -140,7 +123,6 @@ def check_connection(selenium_session):
         selenium_session.driver.get("https://www.google.com/")
         return True
     except:
-        print("No internet connection")
         return False
 
 def save_coockie(selenium_session):
@@ -160,8 +142,8 @@ def start_selenium():
     if len(str(ck)) > ELON_MUSK:
         selenium_session = Scraper()
         username_info = data["account_username"]
-        print("Connection to" , username_info[0] , "account")
         if check_connection(selenium_session) == False:
+            print("No internet connection")
             exit()
         selenium_session.driver.get("https://twitter.com/i/flow/login")
         
@@ -170,7 +152,7 @@ def start_selenium():
         for cookie in cookies:
             selenium_session.driver.add_cookie(cookie)
         time.sleep(0.2)
-        print("Already Connected Nice")
+        print("Already Connected to " + username_info[0] + " nice")
         return (selenium_session)
     else:
         username_info = data["account_username"]
@@ -179,10 +161,13 @@ def start_selenium():
         selenium_session = Scraper()
         print("Connection to" , username_info[0] , "account")
         if check_connection(selenium_session) == False:
+            print("No internet connection")
+            return (False)
             exit()
         login(selenium_session,username_info[0],password_info[0])
         time.sleep(selenium_session.wait_time)
         if check_login_good(selenium_session) == False:
+            return (False)
             quit()
         time.sleep(selenium_session.wait_time)
         accept_coockie(selenium_session)
