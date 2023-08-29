@@ -41,8 +41,8 @@ def get_list_of_user_tweet(selenium_session,account,nb_of_tweet_to_search=10):
         p = '"'
         x = 0
         flop = 0
-        if nb_of_tweet_to_search > 1000:
-            nb_of_tweet_to_search = 1000
+        if nb_of_tweet_to_search > 850:
+            nb_of_tweet_to_search = 850
         while run:
             element = WebDriverWait(selenium_session.driver, 15).until(
             EC.presence_of_element_located((By.CSS_SELECTOR, '[data-testid="tweet"]')))
@@ -50,10 +50,9 @@ def get_list_of_user_tweet(selenium_session,account,nb_of_tweet_to_search=10):
             tweets_text = selenium_session.driver.find_elements(By.CSS_SELECTOR, '[data-testid="tweetText"]')
             last_tweet = tweets_info[len(tweets_info) - 1]
             for tweet_info, tweet_text in zip(tweets_info, tweets_text):
-                if are_last_x_elements_same(list_len,250) == True:
+                if are_last_x_elements_same(list_len,500) == True:
                     run = False
                 list_len.append(len(data_list))
-                
                 if len(data_list) >= nb_of_tweet_to_search:
                     run = False
                 if tweet_info not in selenium_data:
@@ -214,8 +213,8 @@ def get_list_of_user_retweet(selenium_session,account,nb_of_tweet_to_search=10):
         "reply":0,}
         p = '"'
         flop = 0
-        if nb_of_tweet_to_search > 1000:
-            nb_of_tweet_to_search = 1000
+        if nb_of_tweet_to_search > 850:
+            nb_of_tweet_to_search = 850
         while run:
             element = WebDriverWait(selenium_session.driver, 15).until(
             EC.presence_of_element_located((By.CSS_SELECTOR, '[data-testid="tweet"]')))
@@ -228,13 +227,9 @@ def get_list_of_user_retweet(selenium_session,account,nb_of_tweet_to_search=10):
                 list_len.append(len(data_list))                
                 if len(data_list) >= nb_of_tweet_to_search:
                     run = False
-                if len(data_list) >= 3000:
-                    run = False
                 if tweet_info not in selenium_data:
                     try:
                         lower_data = str(tweet_info.get_property('outerHTML')).lower()
-                        print(lower_data)
-                        time.sleep(10000)
                         text_ = tweet_text.text.replace("Show more","")
                         if "@" in text_:
                             get_text = str(tweet_info.get_property('outerHTML')).lower().split("css-901oao css-16my406 r-poiln3 r-bcqeeo r-qvutc0")
@@ -342,7 +337,7 @@ def get_list_of_user_comment(selenium_session,account,nb_of_tweet_to_search=10):
             for tweet_info, tweet_text in zip(tweets_info, tweets_text):
                 if are_last_x_elements_same(list_len,250) == True:
                     run = False
-                list_len.append(len(data_list))                
+                list_len.append(len(data_list)) 
                 if len(data_list) >= nb_of_tweet_to_search:
                     run = False
                 if tweet_info not in selenium_data:

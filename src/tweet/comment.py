@@ -58,7 +58,7 @@ def comment_a_tweet(selenium_session,url,text=""):
         selenium_session.driver.execute_script("arguments[0].scrollIntoView();", target_element)
         target_element.click()
         time.sleep(1.5)
-
+        
         return True
     
     except Exception as e:

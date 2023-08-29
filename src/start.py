@@ -16,7 +16,11 @@ class Scraper:
     wait_time = 5
     
     options = webdriver.ChromeOptions()
-    options.add_argument('headless')
+    with open("configuration.yml", "r") as file:
+        data = yaml.load(file, Loader=yaml.FullLoader)
+    headless = data["headless"]
+    if headless == True:
+        options.add_argument('headless')
     options.add_argument("--log-level=3")  # Suppress all logging levels
     language_code = "en"  # Specify the desired language code (e.g., "en" for English)
     options.add_argument("--lang={}".format(language_code))
@@ -125,6 +129,9 @@ def check_connection(selenium_session):
     except:
         return False
 
+def toto_print():
+    print("toto")
+
 def save_coockie(selenium_session):
     pickle.dump(selenium_session.driver.get_cookies(), open("cookies.pkl", "wb"))
 
@@ -166,9 +173,6 @@ def start_selenium():
             exit()
         login(selenium_session,username_info[0],password_info[0])
         time.sleep(selenium_session.wait_time)
-        if check_login_good(selenium_session) == False:
-            return (False)
-            quit()
         time.sleep(selenium_session.wait_time)
         accept_coockie(selenium_session)
         time.sleep(selenium_session.wait_time)    
@@ -178,6 +182,6 @@ def start_selenium():
         time.sleep(selenium_session.wait_time)
         save_coockie(selenium_session)
         cookies = selenium_session.driver.get_cookies()
-        pickle.dump( selenium_session.driver.get_cookies() , open("cookies.pkl","wb"))
+        pickle.dump(selenium_session.driver.get_cookies() , open("cookies.pkl","wb"))
         print("Connection done well")
         return selenium_session

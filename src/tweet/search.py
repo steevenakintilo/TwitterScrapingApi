@@ -142,35 +142,35 @@ def search_tweet(selenium_session,query="hello",mode="recent",nb_of_tweet_to_sea
                             user = tweet_stuff.split("/")[0]
                             if tweet_link[len(tweet_link) - 1] in "0123456789" and "status" in tweet_link:
                                 get_like = str(str(str(tweet_info.get_property('outerHTML')).lower()).split("likes")[0]).split(" ")
-                            get_like = get_like[len(get_like) - 2]
-                            get_reply = str(str(str(tweet_info.get_property('outerHTML')).lower()).split("replies")[0]).split(" ")
-                            get_reply = get_reply[len(get_reply) - 2]
-                            get_date = str(str(str(str(str(tweet_info.get_property('outerHTML')).lower()).split("datetime")[1]).split(" ")[0]).split(".000z")[0]).replace("t"," ").replace("=","")
-                            nb_of_like = get_like.replace("aria-label=","")
-                            get_rt = str(str(str(tweet_info.get_property('outerHTML')).lower()).split("retweets")[0]).split(" ")
-                            get_rt = get_rt[len(get_rt) - 2]
-                            nb_of_rt = get_rt.replace("aria-label=","")
-                            nb_of_reply = get_reply.replace("aria-label=","").replace(p,"")
-                            if get_rt == ".5-.22.5-.5l19":
-                                get_rt = str(str(str(tweet_info.get_property('outerHTML')).lower()).split("retweet")[0]).split(" ")
+                                get_like = get_like[len(get_like) - 2]
+                                get_reply = str(str(str(tweet_info.get_property('outerHTML')).lower()).split("replies")[0]).split(" ")
+                                get_reply = get_reply[len(get_reply) - 2]
+                                get_date = str(str(str(str(str(tweet_info.get_property('outerHTML')).lower()).split("datetime")[1]).split(" ")[0]).split(".000z")[0]).replace("t"," ").replace("=","")
+                                nb_of_like = get_like.replace("aria-label=","")
+                                get_rt = str(str(str(tweet_info.get_property('outerHTML')).lower()).split("retweets")[0]).split(" ")
                                 get_rt = get_rt[len(get_rt) - 2]
-                            if get_like == ".5-.22.5-.5l19":
-                                get_like = str(str(str(tweet_info.get_property('outerHTML')).lower()).split("like")[0]).split(" ")
-                                get_like = get_like[len(get_like) - 2]        
-                            if get_reply == ".5-.22.5-.5l19":
-                                get_reply = str(str(str(tweet_info.get_property('outerHTML')).lower()).split("reply")[0]).split("=")
-                                get_reply = get_reply[-1].replace(" ","").replace(p,"").strip()
-        
-                            if get_like.isnumeric() == True:
-                                nb_of_like = parse_number(get_like)
-                            if get_rt.isnumeric() == True:
-                                nb_of_rt = parse_number(get_rt)                            
-                            if get_reply.isnumeric() == True:
-                                nb_of_reply = parse_number(get_reply)                            
-                            tweet_info_dict = {"username":user,"text":text_,"id":int(str(tweet_link.split("status/")[1]).replace("/photo/1","").replace("/analytics","")),"url":tweet_link,"date":str(convert_string_to_date(get_date.replace(p,""))),"like":int(str(nb_of_like).replace(p,"")),"retweet":int(str(nb_of_rt).replace(p,"")),"reply":int(str(nb_of_reply).replace(p,""))}
-                            data_list.append(tweet_info_dict)
-                            list_of_tweet_url.append(tweet_link)
-                        
+                                nb_of_rt = get_rt.replace("aria-label=","")
+                                nb_of_reply = get_reply.replace("aria-label=","").replace(p,"")
+                                if get_rt == ".5-.22.5-.5l19":
+                                    get_rt = str(str(str(tweet_info.get_property('outerHTML')).lower()).split("retweet")[0]).split(" ")
+                                    get_rt = get_rt[len(get_rt) - 2]
+                                if get_like == ".5-.22.5-.5l19":
+                                    get_like = str(str(str(tweet_info.get_property('outerHTML')).lower()).split("like")[0]).split(" ")
+                                    get_like = get_like[len(get_like) - 2]        
+                                if get_reply == ".5-.22.5-.5l19":
+                                    get_reply = str(str(str(tweet_info.get_property('outerHTML')).lower()).split("reply")[0]).split("=")
+                                    get_reply = get_reply[-1].replace(" ","").replace(p,"").strip()
+            
+                                if get_like.isnumeric() == True:
+                                    nb_of_like = parse_number(get_like)
+                                if get_rt.isnumeric() == True:
+                                    nb_of_rt = parse_number(get_rt)                            
+                                if get_reply.isnumeric() == True:
+                                    nb_of_reply = parse_number(get_reply)                            
+                                tweet_info_dict = {"username":user,"text":text_,"id":int(str(tweet_link.split("status/")[1]).replace("/photo/1","").replace("/analytics","")),"url":tweet_link,"date":str(convert_string_to_date(get_date.replace(p,""))),"like":int(str(nb_of_like).replace(p,"")),"retweet":int(str(nb_of_rt).replace(p,"")),"reply":int(str(nb_of_reply).replace(p,""))}
+                                data_list.append(tweet_info_dict)
+                                list_of_tweet_url.append(tweet_link)
+                            
                             selenium_data.append(tweet_info)                        
                             selenium_session.driver.execute_script("arguments[0].scrollIntoView();", last_tweet)
                             time.sleep(0.030)

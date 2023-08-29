@@ -208,11 +208,9 @@ def get_list_of_quote_of_a_tweet(selenium_session,url,nb_of_quote):
                             selenium_data.append(tweet_info)
                             selenium_session.driver.execute_script("arguments[0].scrollIntoView();", last_tweet)
                             time.sleep(0.025)
-                            print("pas caca " , len(data_list))
                         except Exception as e:
                             time.sleep(0.1)
                             nb = nb + 1
-                            print("caca " , nb)
                             selenium_session.driver.execute_script("arguments[0].scrollIntoView();", last_tweet)
                         if len(data_list) >= nb_of_quote:
                             run = False
@@ -357,3 +355,53 @@ def get_list_of_comment_of_a_tweet(selenium_session,url,nb_of_comment=10):
         else:
             print("Error feetching list of comment of this tweet")
         return(data_list)
+    
+
+
+def get_tweet_above(selenium_session,url):
+    try:
+        selenium_session.driver.get(url)
+        element = WebDriverWait(selenium_session.driver, 15).until(
+        EC.presence_of_element_located((By.CSS_SELECTOR, '[data-testid="cellInnerDiv"]')))
+        tweets_info = selenium_session.driver.find_elements(By.CSS_SELECTOR, '[data-testid="cellInnerDiv"]')
+        tweets_text = selenium_session.driver.find_elements(By.CSS_SELECTOR, '[data-testid="tweetText"]')
+        tweets_username = selenium_session.driver.find_elements(By.CSS_SELECTOR, '[data-testid="User-Name"]')
+        pos = 0
+        p = '"'
+        tweet_info_dict = {"username":"",
+        "text":"",
+        "id":0,
+        "url":"",
+        "date":"",}
+        
+        for i in range(len(tweets_info)):
+            r = tweets_info[i]
+            if url.split("twitter.com")[1] in str(r.get_attribute("outerHTML")):
+                pos = i
+                break
+        
+        if pos == 0:
+            print("Can't retrieve tweet above this tweet since the tweet is not a comment")
+            return ([])
+        account = str(str(tweets_username[pos-1].text).split("\n")[1]).replace("@","")
+        account = str(account).lower()
+        lower_data = str(tweets_info[pos-1].get_property('outerHTML')).lower()
+        
+        splinter = "href="+p+"/"+account+"/status"
+        splinter = splinter.replace("\\","/")                    
+        lower_data = lower_data.split(splinter)
+        lower_data = str(lower_data[1])
+        lower_data = lower_data.split(" ")
+        tweet_id = lower_data[0].replace("/","").replace(p,"")
+        tweet_link = "https://twitter.com/" + account + "/status/" + tweet_id
+        get_date = str(str(str(str(str(tweets_info[pos-1].get_property('outerHTML')).lower()).split("datetime")[1]).split(" ")[0]).split(".000z")[0]).replace("t"," ").replace("=","")
+        get_date = str(str(str(str(str(tweets_info[pos-1].get_property('outerHTML')).lower()).split("datetime")[1]).split(" ")[0]).split(".000z")[0]).replace("t"," ").replace("=","")
+        tweet_info_dict = {"username":str(tweets_username[pos-1].text).split("\n")[1],"text":tweets_text[pos-1].text,"id":int(str(tweet_link.split("status/")[1]).replace("/photo/1","")),"url":tweet_link,"date":str(convert_string_to_date(get_date.replace(p,""))),}
+        #print("pos " , pos , "tweet info " , tweets_username[pos-1].text , " tweet text " , tweets_text[pos-1].text , " link " , tweet_link , " date " , get_date.replace(p,""))
+        return (tweet_info_dict)
+    except Exception as e:
+        if is_tweet_exist(selenium_session,url) == False:
+            print("Tweet don't exist , toto error")
+        else:
+            print("Error feetching tweet above info")
+        return (tweet_info_dict)

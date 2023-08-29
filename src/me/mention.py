@@ -85,7 +85,7 @@ def get_mention(selenium_session,nb_of_mention=25):
                             get_reply = str(str(str(tweet_info.get_property('outerHTML')).lower()).split("replies")[0]).split(" ")
                             get_reply = get_reply[len(get_reply) - 2]
                             get_date = str(str(str(str(str(tweet_info.get_property('outerHTML')).lower()).split("datetime")[1]).split(" ")[0]).split(".000z")[0]).replace("t"," ").replace("=","")
-                            nb_of_like = get_like.replace("aria-label=","")
+                            nb_of_like = get_like.replace("from .=","")
                             get_rt = str(str(str(tweet_info.get_property('outerHTML')).lower()).split("retweets")[0]).split(" ")
                             get_rt = get_rt[len(get_rt) - 2]
                             nb_of_rt = 0
